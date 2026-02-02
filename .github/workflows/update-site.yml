@@ -60,7 +60,7 @@ jobs:
           path: |
             data/cache
             data/nfwa_results.sqlite3
-          key: nfwa-data-${{ runner.os }}-${{ hashFiles('nfwa/**/*.py', 'requirements.txt') }}
+          key: nfwa-data-${{ runner.os }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('nfwa/**/*.py') }}
           restore-keys: |
             nfwa-data-${{ runner.os }}-
 
