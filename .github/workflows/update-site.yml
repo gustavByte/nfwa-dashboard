@@ -21,6 +21,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      WA_POENG_TOKEN: ${{ secrets.WA_POENG_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,33 +30,33 @@ jobs:
           fetch-depth: 0
 
       - name: Skip note (missing WA token)
-        if: ${{ secrets.WA_POENG_TOKEN == '' }}
+        if: ${{ env.WA_POENG_TOKEN == '' }}
         run: echo "WA_POENG_TOKEN not set; skipping automated update."
 
       - name: Setup Python
-        if: ${{ secrets.WA_POENG_TOKEN != '' }}
+        if: ${{ env.WA_POENG_TOKEN != '' }}
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: "pip"
 
       - name: Install deps
-        if: ${{ secrets.WA_POENG_TOKEN != '' }}
+        if: ${{ env.WA_POENG_TOKEN != '' }}
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
       - name: Checkout WA Poeng (private)
-        if: ${{ secrets.WA_POENG_TOKEN != '' }}
+        if: ${{ env.WA_POENG_TOKEN != '' }}
         uses: actions/checkout@v4
         with:
           repository: gustavByte/world-athletics-points-calculator
-          token: ${{ secrets.WA_POENG_TOKEN }}
+          token: ${{ env.WA_POENG_TOKEN }}
           path: wa-poeng
           fetch-depth: 1
 
       - name: Restore data/cache
-        if: ${{ secrets.WA_POENG_TOKEN != '' }}
+        if: ${{ env.WA_POENG_TOKEN != '' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -65,7 +67,7 @@ jobs:
             nfwa-data-${{ runner.os }}-
 
       - name: Build static site (docs/)
-        if: ${{ secrets.WA_POENG_TOKEN != '' }}
+        if: ${{ env.WA_POENG_TOKEN != '' }}
         run: |
           python -m nfwa build-site \
             --min-year 2017 \
@@ -75,7 +77,7 @@ jobs:
             --out docs
 
       - name: Commit and push (if changed)
-        if: ${{ secrets.WA_POENG_TOKEN != '' }}
+        if: ${{ env.WA_POENG_TOKEN != '' }}
         run: |
           if git status --porcelain docs | grep -q .; then
             git config user.name "github-actions[bot]"
