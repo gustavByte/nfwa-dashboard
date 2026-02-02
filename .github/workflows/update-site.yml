@@ -1,0 +1,80 @@
+name: Update and publish NFWA site
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly (Mondays 04:15 UTC). Adjust as you like.
+    - cron: "15 4 * * 1"
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "docs/**"
+      - "data/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # Requires a PAT to fetch the private WA Poeng repo (ScoreCalculator + wa_scoring.db).
+    if: ${{ secrets.WA_POENG_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Checkout WA Poeng (private)
+        uses: actions/checkout@v4
+        with:
+          repository: gustavByte/world-athletics-points-calculator
+          token: ${{ secrets.WA_POENG_TOKEN }}
+          path: wa-poeng
+          fetch-depth: 1
+
+      - name: Restore data/cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/cache
+            data/nfwa_results.sqlite3
+          key: nfwa-data-${{ runner.os }}-${{ hashFiles('nfwa/**/*.py', 'requirements.txt') }}
+          restore-keys: |
+            nfwa-data-${{ runner.os }}-
+
+      - name: Build static site (docs/)
+        run: |
+          python -m nfwa build-site \
+            --min-year 2017 \
+            --refresh-years 2 \
+            --wa-root wa-poeng \
+            --wa-db wa-poeng/wa_scoring.db \
+            --out docs
+
+      - name: Commit and push (if changed)
+        run: |
+          if git status --porcelain docs | grep -q .; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs
+            git commit -m "Update site data ($(date -u +'%Y-%m-%d'))"
+            git push
+          else
+            echo "No changes in docs/"
+          fi

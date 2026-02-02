@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NFWA Dashboard</title>
+    <link rel="stylesheet" href="static/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <h1>NFWA Dashboard</h1>
+        <div class="muted">Lokal visning av landsoversikt + WA-poeng</div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="section">
+        <h2>Øvelse – trend</h2>
+        <div class="controls">
+          <label>
+            Kjønn
+            <select id="gender"></select>
+          </label>
+          <label>
+            Øvelse
+            <select id="event"></select>
+          </label>
+          <label>
+            Top-N
+            <select id="top">
+              <option value="5">5</option>
+              <option value="10" selected>10</option>
+              <option value="20">20</option>
+            </select>
+          </label>
+          <button id="refreshTrend">Oppdater</button>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Snitt WA-poeng (top-N)</h3>
+            <canvas id="pointsChart" height="160"></canvas>
+          </div>
+          <div class="card">
+            <h3>Snitt resultat (top-N)</h3>
+            <canvas id="perfChart" height="160"></canvas>
+          </div>
+          <div class="card">
+            <h3>Antall utøvere/resultater</h3>
+            <canvas id="countChart" height="160"></canvas>
+          </div>
+          <div class="card">
+            <h3>Detaljer</h3>
+            <pre id="eventMeta" class="pre"></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Sesongoversikt</h2>
+        <div class="controls">
+          <label>
+            Sesong
+            <select id="season"></select>
+          </label>
+          <label>
+            Kjønn
+            <select id="seasonGender">
+              <option value="Women">Women</option>
+              <option value="Men">Men</option>
+            </select>
+          </label>
+          <label>
+            Top-N
+            <select id="seasonTop">
+              <option value="5">5</option>
+              <option value="10" selected>10</option>
+              <option value="20">20</option>
+            </select>
+          </label>
+          <label>
+            Sorter
+            <select id="seasonSort">
+              <option value="event" selected>Øvelsesrekkefølge</option>
+              <option value="points">WA-poeng</option>
+              <option value="performance">Resultat</option>
+            </select>
+          </label>
+          <button id="refreshSeason">Oppdater</button>
+        </div>
+
+        <div class="tableWrap">
+          <table id="seasonTable">
+            <thead>
+              <tr>
+                <th data-sort="event" class="sortable">Øvelse</th>
+                <th data-sort="wa_event" class="sortable">WA-øvelse</th>
+                <th data-sort="avg_points_top_n" class="sortable">Snitt poeng</th>
+                <th data-sort="avg_value_top_n_perf" class="sortable">Snitt resultat</th>
+                <th data-sort="athletes_total" class="sortable">Utøvere</th>
+                <th data-sort="results_total" class="sortable">Resultater</th>
+                <th data-sort="points_available" class="sortable">Poeng tilgjengelig</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="eventResultsSection">
+        <h2>Øvelse – resultater</h2>
+        <div class="controls">
+          <label>
+            Sesong
+            <select id="resultsSeason"></select>
+          </label>
+          <label>
+            Kjønn
+            <select id="resultsGender">
+              <option value="Women">Women</option>
+              <option value="Men">Men</option>
+            </select>
+          </label>
+          <label>
+            Øvelse
+            <select id="resultsEvent"></select>
+          </label>
+          <label>
+            Vis
+            <select id="resultsMode">
+              <option value="best" selected>Beste per utøver</option>
+              <option value="all">Alle resultater</option>
+            </select>
+          </label>
+          <label>
+            Per side
+            <select id="resultsLimit">
+              <option value="100" selected>100</option>
+              <option value="200">200</option>
+              <option value="500">500</option>
+            </select>
+          </label>
+          <button id="refreshResults">Oppdater</button>
+        </div>
+
+        <div class="controls">
+          <button id="resultsPrev">Forrige</button>
+          <button id="resultsNext">Neste</button>
+          <div id="resultsInfo" class="muted"></div>
+        </div>
+
+        <div class="tableWrap">
+          <table id="resultsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Utøver</th>
+                <th>Klubb</th>
+                <th>Resultat</th>
+                <th>WA</th>
+                <th>Dato</th>
+                <th>Stevne</th>
+                <th>Sted</th>
+                <th>Kilde</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Utøver</h2>
+        <div class="controls">
+          <label>
+            athlete-id (showathl)
+            <input id="athleteId" type="number" placeholder="f.eks. 29273" />
+          </label>
+          <label>
+            fra sesong
+            <input id="athleteSince" type="number" placeholder="f.eks. 2024" />
+          </label>
+          <button id="searchAthlete">Søk</button>
+        </div>
+
+        <div class="tableWrap">
+          <table id="athleteTable">
+            <thead>
+              <tr>
+                <th>Sesong</th>
+                <th>Øvelse</th>
+                <th>Resultat</th>
+                <th>WA</th>
+                <th>Dato</th>
+                <th>Stevne</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="static/app.js"></script>
+  </body>
+</html>
