@@ -84,6 +84,10 @@ button {
   outline: none;
 }
 
+select {
+  width: 100%;
+}
+
 select option {
   background: var(--card);
   color: var(--text);
@@ -182,6 +186,6 @@ a.tableLink:hover {
 
 @media (max-width: 900px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
