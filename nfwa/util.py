@@ -10,6 +10,7 @@ _WIND_RE = re.compile(r"\((?P<wind>[+-]\d+(?:,\d+)?)\)")
 _HANDTIMED_RE = re.compile(r"(?P<perf>.+?)(?:\s*[hH])$")
 _PARENS_RE = re.compile(r"\([^)]*\)")
 _TRAILING_LETTERS_RE = re.compile(r"(?P<perf>.+?)(?:\s*[A-Za-z]{1,3})$")
+_JUMP_CM_RE = re.compile(r"^\d{3,4}$")
 
 
 @dataclass(frozen=True)
@@ -121,7 +122,17 @@ def normalize_performance(*, performance: str, orientation: str, wa_event: str |
         text = _normalize_time_like(text, wa_event=wa_event)
     else:
         # For distances/points, standardise decimals but keep it readable.
-        text = text.replace(",", ".") if _looks_like_number(text) else text
+        #
+        # Some sources represent HJ/PV marks as centimeters without a decimal separator (e.g. "153" => 1.53m).
+        # Normalise these before feeding them into WA scoring / numeric conversion.
+        if wa_event in {"HJ", "PV"}:
+            jump_norm = _normalize_jump_cm_mark(text, wa_event=str(wa_event))
+            if jump_norm is not None:
+                text = jump_norm
+            else:
+                text = text.replace(",", ".") if _looks_like_number(text) else text
+        else:
+            text = text.replace(",", ".") if _looks_like_number(text) else text
 
     return text
 
@@ -193,6 +204,28 @@ def _normalize_time_like(text: str, *, wa_event: str | None) -> str:
         return text.replace(",", ".")
 
     return text.replace(",", ".")
+
+
+def _normalize_jump_cm_mark(text: str, *, wa_event: str) -> Optional[str]:
+    """Convert centimeter-only marks to meters for HJ/PV (e.g. '153' -> '1.53')."""
+    t = (text or "").strip()
+    if not t:
+        return None
+    if any(sep in t for sep in (".", ",", ":")):
+        return None
+    if not _JUMP_CM_RE.fullmatch(t):
+        return None
+    try:
+        cm = int(t)
+    except ValueError:
+        return None
+
+    if wa_event == "HJ" and not (100 <= cm <= 280):
+        return None
+    if wa_event == "PV" and not (100 <= cm <= 700):
+        return None
+
+    return f"{cm / 100:.2f}"
 
 
 def _looks_like_number(text: str) -> bool:

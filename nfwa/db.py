@@ -149,17 +149,23 @@ def init_db(con: sqlite3.Connection) -> None:
 
 
 def upsert_athlete(*, con: sqlite3.Connection, athlete_id: int, gender: str, name: str, birth_date: str | None) -> None:
+    norm_name = " ".join((name or "").split())
     con.execute(
         """
         INSERT INTO athletes (id, gender, name, birth_date)
         VALUES (?, ?, ?, ?)
         ON CONFLICT(id) DO UPDATE SET
             gender=excluded.gender,
-            name=excluded.name,
+            name=CASE
+                WHEN TRIM(athletes.name) = '' THEN excluded.name
+                WHEN TRIM(excluded.name) = '' THEN athletes.name
+                WHEN LENGTH(TRIM(excluded.name)) > LENGTH(TRIM(athletes.name)) THEN excluded.name
+                ELSE athletes.name
+            END,
             birth_date=COALESCE(excluded.birth_date, athletes.birth_date),
             updated_at=CURRENT_TIMESTAMP
         """,
-        (athlete_id, gender, name, birth_date),
+        (athlete_id, gender, norm_name, birth_date),
     )
 
 

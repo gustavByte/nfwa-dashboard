@@ -99,6 +99,25 @@ def parse_page(*, html_bytes: bytes, season: int, gender: str, source_url: str) 
 
 _WIND_CELL_RE = re.compile(r"^[+\-–−]?\s*\d+(?:,\d+)?$")
 
+_HURDLE_HEIGHT_CM: dict[tuple[str, int], str] = {
+    ("Women", 60): "84,0",
+    ("Women", 100): "84,0",
+    ("Women", 200): "76,2",
+    ("Women", 300): "76,2",
+    ("Women", 400): "76,2",
+    ("Men", 110): "106,7",
+    ("Men", 200): "76,2",
+    ("Men", 300): "91,4",
+    ("Men", 400): "91,4",
+}
+
+_STEEPLE_HEIGHT_CM: dict[tuple[str, int], str] = {
+    ("Women", 2000): "76,2",
+    ("Women", 3000): "76,2",
+    ("Men", 2000): "91,4",
+    ("Men", 3000): "91,4",
+}
+
 
 def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, event_no: str, source_url: str) -> list[ScrapedResult]:
     seen: set[int] = set()
@@ -230,8 +249,14 @@ def _canonical_event_no(heading: str, *, gender: str) -> Optional[str]:
     if m:
         num = int(m.group("num").replace(" ", ""))
         if "HEKK" in base:
+            height = _HURDLE_HEIGHT_CM.get((gender, num))
+            if height:
+                return f"{num} meter hekk ({height}cm)"
             return f"{num} meter hekk"
         if "HINDER" in base:
+            height = _STEEPLE_HEIGHT_CM.get((gender, num))
+            if height:
+                return f"{num} meter hinder ({height}cm)"
             return f"{num} meter hinder"
         return f"{num} meter"
 
@@ -261,6 +286,10 @@ def _norm_cell(text: str) -> str:
 def _split_name_and_club(text: str) -> tuple[str, Optional[str]]:
     s = _norm_cell(text)
     if not s:
+        return ("", None)
+    # Some friidrett.no legacy pages contain placeholder rows where the athlete cell is e.g. "–––"
+    # (no actual name). Treat any cell without letters as missing.
+    if not any(ch.isalpha() for ch in s):
         return ("", None)
     if "," not in s:
         return (s, None)
@@ -317,4 +346,3 @@ def _parse_result_date(text: str, *, season: int) -> Optional[str]:
 def _none_if_empty(text: str) -> Optional[str]:
     s = _norm_cell(text)
     return s if s else None
-

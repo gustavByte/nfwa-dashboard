@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -15,6 +16,30 @@ from .kondis import fetch_kondis_stats, pages_for_years, parse_kondis_stats
 from .minfriidrett import build_landsstatistikk_url, fetch_landsstatistikk, parse_landsstatistikk
 from .util import normalize_performance, performance_to_value
 from .wa import ensure_wa_poeng_importable, wa_event_meta, wa_event_names
+
+
+_JUMP_CM_RE = re.compile(r"^\d{3,4}$")
+
+
+def _display_raw_performance(*, performance_raw: str, wa_event: str | None) -> str:
+    raw = (performance_raw or "").strip()
+    if not raw or wa_event not in {"HJ", "PV"}:
+        return performance_raw
+    if any(sep in raw for sep in (".", ",", ":")):
+        return performance_raw
+    if not _JUMP_CM_RE.fullmatch(raw):
+        return performance_raw
+    try:
+        cm = int(raw)
+    except ValueError:
+        return performance_raw
+
+    if wa_event == "HJ" and not (100 <= cm <= 280):
+        return performance_raw
+    if wa_event == "PV" and not (100 <= cm <= 700):
+        return performance_raw
+
+    return f"{cm / 100:.2f}".replace(".", ",")
 
 
 @dataclass(frozen=True)
@@ -135,7 +160,7 @@ def sync_landsoversikt(
                                     athlete_id=row.athlete_id,
                                     club_id=club_id,
                                     rank_in_list=row.rank_in_list,
-                                    performance_raw=row.performance_raw,
+                                    performance_raw=_display_raw_performance(performance_raw=row.performance_raw, wa_event=wa_event),
                                     performance_clean=perf_norm or None,
                                     value=value,
                                     wind=row.wind,
@@ -162,7 +187,14 @@ def sync_landsoversikt(
                     pages += 1
 
                     wa_events = wa_events_by_gender.get(src.gender, set())
-                    for row in parse_landsstatistikk(html_bytes=html_bytes, season=year, gender=src.gender, source_url=url):
+                    parsed_rows = list(parse_landsstatistikk(html_bytes=html_bytes, season=year, gender=src.gender, source_url=url))
+                    if not parsed_rows:
+                        continue
+
+                    # Rebuild page deterministically: parser tweaks can change keys (e.g. performance normalisation).
+                    con.execute("DELETE FROM results WHERE source_url = ?", (url,))
+
+                    for row in parsed_rows:
                         rows_seen += 1
 
                         wa_event = map_event_to_wa(event_no=row.event_no, gender=row.gender, wa_events=wa_events)
@@ -223,7 +255,7 @@ def sync_landsoversikt(
                             athlete_id=row.athlete_id,
                             club_id=club_id,
                             rank_in_list=row.rank_in_list,
-                            performance_raw=row.performance_raw,
+                            performance_raw=_display_raw_performance(performance_raw=row.performance_raw, wa_event=wa_event),
                             performance_clean=perf_norm or None,
                             value=value,
                             wind=row.wind,
