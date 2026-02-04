@@ -8,6 +8,9 @@ from typing import Iterable, Optional
 from . import db as results_db
 from .config import SOURCES, Source
 from .event_mapping import infer_orientation, map_event_to_wa
+from .friidrett_legacy import fetch_page as fetch_friidrett_page
+from .friidrett_legacy import pages_for_years as friidrett_pages_for_years
+from .friidrett_legacy import parse_page as parse_friidrett_page
 from .kondis import fetch_kondis_stats, pages_for_years, parse_kondis_stats
 from .minfriidrett import build_landsstatistikk_url, fetch_landsstatistikk, parse_landsstatistikk
 from .util import normalize_performance, performance_to_value
@@ -57,6 +60,103 @@ def sync_landsoversikt(
         with ScoreCalculator(wa_db_path) as calc:
             for year in years:
                 for src in sources:
+                    if int(year) == 2010:
+                        pages_to_fetch = friidrett_pages_for_years(years=[int(year)], gender=src.gender)
+                        if not pages_to_fetch:
+                            continue
+
+                        wa_events = wa_events_by_gender.get(src.gender, set())
+                        for page in pages_to_fetch:
+                            html_bytes = fetch_friidrett_page(url=page.url, cache_dir=cache_dir, refresh=refresh)
+                            parsed_rows = parse_friidrett_page(
+                                html_bytes=html_bytes,
+                                season=int(year),
+                                gender=src.gender,
+                                source_url=page.url,
+                            )
+                            if not parsed_rows:
+                                continue
+
+                            # Rebuild page deterministically: parser tweaks can change keys (e.g. dedup strategy).
+                            con.execute("DELETE FROM results WHERE source_url = ?", (page.url,))
+                            pages += 1
+
+                            for row in parsed_rows:
+                                rows_seen += 1
+
+                                wa_event = map_event_to_wa(event_no=row.event_no, gender=row.gender, wa_events=wa_events)
+                                meta = wa_event_meta(wa_db_path=wa_db_path, gender=row.gender, event=wa_event) if wa_event else None
+                                orientation = meta.orientation if meta else infer_orientation(row.event_no)
+
+                                results_db.upsert_athlete(
+                                    con=con,
+                                    athlete_id=row.athlete_id,
+                                    gender=row.gender,
+                                    name=row.athlete_name,
+                                    birth_date=row.birth_date,
+                                )
+                                club_id = results_db.get_or_create_club(con=con, club_name=row.club_name)
+                                event_id = results_db.get_or_create_event(
+                                    con=con,
+                                    gender=row.gender,
+                                    name_no=row.event_no,
+                                    wa_event=wa_event,
+                                    orientation=orientation,
+                                )
+
+                                perf_norm = normalize_performance(
+                                    performance=row.performance_clean or "",
+                                    orientation=orientation,
+                                    wa_event=wa_event,
+                                )
+                                value = performance_to_value(perf_norm)
+
+                                wa_points: Optional[int] = None
+                                wa_exact: Optional[int] = None
+                                wa_error: Optional[str] = None
+
+                                if wa_event and perf_norm:
+                                    try:
+                                        res = calc.points_for_performance(row.gender, wa_event, perf_norm)
+                                        wa_points = int(res["points"])
+                                        wa_exact = 1 if bool(res["exact"]) else 0
+                                        wa_ok += 1
+                                    except Exception as exc:  # noqa: BLE001 - loggable error detail
+                                        wa_failed += 1
+                                        wa_error = f"{type(exc).__name__}: {exc}"
+                                else:
+                                    wa_missing += 1
+
+                                results_db.upsert_result(
+                                    con=con,
+                                    season=row.season,
+                                    gender=row.gender,
+                                    event_id=event_id,
+                                    athlete_id=row.athlete_id,
+                                    club_id=club_id,
+                                    rank_in_list=row.rank_in_list,
+                                    performance_raw=row.performance_raw,
+                                    performance_clean=perf_norm or None,
+                                    value=value,
+                                    wind=row.wind,
+                                    placement_raw=row.placement_raw,
+                                    competition_id=None,
+                                    competition_name=row.competition_name,
+                                    venue_city=row.venue_city,
+                                    stadium=None,
+                                    result_date=row.result_date,
+                                    wa_points=wa_points,
+                                    wa_exact=wa_exact,
+                                    wa_event=wa_event,
+                                    wa_error=wa_error,
+                                    source_url=row.source_url,
+                                )
+                                rows_inserted += 1
+
+                            con.commit()
+                            time.sleep(max(0.0, polite_delay_s))
+                        continue
+
                     url = build_landsstatistikk_url(showclass=src.showclass, season=year)
                     html_bytes = fetch_landsstatistikk(url=url, cache_dir=cache_dir, refresh=refresh)
                     pages += 1
