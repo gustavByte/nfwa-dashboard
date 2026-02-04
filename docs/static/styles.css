@@ -130,6 +130,8 @@ button:hover {
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  overscroll-behavior-x: contain;
   background: rgba(17, 26, 51, 0.6);
 }
 
@@ -195,6 +197,7 @@ a.tableLink:hover {
 @media (max-width: 700px) {
   table {
     font-size: 12px;
+    min-width: 720px;
   }
 
   thead th,
