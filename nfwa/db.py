@@ -142,6 +142,15 @@ def init_db(con: sqlite3.Connection) -> None:
         DELETE FROM events WHERE TRIM(name_no) = '';
         """
     )
+    # Purge known placeholder athletes (seen in some legacy pages, e.g. "–––").
+    con.executescript(
+        """
+        DELETE FROM results
+        WHERE athlete_id IN (SELECT id FROM athletes WHERE TRIM(name) = '' OR name = '–––');
+        DELETE FROM athletes
+        WHERE TRIM(name) = '' OR name = '–––';
+        """
+    )
     # Ensure stable upserts even when some columns are NULL (SQLite UNIQUE treats NULLs as distinct).
     con.executescript(NATURAL_DEDUP_SQL)
     con.executescript(NATURAL_UNIQUE_INDEX_SQL)
