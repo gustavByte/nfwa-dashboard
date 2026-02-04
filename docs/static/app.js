@@ -518,6 +518,7 @@ function renderSeasonTable(rows) {
     tr.appendChild(athTd);
 
     const resTd = document.createElement("td");
+    resTd.className = "hideOnMobile";
     resTd.textContent = fmt(r.results_total);
     tr.appendChild(resTd);
 

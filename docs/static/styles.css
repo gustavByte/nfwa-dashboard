@@ -127,7 +127,9 @@ button:hover {
 .tableWrap {
   border: 1px solid var(--border);
   border-radius: 14px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   background: rgba(17, 26, 51, 0.6);
 }
 
@@ -187,5 +189,20 @@ a.tableLink:hover {
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  table {
+    font-size: 12px;
+  }
+
+  thead th,
+  tbody td {
+    padding: 8px 10px;
+  }
+
+  .hideOnMobile {
+    display: none;
   }
 }
