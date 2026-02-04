@@ -353,17 +353,32 @@ function makeBarChart(ctx, { labels, athletes, results }) {
   });
 }
 
+const DEFAULT_TREND_SELECTIONS = [
+  { gender: "Men", event_no: "1500 meter" },
+  { gender: "Women", event_no: "10 km gateløp" },
+];
+
 async function loadEvents({ preferredEventNo = null } = {}) {
-  const gender = $("gender").value;
+  const genderSelect = $("gender");
+  const eventSelect = $("event");
+
+  const current = eventSelect.value;
+  let preferred = preferredEventNo ?? current;
+
+  if (preferredEventNo === null && !current) {
+    const pick = DEFAULT_TREND_SELECTIONS[Math.floor(Math.random() * DEFAULT_TREND_SELECTIONS.length)];
+    genderSelect.value = pick.gender;
+    preferred = pick.event_no;
+  }
+
+  const gender = genderSelect.value;
   const events = await apiJson(`api/events?gender=${encodeURIComponent(gender)}`);
 
-  const current = $("event").value;
-  const preferred = preferredEventNo ?? current;
   const exists = preferred && events.some((e) => e.event_no === preferred);
   const selected = exists ? preferred : events[0]?.event_no || "";
 
   setOptions(
-    $("event"),
+    eventSelect,
     events.map((e) => ({ value: e.event_no, label: e.event_no })),
     { selectedValue: selected },
   );
@@ -754,6 +769,21 @@ async function init() {
     meta.genders.map((g) => ({ value: g, label: g })),
     { selectedValue: "Women" },
   );
+
+  if (Array.isArray(meta.top_ns) && meta.top_ns.length) {
+    const topNs = meta.top_ns.map((n) => String(n));
+    const selectedTop = topNs.includes("10") ? "10" : topNs[0];
+    setOptions(
+      $("top"),
+      topNs.map((n) => ({ value: n, label: n })),
+      { selectedValue: selectedTop },
+    );
+    setOptions(
+      $("seasonTop"),
+      topNs.map((n) => ({ value: n, label: n })),
+      { selectedValue: selectedTop },
+    );
+  }
 
   setOptions(
     $("season"),
