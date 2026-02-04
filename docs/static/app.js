@@ -201,6 +201,23 @@ function formatTimeNo(seconds) {
   return `${minutes},${String(secs).padStart(2, "0")}`;
 }
 
+function formatDecimalNo(value, decimals = 2) {
+  const v = toNumber(value);
+  if (v === null) return "";
+  const d = Math.max(0, Number(decimals) || 0);
+  return v.toFixed(d).replace(".", ",");
+}
+
+function formatHigherPerfNo(value) {
+  const v = toNumber(value);
+  if (v === null) return "";
+
+  // Heuristic: combined events are points (thousands). Show as whole points.
+  if (v >= 1000) return String(Math.round(v));
+
+  return formatDecimalNo(v, 2);
+}
+
 function padRight(text, width) {
   const s = (text ?? "").toString();
   return s.length >= width ? s : s + " ".repeat(width - s.length);
@@ -423,7 +440,7 @@ async function refreshTrend() {
     label: "Snitt resultat (verdi)",
     reverseY,
     tooltipText: perfFmt,
-    yTickFormatter: reverseY ? formatTimeNo : null,
+    yTickFormatter: reverseY ? formatTimeNo : formatHigherPerfNo,
   });
 
   countChart = makeBarChart($("countChart"), { labels, athletes, results });
