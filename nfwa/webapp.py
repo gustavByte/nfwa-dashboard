@@ -9,7 +9,16 @@ from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import parse_qs, urlparse
 
-from .queries import athlete_results, available_seasons, event_results, event_sort_key, event_summary, event_trend, events_for_gender
+from .queries import (
+    DEFAULT_TOP_NS,
+    athlete_results,
+    available_seasons,
+    event_results,
+    event_sort_key,
+    event_summary,
+    event_trend,
+    events_for_gender,
+)
 
 
 def run_web(*, db_path: Path, host: str = "127.0.0.1", port: int = 8000, open_browser: bool = True) -> None:
@@ -72,7 +81,7 @@ class _Handler(BaseHTTPRequestHandler):
             with sqlite3.connect(self._db_path) as con:
                 con.row_factory = sqlite3.Row
                 seasons = available_seasons(con=con)
-            return {"seasons": seasons, "genders": ["Women", "Men"]}
+            return {"seasons": seasons, "genders": ["Women", "Men"], "top_ns": list(DEFAULT_TOP_NS)}
 
         if path == "/api/events":
             gender = _get_one(qs, "gender")

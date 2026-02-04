@@ -9,7 +9,7 @@ from typing import Iterable, Optional
 from .config import SOURCES, Source
 from .export_site import export_site
 from .ingest import SyncSummary, sync_kondis, sync_landsoversikt
-from .queries import available_seasons
+from .queries import DEFAULT_TOP_NS, available_seasons
 
 
 @dataclass(frozen=True)
@@ -36,7 +36,7 @@ def build_site(
     refresh_years: int = 2,
     include_kondis: bool = True,
     out_dir: Path = Path("docs"),
-    top_ns: Iterable[int] = (5, 10, 20),
+    top_ns: Iterable[int] = DEFAULT_TOP_NS,
     include_athlete_index: bool = True,
     polite_delay_s: float = 0.5,
 ) -> BuildSiteSummary:

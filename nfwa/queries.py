@@ -42,6 +42,24 @@ _EVENT_ORDER_PATTERNS: tuple[tuple[int, re.Pattern[str]], ...] = (
     (28, re.compile(r"^4\s*x\s*400\s*meter\b.*\bstafett\b", re.IGNORECASE)),
 )
 
+DEFAULT_TOP_NS: tuple[int, ...] = (3, 5, 10, 20, 50, 100, 150, 200)
+
+# Minimum number of results (best per athlete) required for a Top-N analysis.
+TOP_N_MIN_RESULTS: dict[int, int] = {
+    3: 2,
+    5: 4,
+    10: 7,
+    20: 15,
+    50: 35,
+    100: 70,
+    150: 120,
+    200: 160,
+}
+
+
+def min_results_required_for_top_n(top_n: int) -> int:
+    return int(TOP_N_MIN_RESULTS.get(int(top_n), 0))
+
 
 def event_sort_key(event_no: str) -> tuple[int, str]:
     idx = _event_order_index(event_no)
@@ -80,7 +98,7 @@ def event_summary(
     con: sqlite3.Connection,
     season: int,
     gender: str,
-    top_ns: Iterable[int] = (5, 10, 20),
+    top_ns: Iterable[int] = DEFAULT_TOP_NS,
 ) -> list[EventSummaryRow]:
     events = con.execute(
         """
@@ -135,6 +153,10 @@ def event_summary(
         """
 
         for n in top_ns:
+            top_n = int(n)
+            if athletes_total < min_results_required_for_top_n(top_n):
+                continue
+
             points_rows = con.execute(
                 best_cte
                 + """
@@ -144,7 +166,7 @@ def event_summary(
                 ORDER BY wa_points DESC
                 LIMIT ?
                 """,
-                (season, gender, event_id, int(n)),
+                (season, gender, event_id, int(top_n)),
             ).fetchall()
             avg_points = None
             if points_rows:
@@ -160,7 +182,7 @@ def event_summary(
                 ORDER BY sort_value ASC
                 LIMIT ?
                 """,
-                (season, gender, event_id, int(n)),
+                (season, gender, event_id, int(top_n)),
             ).fetchall()
             avg_value = None
             if perf_rows:
@@ -175,7 +197,7 @@ def event_summary(
                     event_no=event_no,
                     wa_event=wa_event,
                     orientation=orientation,
-                    top_n=int(n),
+                    top_n=int(top_n),
                     athletes_total=athletes_total,
                     results_total=results_total,
                     points_available=points_available,
@@ -210,6 +232,8 @@ def write_event_summary_csv(rows: list[EventSummaryRow], path: Path) -> None:
         )
         writer.writeheader()
         for row in rows:
+            avg_points = round(float(row.avg_points_top_n), 3) if row.avg_points_top_n is not None else None
+            avg_value = round(float(row.avg_value_top_n_perf), 6) if row.avg_value_top_n_perf is not None else None
             writer.writerow(
                 {
                     "season": row.season,
@@ -221,8 +245,8 @@ def write_event_summary_csv(rows: list[EventSummaryRow], path: Path) -> None:
                     "athletes_total": row.athletes_total,
                     "results_total": row.results_total,
                     "points_available": row.points_available,
-                    "avg_points_top_n": row.avg_points_top_n,
-                    "avg_value_top_n_perf": row.avg_value_top_n_perf,
+                    "avg_points_top_n": avg_points,
+                    "avg_value_top_n_perf": avg_value,
                     "avg_perf_top_n": row.avg_perf_top_n,
                 }
             )
@@ -311,6 +335,9 @@ def event_trend(
         results_total = int(totals["results_total"] or 0)
         athletes_total = int(totals["athletes_total"] or 0)
         points_available = int(totals["points_available"] or 0)
+
+        if athletes_total < min_results_required_for_top_n(int(top_n)):
+            continue
 
         points_rows = con.execute(
             best_cte

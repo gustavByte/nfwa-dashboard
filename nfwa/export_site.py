@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
-from .queries import available_seasons, event_results, event_sort_key, event_summary, event_trend, events_for_gender
+from .queries import DEFAULT_TOP_NS, available_seasons, event_results, event_sort_key, event_summary, event_trend, events_for_gender
 
 
 _SLUG_NON_ALNUM = re.compile(r"[^a-z0-9]+", re.IGNORECASE)
@@ -23,7 +23,7 @@ def export_site(
     *,
     db_path: Path,
     out_dir: Path,
-    top_ns: Iterable[int] = (5, 10, 20),
+    top_ns: Iterable[int] = DEFAULT_TOP_NS,
     include_athlete_index: bool = True,
 ) -> None:
     """
@@ -40,6 +40,8 @@ def export_site(
     web_src = Path(__file__).resolve().parent / "web_static"
     if not (web_src / "index.html").exists():
         raise FileNotFoundError(f"Mangler web_static: {web_src}")
+
+    top_ns = tuple(int(x) for x in top_ns)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     _clean_dir(out_dir / "static")
@@ -63,7 +65,7 @@ def export_site(
 
         _write_json(
             out_dir / "api" / "meta.json",
-            {"seasons": seasons, "genders": genders, "generated_at": generated_at},
+            {"seasons": seasons, "genders": genders, "top_ns": list(top_ns), "generated_at": generated_at},
         )
 
         # Events per gender (also provides stable event_key used in static URLs)

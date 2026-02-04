@@ -55,7 +55,7 @@ Dette lager/oppdaterer:
 Merk: Kondis-listene har ikke en «athlete-id» som minfriidrettsstatistikk gjør. Det genereres derfor en stabil, lokal
 utøver-id (negativ heltalls-id) basert på kjønn + navn + fødselsår (slik det står i listene).
 
-## Top5/10/20 per øvelse (CSV)
+## Top3/5/10/20/50/100/150/200 per øvelse (CSV)
 
 ```powershell
 python -m nfwa event-summary --season 2025

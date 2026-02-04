@@ -7,7 +7,7 @@ from pathlib import Path
 from .config import default_cache_dir, default_kondis_cache_dir, default_results_db_path, default_wa_scoring_db_path
 from .export_site import export_site
 from .ingest import sync_kondis, sync_landsoversikt
-from .queries import athlete_results, event_summary, write_event_summary_csv
+from .queries import DEFAULT_TOP_NS, athlete_results, event_summary, write_event_summary_csv
 from .site_build import build_site
 from .webapp import run_web
 
@@ -36,10 +36,16 @@ def main(argv: list[str] | None = None) -> int:
     sync_k.add_argument("--refresh", action="store_true", help="Last ned på nytt selv om cache finnes")
     sync_k.add_argument("--polite-delay", type=float, default=0.5, help="Pause mellom sider (sekunder)")
 
-    summary = sub.add_parser("event-summary", help="Lager top5/10/20-snitt per øvelse (CSV)")
+    summary = sub.add_parser("event-summary", help="Lager top-N-snitt per øvelse (CSV)")
     summary.add_argument("--season", type=int, required=True, help="Sesong, f.eks. 2025")
     summary.add_argument("--gender", choices=["Women", "Men", "Both"], default="Both", help="Kjønn")
-    summary.add_argument("--top", nargs="+", type=int, default=[5, 10, 20], help="Top-N, f.eks. 5 10 20")
+    summary.add_argument(
+        "--top",
+        nargs="+",
+        type=int,
+        default=list(DEFAULT_TOP_NS),
+        help="Top-N, f.eks. 3 5 10 20 50 100 150 200",
+    )
     summary.add_argument("--db", type=Path, default=default_results_db_path(), help="SQLite-fil for resultater")
     summary.add_argument("--csv", type=Path, default=None, help="Utfil (CSV)")
 
@@ -57,7 +63,13 @@ def main(argv: list[str] | None = None) -> int:
     export = sub.add_parser("export-site", help="Eksporter statisk webside (for publisering)")
     export.add_argument("--db", type=Path, default=default_results_db_path(), help="SQLite-fil for resultater")
     export.add_argument("--out", type=Path, default=Path("docs"), help="Utmappe (f.eks. docs/ for GitHub Pages)")
-    export.add_argument("--top", nargs="+", type=int, default=[5, 10, 20], help="Top-N som pre-genereres (f.eks. 5 10 20)")
+    export.add_argument(
+        "--top",
+        nargs="+",
+        type=int,
+        default=list(DEFAULT_TOP_NS),
+        help="Top-N som pre-genereres (f.eks. 3 5 10 20 50 100 150 200)",
+    )
     export.add_argument("--no-athlete-index", action="store_true", help="Ikke ta med athlete-oppslag (mindre eksport)")
 
     build = sub.add_parser("build-site", help="Oppdater database og eksporter statisk webside (for publisering)")
@@ -77,7 +89,13 @@ def main(argv: list[str] | None = None) -> int:
         help="Cache for nedlastede HTML-sider (Kondis)",
     )
     build.add_argument("--out", type=Path, default=Path("docs"), help="Utmappe (f.eks. docs/ for GitHub Pages)")
-    build.add_argument("--top", nargs="+", type=int, default=[5, 10, 20], help="Top-N som pre-genereres (f.eks. 5 10 20)")
+    build.add_argument(
+        "--top",
+        nargs="+",
+        type=int,
+        default=list(DEFAULT_TOP_NS),
+        help="Top-N som pre-genereres (f.eks. 3 5 10 20 50 100 150 200)",
+    )
     build.add_argument("--no-athlete-index", action="store_true", help="Ikke ta med athlete-oppslag (mindre eksport)")
     build.add_argument("--polite-delay", type=float, default=0.5, help="Pause mellom sider (sekunder)")
 

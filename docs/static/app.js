@@ -770,6 +770,21 @@ async function init() {
     { selectedValue: "Women" },
   );
 
+  if (Array.isArray(meta.top_ns) && meta.top_ns.length) {
+    const topNs = meta.top_ns.map((n) => String(n));
+    const selectedTop = topNs.includes("10") ? "10" : topNs[0];
+    setOptions(
+      $("top"),
+      topNs.map((n) => ({ value: n, label: n })),
+      { selectedValue: selectedTop },
+    );
+    setOptions(
+      $("seasonTop"),
+      topNs.map((n) => ({ value: n, label: n })),
+      { selectedValue: selectedTop },
+    );
+  }
+
   setOptions(
     $("season"),
     meta.seasons.map((s) => ({ value: s, label: s })),
