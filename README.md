@@ -23,10 +23,10 @@ Kjør fra prosjektroten (mappa du står i nå):
 python -m nfwa sync --years 2023 2024 2025
 ```
 
-For å hente flere år (t.o.m. 2017), kan du i PowerShell bruke en range:
+For å hente flere år (t.o.m. 2011), kan du i PowerShell bruke en range:
 
 ```powershell
-python -m nfwa sync --years (2017..2025)
+python -m nfwa sync --years (2011..2025)
 ```
 
 Dette lager/oppdaterer:
@@ -42,10 +42,10 @@ slik at de blir med i `event-summary` og web-dashboardet:
 python -m nfwa sync-kondis --years 2023 2024 2025
 ```
 
-For å hente flere år (t.o.m. 2017), kan du i PowerShell bruke en range:
+For å hente flere år (t.o.m. 2011), kan du i PowerShell bruke en range:
 
 ```powershell
-python -m nfwa sync-kondis --years (2017..2025)
+python -m nfwa sync-kondis --years (2011..2025)
 ```
 
 Dette lager/oppdaterer:
