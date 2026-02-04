@@ -74,6 +74,10 @@ def clean_performance(raw_value: str) -> Optional[CleanPerformance]:
         )
     )
 
+    # Some sources (incl. some Kondis tables) use "-" / "–" between digits as a time separator, e.g. "3.33-07".
+    # Normalise these to dots so time normalisation can handle them consistently.
+    clean = re.sub(r"(?<=\d)[-–](?=\d)", ".", clean)
+
     # Strip common suffixes like hand-timed "h"
     ht_match = _HANDTIMED_RE.match(clean)
     if ht_match:

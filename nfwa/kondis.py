@@ -77,6 +77,12 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2019, gender="Women", event_no="5 km gateløp", url="https://www.kondis.no/de-beste-2019-5-km-kvinner/1530239"),
     KondisPage(season=2018, gender="Women", event_no="5 km gateløp", url="https://www.kondis.no/de-beste-2018-5-km-kvinner/1530190"),
     KondisPage(season=2017, gender="Women", event_no="5 km gateløp", url="https://www.kondis.no/de-beste-2017-5-km-kvinner/1530458"),
+    KondisPage(season=2016, gender="Women", event_no="5 km gateløp", url="https://www.kondis.no/de-beste-2016-5-km-kvinner/1530764"),
+    # No correct source page found for 2015 women's 5 km.
+    KondisPage(season=2014, gender="Women", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2014-5-km-kvinner/1529705"),
+    KondisPage(season=2013, gender="Women", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-5-km-kvinner/1530122"),
+    KondisPage(season=2012, gender="Women", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-5-km-kvinner/1530020"),
+    KondisPage(season=2011, gender="Women", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-5-km-kvinner/1530223"),
     # 5 km (Men)
     KondisPage(season=2025, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2025-5-km-menn/469161"),
     KondisPage(season=2024, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2024-5-km-menn/469056"),
@@ -87,6 +93,12 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2019, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/de-beste-2019-5-km-menn/1530325"),
     KondisPage(season=2018, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/de-beste-2018-5-km-menn/1530960"),
     KondisPage(season=2017, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/de-beste-2017-5-km-menn/1529840"),
+    KondisPage(season=2016, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/de-beste-2016-5-km-menn/1529481"),
+    KondisPage(season=2015, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2015-5-km-menn/1529534"),
+    KondisPage(season=2014, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2014-5-km-menn/1530301"),
+    KondisPage(season=2013, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-5-km-menn/1529659"),
+    KondisPage(season=2012, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-5-km-menn/1529910"),
+    KondisPage(season=2011, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-5-km-menn/1530603"),
     # 10 km (Women)
     KondisPage(season=2025, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2025-10-km-kvinner/469281"),
     KondisPage(season=2024, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2024-10-km-kvinner/469743"),
@@ -97,6 +109,12 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2019, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/de-beste-2019-10-km-kvinner/1529842"),
     KondisPage(season=2018, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/de-beste-2018-10-km-kvinner/1530884"),
     KondisPage(season=2017, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/de-beste-2017-10-km-kvinner/1530320"),
+    KondisPage(season=2016, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/de-beste-2016-10-km-kvinner/1529621"),
+    KondisPage(season=2015, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2015-10-km-kvinner/1530945"),
+    KondisPage(season=2014, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2014-10-km-kvinner/1529956"),
+    KondisPage(season=2013, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-10-km-kvinner/1530716"),
+    KondisPage(season=2012, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-10-km-kvinner/1530617"),
+    KondisPage(season=2011, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-10-km-kvinner/1530169"),
     # 10 km (Men)
     KondisPage(season=2025, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2025-10-km-menn/469622"),
     KondisPage(season=2024, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2024-10-km-menn/469602"),
@@ -107,6 +125,12 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2019, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/de-beste-2019-10-km-menn/1530487"),
     KondisPage(season=2018, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/de-beste-2018-10-km-menn/1530891"),
     KondisPage(season=2017, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/de-beste-2017-10-km-menn/1530089"),
+    KondisPage(season=2016, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/de-beste-2016-10-km-menn/1529822"),
+    KondisPage(season=2015, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2015-10-km-menn/1530203"),
+    # No correct source page found for 2014 men's 10 km.
+    KondisPage(season=2013, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-10-km-menn/1530855"),
+    KondisPage(season=2012, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-10-km-menn/1529446"),
+    KondisPage(season=2011, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-10-km-menn/1529468"),
     # Half marathon (Women)
     KondisPage(season=2025, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/de-beste-2025-halvmaraton-kvinner/469010"),
     KondisPage(season=2024, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/de-beste-2024-halvmaraton-kvinner/469698"),
@@ -117,6 +141,12 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2019, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/de-beste-2019-halvmaraton-kvinner/1530369"),
     KondisPage(season=2018, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/de-beste-2018-halvmaraton-kvinner/1530757"),
     KondisPage(season=2017, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/de-beste-2017-halvmaraton-kvinner/1530538"),
+    KondisPage(season=2016, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/de-beste-2016-halvmaraton-kvinner/1530055"),
+    KondisPage(season=2015, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2015-halvmaraton-kvinner/1529650"),
+    KondisPage(season=2014, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2014-halvmaraton-kvinner/1530255"),
+    KondisPage(season=2013, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-halvmaraton-kvinner/1530037"),
+    KondisPage(season=2012, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-halvmaraton-kvinner/1529698"),
+    KondisPage(season=2011, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-halvmaraton-kvinner/1529392"),
     # Half marathon (Men)
     KondisPage(season=2025, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/de-beste-2025-halvmaraton-menn/469692"),
     KondisPage(season=2024, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/de-beste-2024-halvmaraton-menn/469467"),
@@ -130,6 +160,12 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     # unrelated results (e.g. ~10–20 min times). Keep it disabled to avoid ingesting bad data while still allowing
     # sync to purge any previously ingested rows for that URL.
     KondisPage(season=2017, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/index.php?id=5947377", enabled=False),
+    KondisPage(season=2016, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/de-beste-2016-halvmaraton-menn/1529724"),
+    # No correct source page found for 2015 men's half marathon.
+    KondisPage(season=2014, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2014-halvmaraton-menn/1530327"),
+    KondisPage(season=2013, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-halvmaraton-menn/1530936"),
+    KondisPage(season=2012, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-halvmaraton-menn/1530956"),
+    KondisPage(season=2011, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-halvmaraton-menn/1530673"),
     # Marathon (Women)
     KondisPage(season=2025, gender="Women", event_no="Maraton", url="https://www.kondis.no/statistikk/de-beste-2025-maraton-kvinner/469517"),
     KondisPage(season=2024, gender="Women", event_no="Maraton", url="https://www.kondis.no/statistikk/de-beste-2024-maraton-kvinner/469539"),
@@ -140,6 +176,12 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2019, gender="Women", event_no="Maraton", url="https://www.kondis.no/de-beste-2019-maraton-kvinner/1530231"),
     KondisPage(season=2018, gender="Women", event_no="Maraton", url="https://www.kondis.no/de-beste-2018-maraton-kvinner/1530062"),
     KondisPage(season=2017, gender="Women", event_no="Maraton", url="https://www.kondis.no/de-beste-2017-maraton-kvinner/1530701"),
+    KondisPage(season=2016, gender="Women", event_no="Maraton", url="https://www.kondis.no/de-beste-2016-maraton-kvinner/1529960"),
+    # No correct source page found for 2015 women's marathon.
+    KondisPage(season=2014, gender="Women", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2014-maraton-kvinner/1530975"),
+    KondisPage(season=2013, gender="Women", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-maraton-kvinner/1530211"),
+    KondisPage(season=2012, gender="Women", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-maraton-kvinner/1530329"),
+    KondisPage(season=2011, gender="Women", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-maraton-kvinner/1529618"),
     # Marathon (Men)
     KondisPage(season=2025, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/de-beste-2025-maraton-menn/469051"),
     KondisPage(season=2024, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/de-beste-2024-maraton-menn/469657"),
@@ -150,6 +192,12 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2019, gender="Men", event_no="Maraton", url="https://www.kondis.no/de-beste-2019-maraton-menn/1529965"),
     KondisPage(season=2018, gender="Men", event_no="Maraton", url="https://www.kondis.no/de-beste-2018-maraton-menn/1529589"),
     KondisPage(season=2017, gender="Men", event_no="Maraton", url="https://www.kondis.no/de-beste-2017-maraton-menn/1530110"),
+    KondisPage(season=2016, gender="Men", event_no="Maraton", url="https://www.kondis.no/de-beste-2016-maraton-menn/1529759"),
+    KondisPage(season=2015, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2015-maraton-menn/1530248"),
+    KondisPage(season=2014, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2014-maraton-menn/1530640"),
+    KondisPage(season=2013, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-maraton-menn/1530278"),
+    KondisPage(season=2012, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-maraton-menn/1530778"),
+    KondisPage(season=2011, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-maraton-menn/1530305"),
 )
 
 
