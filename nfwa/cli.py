@@ -73,7 +73,7 @@ def main(argv: list[str] | None = None) -> int:
     export.add_argument("--no-athlete-index", action="store_true", help="Ikke ta med athlete-oppslag (mindre eksport)")
 
     build = sub.add_parser("build-site", help="Oppdater database og eksporter statisk webside (for publisering)")
-    build.add_argument("--min-year", type=int, default=2007, help="Første sesong som skal være med")
+    build.add_argument("--min-year", type=int, default=2006, help="Første sesong som skal være med")
     build.add_argument("--max-year", type=int, default=None, help="Siste sesong (default: inneværende år)")
     build.add_argument("--refresh-years", type=int, default=2, help="Hvor mange siste år som re-lastest ned (default: 2)")
     build.add_argument("--gender", choices=["Women", "Men", "Both"], default="Both", help="Kjønn")

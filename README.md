@@ -23,17 +23,17 @@ Kjør fra prosjektroten (mappa du står i nå):
 python -m nfwa sync --years 2023 2024 2025
 ```
 
-For å hente flere år (t.o.m. 2007), kan du i PowerShell bruke en range:
+For å hente flere år (t.o.m. 2006), kan du i PowerShell bruke en range:
 
 ```powershell
-python -m nfwa sync --years (2007..2025)
+python -m nfwa sync --years (2006..2025)
 ```
 
 Dette lager/oppdaterer:
 - resultatdatabase: `data/nfwa_results.sqlite3`
 - cache av HTML-sider: `data/cache/minfriidrett/`
 
-Merk: For sesongene `2007` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
+Merk: For sesongene `2006`, `2007`, `2008` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
 De caches i samme cache-mappe, og utøver-id'er genereres lokalt (negative heltalls-id'er).
 
 ## Gateløp (Kondis)
@@ -85,19 +85,18 @@ Dette starter en liten lokal nettside (default `http://127.0.0.1:8000/`) med:
 ## Publisering (GitHub Pages)
 
 Denne repoen kan publiseres som en statisk side (ingen server) via GitHub Pages.
-Den statiske siden ligger i `docs/` og lages med:
+Den statiske siden lages lokalt i `docs/` med:
 
 ```powershell
 python -m nfwa export-site --out docs
 ```
 
-### Raskeste vei ut (offentlig)
+### Raskeste vei ut (offentlig, anbefalt)
 
 1. Lag en ny **public** repo på GitHub
-2. Push denne mappa til repoen (inkl. `docs/`)
+2. Push denne mappa til repoen
 3. I GitHub: **Settings → Pages**
-   - Source: **Deploy from a branch**
-   - Branch: `main` (evt. `master`) / Folder: **/docs**
+   - Source: **GitHub Actions**
 
 Da blir siden tilgjengelig på `https://<brukernavn>.github.io/<repo>/`.
 
@@ -107,11 +106,11 @@ Det er lagt ved en workflow: `.github/workflows/update-site.yml` som:
 - kjører ukentlig (mandager)
 - oppdaterer databasen fra kildene
 - re-genererer `docs/`
-- committer endringene automatisk
+- publiserer siden direkte med GitHub Pages Actions (ingen commit av `docs/`)
 
 Du må:
 - ha repoen på GitHub (public)
-- ha GitHub Pages aktivert fra `main` + `/docs` (som over)
+- ha GitHub Pages satt til **GitHub Actions**
 - evt. endre branch i workflowen hvis du bruker `master` i stedet for `main`
 - hvis `world-athletics-points-calculator` (WA Poeng) er **private**: legg inn en repo-secret `WA_POENG_TOKEN` (PAT med tilgang til å lese repoen)
 

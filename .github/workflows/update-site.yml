@@ -7,25 +7,26 @@ on:
     - cron: "15 4 * * 1"
   push:
     branches: ["main"]
-    paths-ignore:
-      - "docs/**"
-      - "data/**"
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: update-site
   cancel-in-progress: false
 
+env:
+  WA_POENG_TOKEN: ${{ secrets.WA_POENG_TOKEN }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      WA_POENG_TOKEN: ${{ secrets.WA_POENG_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        if: ${{ env.WA_POENG_TOKEN != '' }}
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -70,21 +71,29 @@ jobs:
         if: ${{ env.WA_POENG_TOKEN != '' }}
         run: |
           python -m nfwa build-site \
-            --min-year 2010 \
+            --min-year 2006 \
             --refresh-years 2 \
             --wa-root wa-poeng \
             --wa-db wa-poeng/wa_scoring.db \
             --out docs
 
-      - name: Commit and push (if changed)
+      - name: Upload GitHub Pages artifact
         if: ${{ env.WA_POENG_TOKEN != '' }}
-        run: |
-          if git status --porcelain docs | grep -q .; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add docs
-            git commit -m "Update site data ($(date -u +'%Y-%m-%d'))"
-            git push
-          else
-            echo "No changes in docs/"
-          fi
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs
+
+  deploy:
+    if: ${{ env.WA_POENG_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

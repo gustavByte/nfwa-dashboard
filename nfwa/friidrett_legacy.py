@@ -25,6 +25,27 @@ class FriidrettPage:
     url: str
 
 
+FRIIDRETT_PAGES_2006: tuple[FriidrettPage, ...] = (
+    # MENN / MEN 2006
+    FriidrettPage(season=2006, gender="Men", url="https://www.friidrett.no/link/e088594c8bd3428590a022a286aba683.aspx"),  # Sprint
+    FriidrettPage(season=2006, gender="Men", url="https://www.friidrett.no/link/d4356c7b35dd408894470440c1395470.aspx"),  # Distanse
+    FriidrettPage(season=2006, gender="Men", url="https://www.friidrett.no/link/c465e69cd5884ad1b250d380197430b4.aspx"),  # Hekkeøvelser
+    FriidrettPage(season=2006, gender="Men", url="https://www.friidrett.no/link/dc85258a115b4ca6aceebee9edec59c7.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2006, gender="Men", url="https://www.friidrett.no/link/d9df769c9bd94c8da9904ce4d0e93783.aspx"),  # Kastøvelser
+    FriidrettPage(season=2006, gender="Men", url="https://www.friidrett.no/link/b57b48dc899d429c8ab00d8007a6e224.aspx"),  # Mangekamp
+    # KVINNER / WOMEN 2006
+    FriidrettPage(season=2006, gender="Women", url="https://www.friidrett.no/link/82185085a0ad4776a9f94d72c2bb9378.aspx"),  # Sprint
+    FriidrettPage(season=2006, gender="Women", url="https://www.friidrett.no/link/496f22dc108246899e3fee35afb409b0.aspx"),  # Distanse
+    FriidrettPage(season=2006, gender="Women", url="https://www.friidrett.no/link/52bbdf518e20470aacb05e2b8019ca24.aspx"),  # Hekkeøvelser
+    FriidrettPage(season=2006, gender="Women", url="https://www.friidrett.no/link/a37551d47c5946ed9b62afb5f76b7107.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2006, gender="Women", url="https://www.friidrett.no/link/b830649644774b54b6ec7a1d475c4f8c.aspx"),  # Kastøvelser
+    FriidrettPage(season=2006, gender="Women", url="https://www.friidrett.no/link/3a4e08f7139f4336aa99b2a7a8be3c03.aspx"),  # Mangekamp
+    # Kappgang (samme PDF inneholder både menn og kvinner)
+    FriidrettPage(season=2006, gender="Men", url="https://www.friidrett.no/link/1b84630cea7745e4a7ecfc4528486953.aspx"),
+    FriidrettPage(season=2006, gender="Women", url="https://www.friidrett.no/link/1b84630cea7745e4a7ecfc4528486953.aspx"),
+)
+
+
 FRIIDRETT_PAGES_2007: tuple[FriidrettPage, ...] = (
     # MENN / MEN 2007
     FriidrettPage(season=2007, gender="Men", url="https://www.friidrett.no/link/c2938be4ac7b46dbbc231397759271a6.aspx"),  # Sprint
@@ -95,7 +116,9 @@ FRIIDRETT_PAGES_2010: tuple[FriidrettPage, ...] = (
     FriidrettPage(season=2010, gender="Women", url="https://www.friidrett.no/link/2f5b992e90744492b8a25ad530088cd2.aspx"),  # Mangekamp
 )
 
-FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = FRIIDRETT_PAGES_2007 + FRIIDRETT_PAGES_2008 + FRIIDRETT_PAGES_2010
+FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = (
+    FRIIDRETT_PAGES_2006 + FRIIDRETT_PAGES_2007 + FRIIDRETT_PAGES_2008 + FRIIDRETT_PAGES_2010
+)
 
 
 def pages_for_years(*, years: Iterable[int], gender: str = "Both") -> list[FriidrettPage]:
@@ -200,6 +223,7 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
     out: list[ScrapedResult] = []
 
     last_full: Optional[tuple[str, Optional[str], Optional[str]]] = None  # (name, club, birth_iso)
+    known_by_surname: dict[str, tuple[str, Optional[str], Optional[str]]] = {}
     rank = 0
 
     for tr in table.xpath(".//tr"):
@@ -207,7 +231,12 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
         if not cells:
             continue
 
-        parsed = _parse_result_cells(cells=cells, season=season, last_full=last_full)
+        parsed = _parse_result_cells(
+            cells=cells,
+            season=season,
+            last_full=last_full,
+            known_by_surname=known_by_surname,
+        )
         if not parsed:
             continue
 
@@ -224,6 +253,9 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
             next_last_full,
         ) = parsed
         last_full = next_last_full
+        surname = _surname_token(athlete_name)
+        if surname:
+            known_by_surname[surname] = (athlete_name, club_name, birth_iso)
 
         athlete_id = _friidrett_athlete_id(gender=gender, name=athlete_name, birth_date=birth_iso)
         if athlete_id in seen:
@@ -271,6 +303,7 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
     seen_by_event: dict[str, set[int]] = defaultdict(set)
     rank_by_event: dict[str, int] = defaultdict(int)
     last_full_by_event: dict[str, tuple[str, Optional[str], Optional[str]]] = {}
+    known_by_event_surname: dict[str, dict[str, tuple[str, Optional[str], Optional[str]]]] = defaultdict(dict)
 
     current_event: Optional[str] = None
     for tr in table.xpath(".//tr"):
@@ -286,7 +319,12 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
         if not current_event:
             continue
 
-        parsed = _parse_result_cells(cells=cells, season=season, last_full=last_full_by_event.get(current_event))
+        parsed = _parse_result_cells(
+            cells=cells,
+            season=season,
+            last_full=last_full_by_event.get(current_event),
+            known_by_surname=known_by_event_surname[current_event],
+        )
         if not parsed:
             continue
 
@@ -303,6 +341,9 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
             next_last_full,
         ) = parsed
         last_full_by_event[current_event] = next_last_full
+        surname = _surname_token(athlete_name)
+        if surname:
+            known_by_event_surname[current_event][surname] = (athlete_name, club_name, birth_iso)
 
         athlete_id = _friidrett_athlete_id(gender=gender, name=athlete_name, birth_date=birth_iso)
         if athlete_id in seen_by_event[current_event]:
@@ -341,6 +382,7 @@ def _parse_result_cells(
     cells: list[str],
     season: int,
     last_full: Optional[tuple[str, Optional[str], Optional[str]]],
+    known_by_surname: Optional[dict[str, tuple[str, Optional[str], Optional[str]]]] = None,
 ) -> Optional[tuple]:
     if not cells:
         return None
@@ -359,9 +401,17 @@ def _parse_result_cells(
 
     athlete_cell = (cells[idx_ath] or "").strip()
     birth_raw = (cells[idx_ath + 1] or "").strip() if len(cells) > idx_ath + 1 else ""
+    is_abbrev = not birth_raw and _looks_like_abbrev_name(athlete_cell)
 
-    if _is_abbreviated_repeat(athlete_cell, birth_raw=birth_raw, last_full=last_full):
-        athlete_name, club_name, prev_birth = last_full  # type: ignore[misc]
+    if is_abbrev:
+        resolved = _resolve_abbreviated_athlete(
+            athlete_cell=athlete_cell,
+            last_full=last_full,
+            known_by_surname=known_by_surname or {},
+        )
+        if not resolved:
+            return None
+        athlete_name, club_name, prev_birth = resolved
         birth_iso = _parse_birth_date(birth_raw) or prev_birth
         next_last_full = (athlete_name, club_name, birth_iso)
     else:
@@ -426,6 +476,8 @@ def _is_likely_athlete_cell(text: str, *, last_full: Optional[tuple[str, Optiona
     s = _norm_cell(text)
     if not s:
         return False
+    if _looks_like_non_athlete_marker(s):
+        return False
     if not any(ch.isalpha() for ch in s):
         return False
     if _looks_like_wind(s) or _looks_like_placement(s):
@@ -437,31 +489,70 @@ def _is_likely_athlete_cell(text: str, *, last_full: Optional[tuple[str, Optiona
     return bool(last_full and _looks_like_abbrev_name(s))
 
 
+def _looks_like_non_athlete_marker(text: str) -> bool:
+    s = _norm_cell(text)
+    if not s:
+        return False
+    compact = s.replace(" ", "")
+    low = compact.lower()
+
+    # Seen on legacy pages as placement/qualification markers, not athlete names.
+    if re.fullmatch(r"\([a-z0-9]{1,5}\)[a-z0-9]{0,4}", low):
+        return True
+    if low in {"ok", "dns", "dnf", "nm", "nc", "dq"}:
+        return True
+    if s.islower() and re.fullmatch(r"[a-z]{1,3}", low):
+        return True
+    return False
+
+
 def _looks_like_abbrev_name(text: str) -> bool:
     s = _norm_cell(text)
-    if not s or any(ch.isdigit() for ch in s):
+    if not s or any(ch.isdigit() for ch in s) or _looks_like_non_athlete_marker(s):
         return False
     parts = s.split()
     if len(parts) != 1:
         return False
     token = parts[0]
-    return bool(token) and any(ch.islower() for ch in token[1:])
+    if any(ch in ",()/[]{}" for ch in token):
+        return False
+    if not token[0].isalpha():
+        return False
+    if not all(ch.isalpha() or ch in "-'" for ch in token):
+        return False
+    return len(token) >= 2 and any(ch.islower() for ch in token[1:])
 
 
-def _is_abbreviated_repeat(
-    athlete_cell: str,
+def _resolve_abbreviated_athlete(
     *,
-    birth_raw: str,
+    athlete_cell: str,
     last_full: Optional[tuple[str, Optional[str], Optional[str]]],
-) -> bool:
-    if not last_full:
-        return False
-    if birth_raw:
-        return False
-    s = _norm_cell(athlete_cell)
-    if "," in s:
-        return False
-    return _looks_like_abbrev_name(s)
+    known_by_surname: dict[str, tuple[str, Optional[str], Optional[str]]],
+) -> Optional[tuple[str, Optional[str], Optional[str]]]:
+    key = _norm_cell(athlete_cell).lower()
+    if not key:
+        return None
+
+    found = known_by_surname.get(key)
+    if found:
+        return found
+
+    if last_full:
+        last_surname = _surname_token(last_full[0])
+        if last_surname and last_surname.lower() == key:
+            return last_full
+
+    return None
+
+
+def _surname_token(name: str) -> Optional[str]:
+    tokens = [t.strip(".,") for t in _norm_cell(name).split() if t.strip(".,")]
+    if not tokens:
+        return None
+    tail = tokens[-1]
+    if not tail or not any(ch.isalpha() for ch in tail):
+        return None
+    return tail.lower()
 
 
 def _extract_placement(*, cells: list[str], idx_ath: int) -> Optional[str]:
@@ -593,6 +684,8 @@ def _norm_cell(text: str) -> str:
 def _split_name_and_club(text: str) -> tuple[str, Optional[str]]:
     s = _norm_cell(text)
     if not s:
+        return ("", None)
+    if _looks_like_non_athlete_marker(s):
         return ("", None)
     # Some friidrett.no legacy pages contain placeholder rows where the athlete cell is e.g. "–––"
     # (no actual name). Treat any cell without letters as missing.
