@@ -802,16 +802,19 @@ async function init() {
     );
   }
 
+  const seasons = Array.isArray(meta.seasons) ? meta.seasons : [];
+  const defaultSeason = seasons.includes(2025) ? 2025 : seasons[seasons.length - 1];
+
   setOptions(
     $("season"),
-    meta.seasons.map((s) => ({ value: s, label: s })),
-    { selectedValue: meta.seasons[meta.seasons.length - 1] },
+    seasons.map((s) => ({ value: s, label: s })),
+    { selectedValue: defaultSeason },
   );
 
   setOptions(
     $("resultsSeason"),
-    meta.seasons.map((s) => ({ value: s, label: s })),
-    { selectedValue: meta.seasons[meta.seasons.length - 1] },
+    seasons.map((s) => ({ value: s, label: s })),
+    { selectedValue: defaultSeason },
   );
 
   await loadEvents();
