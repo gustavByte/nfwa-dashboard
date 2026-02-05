@@ -3,6 +3,9 @@
 from collections import defaultdict
 import hashlib
 import re
+import shutil
+import subprocess
+import tempfile
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
@@ -20,6 +23,27 @@ class FriidrettPage:
     season: int
     gender: str  # "Women" | "Men"
     url: str
+
+
+FRIIDRETT_PAGES_2007: tuple[FriidrettPage, ...] = (
+    # MENN / MEN 2007
+    FriidrettPage(season=2007, gender="Men", url="https://www.friidrett.no/link/c2938be4ac7b46dbbc231397759271a6.aspx"),  # Sprint
+    FriidrettPage(season=2007, gender="Men", url="https://www.friidrett.no/link/ce7cd713fc28461b819ccc961f65fd29.aspx"),  # Distanse
+    FriidrettPage(season=2007, gender="Men", url="https://www.friidrett.no/link/dd76d4679f8447279305ade7a0d245e8.aspx"),  # Hekkeøvelser
+    FriidrettPage(season=2007, gender="Men", url="https://www.friidrett.no/link/20c2385c7ff44a078b8b2ec6bc2fb41a.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2007, gender="Men", url="https://www.friidrett.no/link/6944d92a0211477ca048f8eb825fc75f.aspx"),  # Kastøvelser
+    FriidrettPage(season=2007, gender="Men", url="https://www.friidrett.no/link/291e34c189ea4665bae2d7511e1d75ac.aspx"),  # Mangekamp
+    # KVINNER / WOMEN 2007
+    FriidrettPage(season=2007, gender="Women", url="https://www.friidrett.no/link/7fff65814ba24701aac9e3eace693646.aspx"),  # Sprint
+    FriidrettPage(season=2007, gender="Women", url="https://www.friidrett.no/link/0e57cc073eda4b64b510d95385313d07.aspx"),  # Distanse
+    FriidrettPage(season=2007, gender="Women", url="https://www.friidrett.no/link/82950f16a4334e13b03a0396336b3304.aspx"),  # Hekkeøvelser
+    FriidrettPage(season=2007, gender="Women", url="https://www.friidrett.no/link/e5f1b973b464496aa65a7ed8e5f46e72.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2007, gender="Women", url="https://www.friidrett.no/link/76d569ec039746d091c626401eaad822.aspx"),  # Kastøvelser
+    FriidrettPage(season=2007, gender="Women", url="https://www.friidrett.no/link/0aaa3cc0b5d24302826074d08def0a01.aspx"),  # Mangekamp
+    # Kappgang (samme PDF inneholder både menn og kvinner)
+    FriidrettPage(season=2007, gender="Men", url="https://www.friidrett.no/link/15aabcac69214321ad5d974d3b3c11b2.aspx"),
+    FriidrettPage(season=2007, gender="Women", url="https://www.friidrett.no/link/15aabcac69214321ad5d974d3b3c11b2.aspx"),
+)
 
 
 FRIIDRETT_PAGES_2008: tuple[FriidrettPage, ...] = (
@@ -71,7 +95,7 @@ FRIIDRETT_PAGES_2010: tuple[FriidrettPage, ...] = (
     FriidrettPage(season=2010, gender="Women", url="https://www.friidrett.no/link/2f5b992e90744492b8a25ad530088cd2.aspx"),  # Mangekamp
 )
 
-FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = FRIIDRETT_PAGES_2008 + FRIIDRETT_PAGES_2010
+FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = FRIIDRETT_PAGES_2007 + FRIIDRETT_PAGES_2008 + FRIIDRETT_PAGES_2010
 
 
 def pages_for_years(*, years: Iterable[int], gender: str = "Both") -> list[FriidrettPage]:
@@ -106,8 +130,8 @@ def fetch_page(
 def parse_page(*, html_bytes: bytes, season: int, gender: str, source_url: str) -> list[ScrapedResult]:
     """Parse friidrett.no Word-HTML pages (legacy) and return best-per-athlete rows per event."""
     if html_bytes.lstrip().startswith(b"%PDF"):
-        # 2008 race-walk currently points to a PDF; keep a hard-fail-safe here so sync can continue.
-        return []
+        # Kappgang PDFs (e.g. 2007) contain both genders in one document.
+        return _parse_kappgang_pdf(pdf_bytes=html_bytes, season=season, gender=gender, source_url=source_url)
 
     doc = html.fromstring(html_bytes)
     if _looks_like_not_found_page(doc):
@@ -148,6 +172,7 @@ def parse_page(*, html_bytes: bytes, season: int, gender: str, source_url: str) 
 
 
 _WIND_CELL_RE = re.compile(r"^[+\-–−]?\s*\d+(?:[.,]\d+)?$")
+_PERF_WITH_TRAIL_WIND_RE = re.compile(r"^(?P<perf>.+?)\s+(?P<wind>[+\-–−]\d+(?:[.,]\d+)?)[#*]?$")
 _PLACEMENT_CELL_RE = re.compile(r"^\(?\d+[A-Za-z0-9/.-]*\)?[A-Za-z0-9/.-]*$")
 
 _HURDLE_HEIGHT_CM: dict[tuple[str, int], str] = {
@@ -178,7 +203,7 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
     rank = 0
 
     for tr in table.xpath(".//tr"):
-        cells = [_norm_cell(c.text_content()) for c in tr.xpath("./td|./th")]
+        cells = _compact_cells([_norm_cell(c.text_content()) for c in tr.xpath("./td|./th")])
         if not cells:
             continue
 
@@ -249,7 +274,7 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
 
     current_event: Optional[str] = None
     for tr in table.xpath(".//tr"):
-        cells = [_norm_cell(c.text_content()) for c in tr.xpath("./td|./th")]
+        cells = _compact_cells([_norm_cell(c.text_content()) for c in tr.xpath("./td|./th")])
         if not cells:
             continue
 
@@ -320,12 +345,13 @@ def _parse_result_cells(
     if not cells:
         return None
 
-    cleaned = clean_performance(cells[0])
+    perf_text, wind_from_perf = _split_perf_and_wind(cells[0])
+    cleaned = clean_performance(perf_text)
     if not cleaned or not cleaned.clean or not any(ch.isdigit() for ch in cleaned.clean):
         return None
 
     has_wind = len(cells) >= 2 and _looks_like_wind(cells[1])
-    wind = _parse_wind(cells[1]) if has_wind else None
+    wind = _parse_wind(cells[1]) if has_wind else wind_from_perf
 
     idx_ath = _guess_athlete_index(cells=cells, has_wind=has_wind, last_full=last_full)
     if idx_ath is None or idx_ath >= len(cells):
@@ -361,6 +387,26 @@ def _parse_result_cells(
         result_date,
         next_last_full,
     )
+
+
+def _split_perf_and_wind(text: str) -> tuple[str, Optional[float]]:
+    s = _norm_cell(text)
+    if not s:
+        return ("", None)
+    m = _PERF_WITH_TRAIL_WIND_RE.match(s)
+    if not m:
+        return (s, None)
+    return (m.group("perf").strip(), _parse_wind(m.group("wind")))
+
+
+def _compact_cells(cells: list[str]) -> list[str]:
+    # Some Word-exported tables (notably 2007 women) are heavily padded with empty columns.
+    xs = ["" if c == "Ā" else c for c in cells]
+    while xs and not xs[0]:
+        xs.pop(0)
+    while xs and not xs[-1]:
+        xs.pop()
+    return xs
 
 
 def _guess_athlete_index(*, cells: list[str], has_wind: bool, last_full: Optional[tuple[str, Optional[str], Optional[str]]]) -> Optional[int]:
@@ -516,6 +562,11 @@ def _canonical_event_no(heading: str, *, gender: str) -> Optional[str]:
             return f"{num} meter hinder"
         return f"{num} meter"
 
+    m = re.match(r"^(?P<num>\d+)\s*MILES?\b", base)
+    if m:
+        miles = int(m.group("num"))
+        return "1 mile" if miles == 1 else f"{miles} miles"
+
     return None
 
 
@@ -535,7 +586,7 @@ def _safe_cache_filename(url: str) -> str:
 
 
 def _norm_cell(text: str) -> str:
-    s = (text or "").replace("\u00a0", " ").replace("\r", " ").replace("\n", " ").strip()
+    s = (text or "").replace("\u00a0", " ").replace("Ā", " ").replace("\r", " ").replace("\n", " ").strip()
     return re.sub(r"\s+", " ", s)
 
 
@@ -575,13 +626,13 @@ def _parse_result_date(text: str, *, season: int) -> Optional[str]:
     if not s:
         return None
 
-    # Full date dd.mm.yy
-    if re.fullmatch(r"\d{1,2}\.\d{1,2}\.\d{2}", s):
-        dt = parse_ddmmyy(s)
-        return dt.isoformat() if dt else None
+    # Full date dd.mm.yy / dd.mm.yyyy
+    full = parse_ddmmyy(s)
+    if full:
+        return full.isoformat()
 
-    # Date range: 28/29.07
-    m = re.fullmatch(r"(?P<d1>\d{1,2})(?:/\d{1,2})\.(?P<m>\d{1,2})", s)
+    # Date range: 28/29.07 or 25-26.08 (use first day in range)
+    m = re.fullmatch(r"(?P<d1>\d{1,2})(?:[/-]\d{1,2})\.(?P<m>\d{1,2})", s)
     if m:
         try:
             return date(int(season), int(m.group("m")), int(m.group("d1"))).isoformat()
@@ -608,11 +659,9 @@ def _section_heading_candidate(cells: list[str]) -> Optional[str]:
     non_empty = [c for c in cells if c]
     if not non_empty:
         return None
-    if len(non_empty) == 1 and any(ch.isalpha() for ch in non_empty[0]):
+    # Word-exported pages can have one or two non-empty cells on heading rows.
+    if len(non_empty) <= 2 and any(ch.isalpha() for ch in non_empty[0]):
         return non_empty[0]
-    first = cells[0]
-    if first and any(ch.isalpha() for ch in first) and all(not c for c in cells[1:]):
-        return first
     return None
 
 
@@ -660,6 +709,138 @@ def _tables_until_next_h2(h2: html.HtmlElement) -> list[html.HtmlElement]:
             tables.append(table)
         sib = sib.getnext()
     return tables
+
+
+_KAPPGANG_SECTION_RE = re.compile(r"^(?P<label>Menn|Kvinner)\s+(?P<event>.+?)\s*\([^)]*\)\s*$", re.IGNORECASE)
+_KAPPGANG_RESULT_RE = re.compile(
+    r"^(?P<name>.+?)\s+(?:\(\d+\)\s+)?(?P<birth>\d{6})\s+(?P<club>.+?)\s+"
+    r"(?P<perf>\d[\d\.,:]+)\s+(?P<placement>\([^)]*\))\s+(?P<city>.+?)\s+(?P<date>\d{1,2}\.\d{1,2})$"
+)
+
+
+def _parse_kappgang_pdf(*, pdf_bytes: bytes, season: int, gender: str, source_url: str) -> list[ScrapedResult]:
+    text = _pdf_to_text(pdf_bytes)
+    if not text:
+        return []
+
+    out: list[ScrapedResult] = []
+    current_event: Optional[str] = None
+    rank_by_event: dict[str, int] = defaultdict(int)
+    seen_by_event: dict[str, set[int]] = defaultdict(set)
+
+    for raw_line in text.splitlines():
+        line = _norm_cell(raw_line)
+        if not line:
+            continue
+        if line.startswith("MiKTeX requires Windows"):
+            continue
+
+        sec = _KAPPGANG_SECTION_RE.match(line)
+        if sec:
+            sec_gender = "Men" if sec.group("label").lower().startswith("menn") else "Women"
+            if sec_gender != gender:
+                current_event = None
+                continue
+            current_event = _kappgang_event_no(sec.group("event"))
+            continue
+
+        if not current_event:
+            continue
+
+        m = _KAPPGANG_RESULT_RE.match(line)
+        if not m:
+            continue
+
+        cleaned = clean_performance(m.group("perf"))
+        if not cleaned or not cleaned.clean or not any(ch.isdigit() for ch in cleaned.clean):
+            continue
+
+        birth_dt = _parse_ddmmyy_compact(m.group("birth"))
+        birth_iso = birth_dt.isoformat() if birth_dt else None
+
+        athlete_name = _norm_cell(m.group("name"))
+        if not athlete_name or not any(ch.isalpha() for ch in athlete_name):
+            continue
+
+        athlete_id = _friidrett_athlete_id(gender=gender, name=athlete_name, birth_date=birth_iso)
+        if athlete_id in seen_by_event[current_event]:
+            continue
+        seen_by_event[current_event].add(athlete_id)
+
+        rank_by_event[current_event] += 1
+        out.append(
+            ScrapedResult(
+                season=int(season),
+                gender=gender,
+                event_no=current_event,
+                rank_in_list=int(rank_by_event[current_event]),
+                performance_raw=cleaned.raw,
+                performance_clean=cleaned.clean,
+                wind=None,
+                athlete_id=athlete_id,
+                athlete_name=athlete_name,
+                club_name=_none_if_empty(m.group("club")),
+                birth_date=birth_iso,
+                placement_raw=_none_if_empty(m.group("placement")),
+                venue_city=_none_if_empty(m.group("city")),
+                stadium=None,
+                competition_id=None,
+                competition_name=None,
+                result_date=_parse_result_date(m.group("date"), season=season),
+                source_url=source_url,
+            )
+        )
+
+    return out
+
+
+def _kappgang_event_no(raw_event: str) -> Optional[str]:
+    e = _norm_cell(raw_event).lower()
+    if not e or "innend" in e:
+        return None
+
+    m = re.search(r"(?P<km>\d+)\s*km\b", e)
+    if m:
+        return f"Kappgang {int(m.group('km'))} km"
+
+    m = re.search(r"(?P<m>\d+)\s*m(?:eter)?\b", e)
+    if m:
+        return f"Kappgang {int(m.group('m'))} meter"
+
+    return None
+
+
+def _pdf_to_text(pdf_bytes: bytes) -> Optional[str]:
+    pdftotext = shutil.which("pdftotext")
+    if not pdftotext:
+        return None
+
+    with tempfile.TemporaryDirectory(prefix="nfwa_pdf_") as tmp:
+        tmp_dir = Path(tmp)
+        in_pdf = tmp_dir / "in.pdf"
+        out_txt = tmp_dir / "out.txt"
+        in_pdf.write_bytes(pdf_bytes)
+
+        try:
+            subprocess.run(
+                [pdftotext, "-layout", "-enc", "UTF-8", str(in_pdf), str(out_txt)],
+                check=True,
+                capture_output=True,
+                text=False,
+            )
+        except Exception:
+            return None
+
+        if not out_txt.exists():
+            return None
+        return out_txt.read_text(encoding="utf-8", errors="replace")
+
+
+def _parse_ddmmyy_compact(token: str) -> Optional[date]:
+    t = _norm_cell(token)
+    if not re.fullmatch(r"\d{6}", t):
+        return None
+    return parse_ddmmyy(f"{t[0:2]}.{t[2:4]}.{t[4:6]}")
 
 
 def _looks_like_not_found_page(doc: html.HtmlElement) -> bool:
