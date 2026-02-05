@@ -23,20 +23,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      pages_ready: ${{ steps.ready.outputs.pages_ready }}
     steps:
-      - name: Decide whether to publish
-        id: ready
-        run: |
-          if [ -n "${WA_POENG_TOKEN}" ]; then
-            echo "pages_ready=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "pages_ready=false" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Checkout
-        if: ${{ env.WA_POENG_TOKEN != '' }}
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
@@ -89,13 +77,11 @@ jobs:
             --out docs
 
       - name: Upload GitHub Pages artifact
-        if: ${{ env.WA_POENG_TOKEN != '' }}
         uses: actions/upload-pages-artifact@v4
         with:
           path: docs
 
   deploy:
-    if: ${{ needs.build.outputs.pages_ready == 'true' }}
     runs-on: ubuntu-latest
     needs: build
     environment:
