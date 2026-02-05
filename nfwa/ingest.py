@@ -85,25 +85,29 @@ def sync_landsoversikt(
         with ScoreCalculator(wa_db_path) as calc:
             for year in years:
                 for src in sources:
-                    if int(year) == 2010:
-                        pages_to_fetch = friidrett_pages_for_years(years=[int(year)], gender=src.gender)
-                        if not pages_to_fetch:
-                            continue
-
+                    pages_to_fetch = friidrett_pages_for_years(years=[int(year)], gender=src.gender)
+                    if pages_to_fetch:
                         wa_events = wa_events_by_gender.get(src.gender, set())
                         for page in pages_to_fetch:
-                            html_bytes = fetch_friidrett_page(url=page.url, cache_dir=cache_dir, refresh=refresh)
-                            parsed_rows = parse_friidrett_page(
-                                html_bytes=html_bytes,
-                                season=int(year),
-                                gender=src.gender,
-                                source_url=page.url,
-                            )
+                            try:
+                                html_bytes = fetch_friidrett_page(url=page.url, cache_dir=cache_dir, refresh=refresh)
+                                parsed_rows = parse_friidrett_page(
+                                    html_bytes=html_bytes,
+                                    season=int(year),
+                                    gender=src.gender,
+                                    source_url=page.url,
+                                )
+                            except Exception as exc:  # noqa: BLE001 - robust fallback for inconsistent legacy pages
+                                print(f"Advarsel: hoppet over legacy-side {page.url} ({src.gender} {year}): {type(exc).__name__}: {exc}")
+                                continue
                             if not parsed_rows:
                                 continue
 
                             # Rebuild page deterministically: parser tweaks can change keys (e.g. dedup strategy).
-                            con.execute("DELETE FROM results WHERE source_url = ?", (page.url,))
+                            con.execute(
+                                "DELETE FROM results WHERE source_url = ? AND gender = ? AND season = ?",
+                                (page.url, src.gender, int(year)),
+                            )
                             pages += 1
 
                             for row in parsed_rows:
@@ -192,7 +196,10 @@ def sync_landsoversikt(
                         continue
 
                     # Rebuild page deterministically: parser tweaks can change keys (e.g. performance normalisation).
-                    con.execute("DELETE FROM results WHERE source_url = ?", (url,))
+                    con.execute(
+                        "DELETE FROM results WHERE source_url = ? AND gender = ? AND season = ?",
+                        (url, src.gender, int(year)),
+                    )
 
                     for row in parsed_rows:
                         rows_seen += 1

@@ -20,26 +20,59 @@ class CleanPerformance:
     wind: Optional[float]
 
 
+_DATE_SPLIT_RE = re.compile(r"[.\-/\s]+")
+
+
 def parse_ddmmyy(value: str, *, pivot_year: int | None = None) -> Optional[date]:
     text = (value or "").strip()
     if not text:
         return None
-    parts = text.split(".")
-    if len(parts) != 3:
-        return None
-    try:
+
+    # Support both separated forms:
+    #   dd.mm.yy, dd.mm.yyyy, dd.mm yyyy, dd-mm-yy, ...
+    # and compact forms:
+    #   ddmmyy / ddmmyyyy
+    parts = [p for p in _DATE_SPLIT_RE.split(text) if p]
+    day: int
+    month: int
+    year: int
+
+    if len(parts) == 1 and parts[0].isdigit():
+        token = parts[0]
+        if len(token) == 6:
+            day = int(token[0:2])
+            month = int(token[2:4])
+            year = _resolve_two_digit_year(int(token[4:6]), pivot_year=pivot_year)
+        elif len(token) == 8:
+            day = int(token[0:2])
+            month = int(token[2:4])
+            year = int(token[4:8])
+        else:
+            return None
+    elif len(parts) == 3 and all(p.isdigit() for p in parts):
         day = int(parts[0])
         month = int(parts[1])
-        year_2 = int(parts[2])
-    except ValueError:
+        if len(parts[2]) == 2:
+            year = _resolve_two_digit_year(int(parts[2]), pivot_year=pivot_year)
+        elif len(parts[2]) == 4:
+            year = int(parts[2])
+        else:
+            return None
+    else:
         return None
-    if pivot_year is None:
-        pivot_year = date.today().year % 100
-    year = 2000 + year_2 if year_2 <= pivot_year else 1900 + year_2
+
     try:
         return date(year, month, day)
     except ValueError:
         return None
+
+
+def _resolve_two_digit_year(year_2: int, *, pivot_year: int | None = None) -> int:
+    if pivot_year is None:
+        pivot = date.today().year % 100
+    else:
+        pivot = int(pivot_year) % 100
+    return 2000 + year_2 if year_2 <= pivot else 1900 + year_2
 
 
 def clean_performance(raw_value: str) -> Optional[CleanPerformance]:
