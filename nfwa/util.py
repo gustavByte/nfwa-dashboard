@@ -207,7 +207,14 @@ def _normalize_time_like(text: str, *, wa_event: str | None) -> str:
 
             if len(nums) == 3:
                 a, b, c = nums
-                if hours_likely and a <= 9 and b <= 59 and c <= 59:
+                if hours_likely and a <= 9 and b <= 59:
+                    # Handle rare legacy typos like "1.29.75" by carrying overflow
+                    # seconds into minutes/hours instead of interpreting as m:ss.cc.
+                    if c > 59:
+                        b += c // 60
+                        c = c % 60
+                        a += b // 60
+                        b = b % 60
                     return f"{a}:{b:02d}:{c:02d}"
                 return f"{a}:{b:02d}.{c:02d}"
             if len(nums) == 4:
