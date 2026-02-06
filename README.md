@@ -1,6 +1,6 @@
 # Norsk friidrettsstatistikk (NFWA Dashboard)
 
-[![MIT-lisens](https://img.shields.io/badge/lisens-MIT-blue.svg)](LICENSE)
+[![PolyForm Noncommercial](https://img.shields.io/badge/lisens-PolyForm%20Noncommercial%201.0.0-blue.svg)](LICENSE)
 
 Statistikkpipeline for norsk friidrett. Henter sesongresultater fra flere
 kilder, beregner World Athletics (WA)-poeng, lagrer i SQLite, og publiserer
@@ -344,7 +344,10 @@ retningslinjer og oppsett av utviklingsmiljø.
 
 ## Lisens
 
-Distribuert under [MIT-lisensen](LICENSE).
+Distribuert under [PolyForm Noncommercial 1.0.0](LICENSE).
+Kildekoden er fritt tilgjengelig for personlig bruk, forskning og
+ikke-kommersielle formål. Kommersiell bruk krever separat avtale —
+ta kontakt via [statistikk@skvidar.no](mailto:statistikk@skvidar.no).
 
 ## Datakilder
 

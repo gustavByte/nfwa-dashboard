@@ -112,4 +112,5 @@ av kodebasen når det gjelder kanttilfeller.
 
 ## Lisens
 
-Ved å bidra godtar du at bidraget ditt lisensieres under [MIT-lisensen](LICENSE).
+Ved å bidra godtar du at bidraget ditt lisensieres under
+[PolyForm Noncommercial 1.0.0](LICENSE).
