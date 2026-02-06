@@ -25,6 +25,21 @@ class FriidrettPage:
     url: str
 
 
+FRIIDRETT_PAGES_2003: tuple[FriidrettPage, ...] = (
+    # MENN / MEN 2003
+    FriidrettPage(season=2003, gender="Men", url="https://www.friidrett.no/link/d6df2580c7a34855905fec4f8551036a.aspx"),  # Løpsøvelser
+    FriidrettPage(season=2003, gender="Men", url="https://www.friidrett.no/link/b7a575b8b5ef435ca864246ea71b94b0.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2003, gender="Men", url="https://www.friidrett.no/link/83af8250cba842b08b6107e4217b0651.aspx"),  # Kastøvelser
+    # KVINNER / WOMEN 2003
+    FriidrettPage(season=2003, gender="Women", url="https://www.friidrett.no/link/be4500b117414f4aac19a4ac394513a9.aspx"),  # Løpsøvelser
+    FriidrettPage(season=2003, gender="Women", url="https://www.friidrett.no/link/28014bd276a54b5b8032a3026a79382e.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2003, gender="Women", url="https://www.friidrett.no/link/078fdd2733ff4a52aec08dd8de4e94c2.aspx"),  # Kastøvelser
+    # Kappgang (samme side inneholder både menn og kvinner)
+    FriidrettPage(season=2003, gender="Men", url="https://www.friidrett.no/link/2dd166c3345d4b369c2edc2d49fbdb16.aspx"),
+    FriidrettPage(season=2003, gender="Women", url="https://www.friidrett.no/link/2dd166c3345d4b369c2edc2d49fbdb16.aspx"),
+)
+
+
 FRIIDRETT_PAGES_2004: tuple[FriidrettPage, ...] = (
     # MENN / MEN 2004
     FriidrettPage(season=2004, gender="Men", url="https://www.friidrett.no/link/b7689de2190c471eaa83dd6040439d26.aspx"),  # Sprint
@@ -179,7 +194,8 @@ FRIIDRETT_PAGES_2010: tuple[FriidrettPage, ...] = (
 )
 
 FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = (
-    FRIIDRETT_PAGES_2004
+    FRIIDRETT_PAGES_2003
+    + FRIIDRETT_PAGES_2004
     + FRIIDRETT_PAGES_2005
     + FRIIDRETT_PAGES_2006
     + FRIIDRETT_PAGES_2007
