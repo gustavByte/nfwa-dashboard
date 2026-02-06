@@ -115,6 +115,20 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2013, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-10-km-kvinner/1530716"),
     KondisPage(season=2012, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-10-km-kvinner/1530617"),
     KondisPage(season=2011, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-10-km-kvinner/1530169"),
+    KondisPage(season=2010, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4800243"),
+    KondisPage(season=2009, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628387"),
+    KondisPage(season=2008, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628484"),
+    KondisPage(season=2007, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628485"),
+    KondisPage(season=2006, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628486"),
+    KondisPage(season=2005, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628487"),
+    KondisPage(season=2004, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628489"),
+    KondisPage(season=2003, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628490"),
+    KondisPage(season=2002, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628491"),
+    KondisPage(season=2001, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628492"),
+    KondisPage(season=2000, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628493"),
+    KondisPage(season=1999, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628494"),
+    KondisPage(season=1998, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628495"),
+    KondisPage(season=1997, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/a/4628496"),
     # 10 km (Men)
     KondisPage(season=2025, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2025-10-km-menn/469622"),
     KondisPage(season=2024, gender="Men", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2024-10-km-menn/469602"),
@@ -233,6 +247,9 @@ def parse_kondis_stats(*, html_bytes: bytes, page: KondisPage) -> Iterable[Kondi
     out = _parse_kondis_stats_table(doc=doc, page=page)
     if out:
         return out
+    out = _parse_kondis_stats_pre(doc=doc, page=page)
+    if out:
+        return out
     return _parse_kondis_stats_text(doc=doc, page=page)
 
 
@@ -319,6 +336,107 @@ _DATE_TOKEN_RE = re.compile(
 )
 _BIRTH_MARKER_RE = re.compile(r"-(?P<y>\d{2,4}|\?)\b")
 _BIRTH_AT_END_RE = re.compile(r"-(?:\d{2,4}|\?)\s*$")
+_RANK_PREFIX_RE = re.compile(r"^(?P<rank>\d{1,4}(?:[.,]\d)?\.?)\s+(?P<rest>[A-Z\u00c6\u00d8\u00c5].+)$")
+_PRE_RANK_MARKER_RE = re.compile(r"(?<![\d.,:])(?P<rank>\d{1,4})(?:[.)])?\s+(?=[A-Z\u00c6\u00d8\u00c5])")
+_PRE_STOP_MARKERS = (
+    "andre under",
+    "utarbeidet av",
+    "basert på tilgjengelige opplysninger",
+    "oppdatert",
+)
+
+
+def _parse_kondis_stats_pre(*, doc: html.HtmlElement, page: KondisPage) -> list[KondisResult]:
+    best: list[KondisResult] = []
+
+    for pre in doc.xpath("//pre"):
+        text = re.sub(r"\s+", " ", (pre.text_content() or "").replace("\u00a0", " ")).strip()
+        if not text:
+            continue
+
+        text = _truncate_pre_text(text)
+        entries = _split_pre_entries(text)
+        if len(entries) < 3:
+            continue
+
+        rows: list[KondisResult] = []
+        for entry in entries:
+            row = _parse_pre_entry(entry=entry, page=page, rank_in_list=len(rows) + 1)
+            if row is not None:
+                rows.append(row)
+
+        if len(rows) > len(best):
+            best = rows
+
+    return best
+
+
+def _truncate_pre_text(text: str) -> str:
+    s = (text or "").strip()
+    if not s:
+        return s
+
+    s_low = s.lower()
+    cut_at: Optional[int] = None
+    for marker in _PRE_STOP_MARKERS:
+        idx = s_low.find(marker)
+        if idx < 0:
+            continue
+        cut_at = idx if cut_at is None else min(cut_at, idx)
+    if cut_at is not None:
+        s = s[:cut_at]
+
+    return s.strip(" -\u2013")
+
+
+def _split_pre_entries(text: str) -> list[str]:
+    s = (text or "").strip()
+    if not s:
+        return []
+
+    marks = list(_PRE_RANK_MARKER_RE.finditer(s))
+    if len(marks) < 2:
+        return []
+
+    out: list[str] = []
+    for i, mark in enumerate(marks):
+        start = mark.start()
+        end = marks[i + 1].start() if i + 1 < len(marks) else len(s)
+        chunk = s[start:end].strip(" ,;|-")
+        if not chunk:
+            continue
+        chunk = _PRE_RANK_MARKER_RE.sub("", chunk, count=1).strip(" ,;|-")
+        if chunk:
+            out.append(chunk)
+
+    return out
+
+
+def _parse_pre_entry(*, entry: str, page: KondisPage, rank_in_list: int) -> KondisResult | None:
+    s = (entry or "").strip()
+    if not s:
+        return None
+
+    tm = _TIME_TOKEN_RE.search(s)
+    if not tm:
+        return None
+
+    athlete_cell = s[: tm.start()].strip(" ,;|-")
+    time_cell = tm.group("time").strip()
+    after = s[tm.end() :].strip(" ,;|-")
+    if not athlete_cell:
+        return None
+
+    return _build_kondis_result(
+        page=page,
+        rank_in_list=rank_in_list,
+        athlete_cell=athlete_cell,
+        time_cell=time_cell,
+        placement_raw=None,
+        competition_name=after or None,
+        venue_city=None,
+        date_cell=None,
+    )
 
 
 def _parse_kondis_stats_text(*, doc: html.HtmlElement, page: KondisPage) -> list[KondisResult]:
@@ -417,10 +535,11 @@ def _parse_kondis_text_line_spaces(*, line: str, page: KondisPage, auto_rank: in
     if not s:
         return (None, auto_rank)
 
-    # Rank-first: "1 Name, Club -YY 16.46 Race name"
-    m_rank = re.match(r"^(?P<rank>\d{1,4})\s+(?P<rest>.+)$", s)
+    # Rank-first: "1 Name, Club -YY 16.46 Race name" (also accepts "1. Name ...")
+    m_rank = _RANK_PREFIX_RE.match(s)
     if m_rank and not _starts_with_time_token(s):
-        rank_in_list = int(m_rank.group("rank"))
+        rank_token = m_rank.group("rank")
+        rank_in_list = _parse_rank_token(rank_token) or (auto_rank + 1)
         rest = m_rank.group("rest").strip()
         tm = _TIME_TOKEN_RE.search(rest)
         if not tm:
@@ -576,7 +695,7 @@ def _starts_with_time_token(text: str) -> bool:
 
 def _starts_with_rank_or_time(text: str) -> bool:
     t = (text or "").strip()
-    return bool(_TIME_TOKEN_RE.match(t) or re.match(r"^\d{1,4}\s+", t))
+    return bool(_TIME_TOKEN_RE.match(t) or _RANK_PREFIX_RE.match(t))
 
 
 def _none_if_empty(text: str) -> Optional[str]:

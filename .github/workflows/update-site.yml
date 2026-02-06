@@ -70,7 +70,7 @@ jobs:
         if: ${{ env.WA_POENG_TOKEN != '' }}
         run: |
           python -m nfwa build-site \
-            --min-year 2002 \
+            --min-year 1997 \
             --refresh-years 2 \
             --wa-root wa-poeng \
             --wa-db wa-poeng/wa_scoring.db \
