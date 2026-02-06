@@ -111,6 +111,7 @@ utøver-id (negativ heltalls-id) basert på kjønn + navn + fødselsår (slik de
    - `_FIVE_KM_WOMEN_LEGACY_URLS` for 5 km kvinner
    - `_HALVMARATON_WOMEN_LEGACY_URLS` for halvmaraton kvinner
    - `_MARATON_WOMEN_LEGACY_URLS` for maraton kvinner
+   - `_MARATON_MEN_LEGACY_URLS` for maraton menn
 2. Sync berorte aar:
 
 ```powershell

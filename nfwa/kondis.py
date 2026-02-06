@@ -124,6 +124,24 @@ _HALVMARATON_WOMEN_LEGACY_URLS: tuple[tuple[int, str], ...] = (
 )
 
 
+_MARATON_MEN_LEGACY_URLS: tuple[tuple[int, str], ...] = (
+    (2010, "https://www.kondis.no/a/4750579"),
+    (2009, "https://www.kondis.no/a/4627318"),
+    (2008, "https://www.kondis.no/a/4627736"),
+    (2007, "https://www.kondis.no/a/4627737"),
+    (2006, "https://www.kondis.no/a/4627738"),
+    (2005, "https://www.kondis.no/a/4627740"),
+    (2004, "https://www.kondis.no/a/4627742"),
+    (2003, "https://www.kondis.no/a/4627743"),
+    (2002, "https://www.kondis.no/a/4627744"),
+    (2001, "https://www.kondis.no/a/4627753"),
+    (2000, "https://www.kondis.no/a/4627760"),
+    (1999, "https://www.kondis.no/a/4627761"),
+    (1998, "https://www.kondis.no/a/4627762"),
+    (1997, "https://www.kondis.no/a/4627763"),
+)
+
+
 KONDIS_PAGES: tuple[KondisPage, ...] = (
     # 5 km (Women)
     KondisPage(season=2025, gender="Women", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2025-5-km-kvinner/469715"),
@@ -299,6 +317,11 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2013, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-maraton-menn/1530278"),
     KondisPage(season=2012, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-maraton-menn/1530778"),
     KondisPage(season=2011, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-maraton-menn/1530305"),
+    *_pages_from_season_url_pairs(
+        gender="Men",
+        event_no="Maraton",
+        season_url_pairs=_MARATON_MEN_LEGACY_URLS,
+    ),
 )
 
 
