@@ -36,6 +36,53 @@ Dette lager/oppdaterer:
 Merk: For sesongene `2004`, `2005`, `2006`, `2007`, `2008`, `2009` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
 De caches i samme cache-mappe, og utøver-id'er genereres lokalt (negative heltalls-id'er).
 
+### Hurtigmetode for nye legacy-år (f.eks. 2003/2002/2001)
+
+1. Legg inn årets 13 URL-er i `FRIIDRETT_PAGES_<YEAR>` i `nfwa/friidrett_legacy.py`.
+2. Koble året inn i `FRIIDRETT_PAGES` i samme fil.
+3. Kjør sync med refresh:
+
+```powershell
+python -m nfwa sync --years 2003 --refresh
+```
+
+4. Kjør rask kvalitetskontroll (rader, duplikater per person/øvelse, WA-feil):
+
+```powershell
+@'
+import sqlite3
+year = 2003
+con = sqlite3.connect("data/nfwa_results.sqlite3")
+cur = con.cursor()
+cur.execute("select count(*) from results where season=?", (year,))
+print("rows", cur.fetchone()[0])
+cur.execute("""
+select count(*) from (
+  select gender, event_id, athlete_id, count(*) c
+  from results
+  where season=?
+  group by gender, event_id, athlete_id
+  having c > 1
+) t
+""", (year,))
+print("dup_event_person", cur.fetchone()[0])
+cur.execute("select count(*) from results where season=? and wa_error is not null", (year,))
+print("wa_errors", cur.fetchone()[0])
+con.close()
+'@ | python -
+```
+
+5. Rebygg statiske filer og publiser:
+
+```powershell
+python -m nfwa export-site --out docs
+git add nfwa/friidrett_legacy.py docs/api README.md
+git commit -m "Add 2003 legacy data"
+git push origin main
+```
+
+Tips: Samme navn kan være ulike personer. Bruk deduplisering per `gender + event_id + athlete_id` (ikke bare navn).
+
 ## Gateløp (Kondis)
 
 Henter topp-lister for gateløp fra kondis.no (5 km, 10 km, halvmaraton, maraton) og legger dem inn i samme database
