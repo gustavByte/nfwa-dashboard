@@ -1,101 +1,63 @@
 rank_in_list,athlete_name,club_name,birth_year,venue_city,performance_raw
-1,Terje Næss,SK Vidar,1961,Hamburg,2:15:29
-2,Knut Hegvold,Heimdal IF,1961,Hamburg,2:15:40
-3,Tore Bye,Gjesdal IL,1966,London,2:16:57
-4,Ole Petter Hjelle,Ready,1970,London,2:20:03
-5,Tor Erik Nyquist,Ull./Kisa,1967,København,2:21:31
-6,Terje Hole,Fræna,1961,Jølster,2:22:19
-7,Egil Skarpsno,FIK Ren-Eng,1962,Jølster,2:24:14
-8,Trond Nystad,SK Vidar,1970,Chicago,2:25:26
-9,Kristen Aaby,Gjesdal IL,1961,New York,2:26:35
-10,Knut Nystad,SK Vidar,,Chicago,2:27:46
-11,Frank Bjørkli,Trønder-Øst,1965,Hamburg,2:30:01
-12,Knut Aalien,Sigdal FIK,1968,Drammen,2:30:43
-13,Runar Gilberg,Ready,1965,Drammen,2:30:52
-14,Goumri Abderrahim,IL i BUL,,Tromsø,2:30:54
-15,Håvard Nordgaard,BUL,1966,London,2:31:09
-16,Mounir Benoumma,Vidar,1961,Oslo,2:31:59
-17,Ola Indergaard,Glassverket IF,1957,Drammen,2:32:22
-18,Mons Bale,Balestrand IL,1955,Jølster,2:32:48
-19,Helge Hafsås,Olden IL,1966,Jølster,2:33:32
-19,Sture Grønli,Silsand og Omegn,1970,Drammen,2:35:32
-21,Håvard Nordgård,BUL,1961,New York,2:35:53
-22,Tore Amundøy,SK Vidar,1969,New York,2:36:51
-23,Tom Roger Tangen,Mosjøen,,Drammen,2:37:50
-24,Even Løkken,,1954,Antwerpen,2:38:18
-25,Viggo Aaberg,,1952,New York,2:39:20
-26,Helge Johansen,Strindheim,,Oslo,2:40:15
-27,Jan Hoel,SK Vidar,1958,Oslo,2:40:48
-28,Bjørn Egil Eide,Øystre Slidre,1956,Jølster,2:41:08
-29,Gløer Gløersen,IL Driv,1966,Oslo,2:41:11
-30,Brynjulf Bøen,,1960,Hamburg,2:41:53
-31,Jon Nersund,Leirfjord IL,1956,Oslo,2:41:57
-32,Oddvar Hausken,Torvastad IL,1942,Wien,2:41:57
-33,Didrik Grønvold,Stabæk IF,1960,Oslo,2:42:20
-34,Dag Tore Roe,,1960,New York,2:42:42
-35,Per Magne Siraas,Oslo,1942,Oslo,2:42:58
-36,Odd Gunnar Tveit,Vennesla,1964,Molde,2:43:23
-37,Ulf Rødvik,SK Vidar,1958,Nordmarka,2:43:26
-38,Lars Olav Uren,Hallingdal FIK,,Nordmarka,2:44:03
-38,Bård Olav Moen,,1960,Trondheim,2:44:03
-40,Jan Henrik Leknes,Brekke IL,,Jølster,2:44:04
-41,Thor Svendsen,Oppegård IL,1951,Drammen,2:44:09
-42,Kjell Terje Holen,IL Driv,1953,Drammen,2:44:35
-43,Ole Arne Schlytter,Øystre Slidre,1960,Drammen,2:44:39
-44,Jon Arild Sesseng,Nybrott,1960,Molde,2:44:53
-45,Jørgen Andre Lien,Sandefjord,1969,Drammen,2:45:04
-46,Kjetil Hillestad,Oslo,,Oslo,2:45:05
-47,Aage Odfjell,IL Norna-Salhus,1946,Drammen,2:46:06
-48,Gunnar Pedersen,Lørenskog,1946,Drammen,2:46:07
-49,Øystein Johansen,Tistedal,1966,London,2:46:38
-50,Ernst Jacobsen,Vidar,,Ålesund,2:46:58
-50,Frank Tore Berntsen,Veldre IL,1968,Ålesund,2:46:58
-52,Harald Grønning,Rindal-Troll,,Oslo,2:46:59
-53,Kjetil Kveli,BUL,1956,Stockholm,2:47:00
-54,Jan Olav Presthus,,1960,Antwerpen,2:47:06
-55,Svein Haavik,Minerva,,Drammen,2:47:22
-56,Nicolai Hilemann,IL Heming,,Nordmarka,2:47:24
-57,Bjørn Gjerde,IL i BUL,1955,Drammen,2:47:31
-58,Asle Lien,IF Graabein,1961,Drammen,2:47:42
-59,Ulf Hansen,Mandal og Halse,1968,Mandal,2:47:50
-60,Rolf Storsveen,Risberget IL,,Drammen,2:47:52
-61,Øystein Rusti,,1960,Berlin,2:48:23
-62,Thor Sv. Pedersen,Tvedestrand,1944,Berlin,2:48:41
-63,John Pedersen,Kvæfjord IL,1954,Tromsø,2:48:47
-64,Stinar Skaret,Lørenskog FIL,1942,Tromsø,2:49:11
-65,John Martin Andresen,Follo,1964,Drammen,2:49:14
-66,Johannes Gjesdal,Varegg,1961,Nordmarka,2:49:27
-67,Odd Johnsen,Øyestad,,Øyestad,2:49:38
-68,Øystein Bjørnerud,IL i BUL,1958,Oslo,2:49:57
-69,Martin Seierstad,IL Driv,,Drammen,2:50:01
-70,Morten Andersen,Ringerike,,Drammen,2:50:17
-71,Dick Arvidsson,Fossum IF,,Oslo,2:50:23
-71,Birger Haug,,,Drammen,2:50:23
-73,Geir Sigurd Osvold,,,Drammen,2:50:55
-74,Eilof Eivindsen,,1960,,2:51:03
-75,Leif Hektoen,Sunndal IL,,Oslo,2:52:05
-76,Jon Gjeilo,Lom IL,,Jølster,2:52:22
-77,Vidar Stegerød,Tistedal,1959,London,2:52:28
-78,Arild Johnsen,,,Drammen,2:52:29
-79,Rune Solberg,,,Oslo,2:52:32
-80,Gudleik Husby,Stadsbygd,,Oslo,2:52:34
-81,Bjørn Olav Nordbye,,,Oslo,2:52:35
-82,Kim Aarli Larsen,Vika IF,,Jessheim,2:52:41
-83,Frank Hansen,,,Oslo,2:52:45
-84,Terje Bruaseth,,,Ålesund,2:53:18
-85,Dag Jacobsen,Hadeland,,Hadeland,2:53:31
-86,Knut Erichsen,,,Drammen,2:53:40
-87,Kjell Johansen,,,Tromsø,2:53:48
-88,Arild Tveiten,Vidar,,Nordmarka,2:53:49
-89,Kjetil Myklebust,,,Nordmarka,2:54:07
-90,Jan Viggo Røsok,Fræna FIK,,Drammen,2:54:22
-91,Arvid T. Hjelseth,,,Drammen,2:54:23
-92,Rune Findahl,Krylbo IL,,Oslo,2:54:30
-93,Per Kaald,,,Drammen,2:55:02
-94,Gunnar Vaage,,,Oslo,2:55:08
-95,Erik Bjørnstad,Ringerike,,Ringerike,2:55:15
-96,Harald Nilsen,Flekkefjord,,Oslo,2:55:32
-97,Keino Valstad,,,Oslo,2:55:49
-98,Johnny Løvstad,,,Drammen,2:55:57
-99,Leif Blom,,,Berlin,2:55:58
-100,Tormod Nilsen,,,Drammen,2:55:59
+1,Terje Næss,SK Vidar,1961,Stockholm,2:20:08
+2,Tor Erik Nyquist,Ull.-Kisa,1967,Mallorca,2:20:18
+3,Petter Antonsen,SK Vidar,1961,Drammen,2:21:46
+4,Eiliv Gjesdal,SK Vidar,1970,Drammen,2:22:57
+5,Kristen Aaby,Gjesdal,1961,Drammen,2:24:13
+6,Tor Fauske,SK Vidar,1963,Chicago,2:26:47
+7,Egil Skarpsno,Ren-Eng,1962,Tromsø,2:26:51
+8,Runar Gilberg,Ready,1965,Chicago,2:28:37
+9,Knut Aalien,Ringerike,1968,Drammen,2:28:46
+10,Helge Hafsås,Olden IL,1966,Jølster,2:31:11
+11,Ola Indergaard,IF Hellas,1957,Drammen,2:34:16
+12,Vidar Kalnes,Horten IF,1952,Drammen,2:34:22
+13,Jan Hoel,SK Vidar,1958,London,2:34:53
+14,Arild Tveiten,SK Vidar,1970,Drammen,2:35:49
+15,Stein Roar Andersen,Varegg,1957,Drammen,2:36:44
+16,Håvard Nordgård,IL i BUL,1961,New York,2:36:55
+17,Dick Arvidsson,Fossum IF,1956,Drammen,2:36:58
+18,Jan Erik Christiansen,BFG Fana,1972,Chicago,2:37:20
+19,Arve Stavø,Strindheim IL,1958,Trondheim,2:38:23
+20,Jon Gjeilo,Lom IL,1962,Drammen,2:38:24
+21,Tore Bjerkrheim,Bromma IL,1963,Drammen,2:39:24
+22,Bjarte Langeland,IL Skjalg,1965,Frankfurt,2:39:32
+23,Edgar Johansen,Kvæfjord IL,1958,Drammen,2:40:11
+24,Rune Tyssedal,Indre Arna,1963,Hitra,2:40:13
+25,Odd Gunnar Tveit,Birkenes IL,1964,Drammen,2:40:22
+26,Ole Arne Schlytter,Lørenskog IF,1960,Drammen,2:40:25
+27,Didrik Grønvold,Stabæk IF,1960,Drammen,2:40:30
+28,Øystein R. Johansen,Halden,1960,Drammen,2:40:40
+29,Ingvar Grønseth,Fræna FIK,1971,Drammen,2:40:57
+30,Tommy Torgersen,Lørenskog FIL,1970,New York,2:42:15
+31,Aage Odfjell,IL Norna-Salhus,1946,Berlin,2:42:18
+32,Rune Fredriksen,Mandal & Halse,1960,Mandal,2:42:38
+33,Heming Leira,IL i BUL,1960,Drammen,2:42:52
+34,Bjørn Aanensen,Mandal & Halse IL,1955,Mandal,2:43:02
+35,Bent Ove Berntsen,Gjesdal IL,1962,New York,2:43:07
+36,Morten Rønning,Skjalg,1960,Frankfurt,2:44:25
+37,Martin Seierstad,IL Driv,1969,Drammen,2:44:27
+37,Ole-Tom Amlien,Hadeland,1963,Drammen,2:44:27
+39,Arild Johnsen,Helling,,Drammen,2:44:40
+40,Bjørnar Andersen,Stovnerkam.,1963,Jessheim,2:44:53
+41,Arne Hugo Hansen,Tromsø,1955,London,2:45:30
+42,Arne Øvergård,Øverbygd,1953,Wroclaw,2:45:42
+43,Ivar Hansen,Bergen,,Stockholm,2:45:43
+44,Knut Hegvold,Heimdal IF,1961,Frankfurt,2:45:50
+45,John Martin Andresen,Follo,1964,Drammen,2:46:06
+46,Stig Morten Moen,Øvre Årdal,1972,Drammen,2:46:26
+47,Birger Haug,Oslo Politis IL,1951,Drammen,2:47:01
+48,Hans Jørgen Baglo,TVK,1972,Stemshaug,2:47:03
+49,Nicolai Heilemann,OSI,1973,Nordmarka,2:47:16
+50,Fredrik Skattekjær,Haugesund,1955,London,2:47:23
+51,Bjørn Reitan,Tromsdalen,1958,Tromsø,2:47:24
+52,Helge Johansen,Strindheim IL,1969,Oslo,2:47:54
+53,Sten S. Solfjeld,Hadeland FIK,1950,Drammen,2:48:10
+54,Kjetil Kveli,IL i BUL,1956,New York,2:48:12
+55,Oddvar Hausken,Torvastad IL,1942,Drammen,2:48:16
+56,Hallgeir Hansen,Bryne FIK,1955,Mandal,2:48:59
+57,Frank-Tore Berntsen,Veldre IL,1968,Nordmarka,2:49:15
+58,Thomas Holm,Oppegård IL,1975,Drammen,2:49:20
+59,Stein Hermansen,Rana FIK,,Drammen,2:49:41
+60,Sverre Aksland,Stegaberg IL,1949,Drammen,2:49:44
+61,Bjørn E. Eide,Øystre Slidre IL,1956,Beito,2:49:44
+62,Bjørn Gjerde,IL i BUL,1955,Drammen,2:49:55
