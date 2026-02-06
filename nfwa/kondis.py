@@ -400,13 +400,77 @@ def _parse_kondis_stats_table(*, doc: html.HtmlElement, page: KondisPage) -> lis
         date_cell: Optional[str] = None
 
         if not time_first:
-            rank_in_list = _parse_rank_token(cells[0]) or auto_rank
-            athlete_cell = cells[1] if len(cells) > 1 else ""
-            time_cell = cells[2] if len(cells) > 2 else ""
-            if len(cells) > 3:
-                competition_name = _none_if_empty(cells[3])
-            if len(cells) > 4:
-                date_cell = _none_if_empty(cells[4])
+            # Legacy Kondis tables (esp. women 5 km ~2005-2009) use:
+            # "1 Name" | "17.52" | "Race name"
+            # Handle this shape explicitly so name/time don't get swapped.
+            m_rank_athlete = _RANK_PREFIX_RE.match(cells[0]) if cells else None
+            if (
+                len(cells) >= 3
+                and _looks_like_time(cells[1])
+                and not _looks_like_time(cells[2])
+            ):
+                if m_rank_athlete:
+                    rank_in_list = _parse_rank_token(m_rank_athlete.group("rank")) or auto_rank
+                    athlete_cell = m_rank_athlete.group("rest").strip()
+                else:
+                    # Some legacy rows omit explicit rank and are shaped:
+                    # "Name" | "17.52" | "Race name"
+                    rank_in_list = auto_rank
+                    athlete_cell = cells[0]
+                time_cell = cells[1]
+                competition_name = _none_if_empty(cells[2])
+                if len(cells) > 3:
+                    date_cell = _none_if_empty(cells[3])
+            else:
+                rank_in_list = _parse_rank_token(cells[0]) or auto_rank
+
+                # Scan for the actual time column — some wider legacy tables
+                # (e.g. 2003, 2005 half marathon) have club/birth/venue columns
+                # between the name and the result.
+                time_idx: Optional[int] = None
+                for idx in range(2, len(cells)):
+                    if _looks_like_time(cells[idx]):
+                        time_idx = idx
+                        break
+
+                if time_idx is not None and time_idx > 2:
+                    # Wide table: rank | name [| club [| birth [| venue]]] | time …
+                    pre_time = cells[1:time_idx]
+
+                    if len(pre_time) >= 2:
+                        # Last cell before the time is typically venue/sted.
+                        venue_city = _none_if_empty(pre_time[-1])
+                        athlete_parts = pre_time[:-1]
+                    else:
+                        athlete_parts = pre_time
+
+                    # Join athlete parts: "Name, Club BirthYear".
+                    # Birth-year cells start with "-" (e.g. "-68").
+                    pieces: list[str] = []
+                    for p in athlete_parts:
+                        p_s = p.strip()
+                        if not p_s:
+                            continue
+                        if re.match(r"^-\d{2,4}", p_s.replace("(*)", "").strip()):
+                            if pieces:
+                                pieces[-1] += " " + p_s
+                            else:
+                                pieces.append(p_s)
+                        else:
+                            pieces.append(p_s)
+                    athlete_cell = ", ".join(pieces)
+
+                    # Extract only the first time token (cell may contain PR info).
+                    raw_time = cells[time_idx]
+                    tm = _TIME_TOKEN_RE.match(raw_time)
+                    time_cell = tm.group("time") if tm else raw_time
+                else:
+                    athlete_cell = cells[1] if len(cells) > 1 else ""
+                    time_cell = cells[2] if len(cells) > 2 else ""
+                    if len(cells) > 3:
+                        competition_name = _none_if_empty(cells[3])
+                    if len(cells) > 4:
+                        date_cell = _none_if_empty(cells[4])
         else:
             rank_in_list = auto_rank
             time_cell = cells[0]
@@ -727,7 +791,7 @@ def _build_kondis_result(
     date_cell: Optional[str],
 ) -> KondisResult | None:
     perf = clean_performance(time_cell)
-    if not perf:
+    if not perf or not perf.clean:
         return None
 
     athlete_name, club_name, birth_year = _parse_athlete_cell(athlete_cell)
