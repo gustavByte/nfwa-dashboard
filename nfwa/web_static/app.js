@@ -257,6 +257,12 @@ function formatEventMeta(rows) {
     );
   }
   lines.push("");
+  lines.push("Hvordan snitt beregnes:");
+  lines.push("- Beste resultat per utøver brukes som grunnlag.");
+  lines.push("- Snitt WA-poeng = snitt av tilgjengelige WA-poeng blant de beste (maks N).");
+  lines.push("- Snitt resultat = snitt av de beste (maks N) resultatverdiene.");
+  lines.push("- Dekning = andel av registrerte resultater med WA-poeng.");
+  lines.push("");
   lines.push("Merk: Hvis «Utøvere» ≈ «Resultater» betyr det ofte at kilden allerede er en sesongbeste-liste (1 rad per utøver).");
 
   return lines.join("\n");

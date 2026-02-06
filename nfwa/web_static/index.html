@@ -3,21 +3,86 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NFWA Dashboard</title>
-    <link rel="stylesheet" href="static/styles.css?v=2026-02-05" />
+    <title>Friidrettsstatistikk: bane og gate</title>
+    <link rel="stylesheet" href="static/styles.css?v=2026-02-06" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   </head>
   <body>
     <header class="header">
-      <div class="container">
-        <h1>NFWA Dashboard</h1>
-        <div class="muted">Lokal visning av landsoversikt + WA-poeng</div>
+      <div class="container hero">
+        <h1>Friidrettsstatistikk: bane og gate</h1>
+        <div class="muted">Under utvikling / demo - dette er ikke en offisiell lansering.</div>
+        <p class="lead">
+          Målet er å løfte fram både den solide statistikkjobben i miljøet og det utøverne faktisk har prestert over tid.
+          Vi vil gjøre det enklere å utforske resultater, se trender og skape mer interesse for friidrett.
+        </p>
+        <p class="notice">
+          <strong>Demo for tilbakemeldinger:</strong> Vi ønsker innspill på innhold, feil og forbedringer.
+          Bruk <a class="contentLink" href="https://github.com/gustavByte/nfwa-dashboard/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>
+          eller e-post til <a class="contentLink" href="mailto:statistikk@skvidar.no">statistikk@skvidar.no</a>.
+        </p>
       </div>
     </header>
 
     <main class="container">
+      <section class="section introGrid">
+        <article class="card infoCard">
+          <h2>Datagrunnlag og kreditering</h2>
+          <p>Takk til kildene som gjør denne oversikten mulig:</p>
+          <ul class="infoList">
+            <li>
+              <a class="contentLink" href="https://www.minfriidrettsstatistikk.info/" target="_blank" rel="noopener noreferrer">minfriidrettsstatistikk.info</a>
+              - hovedkilde for historiske friidrettsresultater.
+            </li>
+            <li>
+              <a class="contentLink" href="https://www.kondis.no/de-beste" target="_blank" rel="noopener noreferrer">kondis.no/de-beste</a>
+              - resultater i Kondis-statistikk som er med i beregningene.
+            </li>
+            <li>
+              <a class="contentLink" href="https://epi-new.nif.no/aktivitet/statistikk/arsstatistikker/" target="_blank" rel="noopener noreferrer">epi-new.nif.no/aktivitet/statistikk/arsstatistikker</a>
+              - eldre friidrettsstatistikk.
+            </li>
+          </ul>
+          <p class="muted">All ære til dem som samler, kvalitetssikrer og publiserer tallene.</p>
+        </article>
+
+        <article class="card infoCard">
+          <h2>Hvordan gjennomsnitt er beregnet</h2>
+          <ul class="infoList">
+            <li><code>Top-N</code> bygger på beste resultat per utøver i valgt sesong og øvelse.</li>
+            <li><code>Snitt WA-poeng</code> er snitt av tilgjengelige WA-poeng blant de beste (maks N) utøverresultatene.</li>
+            <li><code>Snitt resultat</code> er snitt av de beste (maks N) resultatverdiene i øvelsen.</li>
+            <li>Øvelser med for få resultater blir ikke vist for valgt <code>Top-N</code>.</li>
+          </ul>
+        </article>
+
+        <article class="card infoCard">
+          <h2>WA-poeng og 2025-tabeller</h2>
+          <p>
+            WA-poeng i denne demoen er beregnet med World Athletics Scoring Tables 2025 for alle resultater, både friidrett og Kondis.
+            WA meldte oppdatering 9. januar 2025, med ny revisjon 23. april 2025.
+          </p>
+          <p>
+            Vi vurderer å legge inn flere beregningsmåter og versjoner etter hvert, slik at utvikling over tid kan sammenlignes på ulike grunnlag.
+          </p>
+          <p>
+            <a class="contentLink" href="https://worldathletics.org/news/news/scoring-tables-2025" target="_blank" rel="noopener noreferrer">World Athletics scoring tables updated for 2025</a>
+          </p>
+        </article>
+
+        <article class="card infoCard">
+          <h2>Åpen kildekode og innspill</h2>
+          <p>Prosjektet utvikles som åpen kildekode:</p>
+          <ul class="infoList">
+            <li><a class="contentLink" href="https://github.com/gustavByte/nfwa-dashboard" target="_blank" rel="noopener noreferrer">github.com/gustavByte/nfwa-dashboard</a></li>
+            <li><a class="contentLink" href="https://github.com/gustavByte/nfwa-dashboard/issues" target="_blank" rel="noopener noreferrer">github.com/gustavByte/nfwa-dashboard/issues</a></li>
+            <li><a class="contentLink" href="mailto:statistikk@skvidar.no">statistikk@skvidar.no</a></li>
+          </ul>
+        </article>
+      </section>
+
       <section class="section">
-        <h2>Øvelse – trend</h2>
+        <h2>Øvelse - trend</h2>
         <div class="controls">
           <label>
             Kjønn
@@ -120,7 +185,7 @@
       </section>
 
       <section class="section" id="eventResultsSection">
-        <h2>Øvelse – resultater</h2>
+        <h2>Øvelse - resultater</h2>
         <div class="controls">
           <label>
             Sesong
@@ -213,6 +278,18 @@
       </section>
     </main>
 
-    <script src="static/app.js?v=2026-02-05"></script>
+    <footer class="footer">
+      <div class="container">
+        <p class="muted">© 2026 Friidrettsstatistikk: bane og gate.</p>
+        <p class="muted">
+          Data, navn og varemerker tilhører respektive eiere. Dette er en uoffisiell demo for utforsking, læring og tilbakemeldinger.
+        </p>
+        <p class="muted">
+          Ved viderebruk av tall ber vi om tydelig kildehenvisning til opprinnelige kilder og prosjektet.
+        </p>
+      </div>
+    </footer>
+
+    <script src="static/app.js?v=2026-02-06"></script>
   </body>
 </html>
