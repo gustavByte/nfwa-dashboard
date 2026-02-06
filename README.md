@@ -33,7 +33,7 @@ Dette lager/oppdaterer:
 - resultatdatabase: `data/nfwa_results.sqlite3`
 - cache av HTML-sider: `data/cache/minfriidrett/`
 
-Merk: For sesongene `2006`, `2007`, `2008` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
+Merk: For sesongene `2006`, `2007`, `2008`, `2009` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
 De caches i samme cache-mappe, og utøver-id'er genereres lokalt (negative heltalls-id'er).
 
 ## Gateløp (Kondis)

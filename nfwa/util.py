@@ -104,6 +104,7 @@ def clean_performance(raw_value: str) -> Optional[CleanPerformance]:
                 "\u2018": ":",  # left single quote
                 "\u02bc": ":",  # modifier letter apostrophe
                 "'": ":",
+                ";": ":",  # occasionally used as a mistaken time separator in legacy exports
             }
         )
     )

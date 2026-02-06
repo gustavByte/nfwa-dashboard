@@ -99,6 +99,26 @@ FRIIDRETT_PAGES_2008: tuple[FriidrettPage, ...] = (
     ),
 )
 
+FRIIDRETT_PAGES_2009: tuple[FriidrettPage, ...] = (
+    # MENN / MEN 2009
+    FriidrettPage(season=2009, gender="Men", url="https://www.friidrett.no/link/6b0cef9d0a7d45a783dc1eb43420041e.aspx"),  # Sprint
+    FriidrettPage(season=2009, gender="Men", url="https://www.friidrett.no/link/b2d5b54f138c4d7d99e4efd00c3c99ac.aspx"),  # Distanse
+    FriidrettPage(season=2009, gender="Men", url="https://www.friidrett.no/link/659719298dde47569553085ad1ba9a9a.aspx"),  # Hekkeøvelser
+    FriidrettPage(season=2009, gender="Men", url="https://www.friidrett.no/link/89f4d82f6d9341a5b7060c65f1f22c95.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2009, gender="Men", url="https://www.friidrett.no/link/e6600f3cf16c48a09ad03ba97576b2f1.aspx"),  # Kastøvelser
+    FriidrettPage(season=2009, gender="Men", url="https://www.friidrett.no/link/9703872fc0d84c5db7e1c6161c78b1d0.aspx"),  # Mangekamp
+    # KVINNER / WOMEN 2009
+    FriidrettPage(season=2009, gender="Women", url="https://www.friidrett.no/link/aacc9ac900cb463081dad0182b69953d.aspx"),  # Sprint
+    FriidrettPage(season=2009, gender="Women", url="https://www.friidrett.no/link/6f6b2b0f0e8e4ffaa25a8e5d62eb36f7.aspx"),  # Distanse
+    FriidrettPage(season=2009, gender="Women", url="https://www.friidrett.no/link/d89814ed4b54461dbf56b5df7e404692.aspx"),  # Hekkeøvelser
+    FriidrettPage(season=2009, gender="Women", url="https://www.friidrett.no/link/303475b9a53644c4a3d01b8a1374f6c0.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2009, gender="Women", url="https://www.friidrett.no/link/be492eefba5e47aabb01dffe53cdbb9b.aspx"),  # Kastøvelser
+    FriidrettPage(season=2009, gender="Women", url="https://www.friidrett.no/link/2d4f12910e8a4f16ad3f7e5a882a1fc6.aspx"),  # Mangekamp
+    # Kappgang (samme side inneholder både menn og kvinner)
+    FriidrettPage(season=2009, gender="Men", url="https://www.friidrett.no/link/8047a01e6fb7452186bfb1c4583c2a4a.aspx"),
+    FriidrettPage(season=2009, gender="Women", url="https://www.friidrett.no/link/8047a01e6fb7452186bfb1c4583c2a4a.aspx"),
+)
+
 FRIIDRETT_PAGES_2010: tuple[FriidrettPage, ...] = (
     # MENN / MEN 2010
     FriidrettPage(season=2010, gender="Men", url="https://www.friidrett.no/link/9f75977878cc4932809862cd399e435c.aspx"),  # Sprint
@@ -117,7 +137,11 @@ FRIIDRETT_PAGES_2010: tuple[FriidrettPage, ...] = (
 )
 
 FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = (
-    FRIIDRETT_PAGES_2006 + FRIIDRETT_PAGES_2007 + FRIIDRETT_PAGES_2008 + FRIIDRETT_PAGES_2010
+    FRIIDRETT_PAGES_2006
+    + FRIIDRETT_PAGES_2007
+    + FRIIDRETT_PAGES_2008
+    + FRIIDRETT_PAGES_2009
+    + FRIIDRETT_PAGES_2010
 )
 
 
