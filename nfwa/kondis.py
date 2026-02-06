@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import hashlib
 import re
 from dataclasses import dataclass
@@ -11,6 +12,9 @@ import requests
 from lxml import html
 
 from .util import clean_performance
+
+_MANUAL_KONDIS_MARATON_MEN_2004_URL = "https://www.kondis.no/statistikk/norgesstatistikk-2004-maraton-menn/1529518"
+_MANUAL_KONDIS_MARATON_MEN_2004_CSV = Path(__file__).resolve().parent / "reference_data" / "kondis_2004_maraton_menn.csv"
 
 
 _MONTHS = {
@@ -163,7 +167,9 @@ _MARATON_MEN_LEGACY_URLS: tuple[tuple[int, str], ...] = (
     (2007, "https://www.kondis.no/a/4627737"),
     (2006, "https://www.kondis.no/a/4627738"),
     (2005, "https://www.kondis.no/a/4627740"),
-    (2004, "https://www.kondis.no/a/4627742"),
+    # Legacy /a/ URL for 2004 men's marathon parses shifted columns.
+    # Use corrected Norgesstatistikk source (verified against local correction spreadsheet).
+    (2004, _MANUAL_KONDIS_MARATON_MEN_2004_URL),
     (2003, "https://www.kondis.no/a/4627743"),
     (2002, "https://www.kondis.no/a/4627744"),
     (2001, "https://www.kondis.no/a/4627753"),
@@ -363,6 +369,8 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2013, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-maraton-menn/1530278"),
     KondisPage(season=2012, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-maraton-menn/1530778"),
     KondisPage(season=2011, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-maraton-menn/1530305"),
+    # Keep legacy URL disabled so sync can purge old wrongly parsed rows.
+    KondisPage(season=2004, gender="Men", event_no="Maraton", url="https://www.kondis.no/a/4627742", enabled=False),
     *_pages_from_season_url_pairs(
         gender="Men",
         event_no="Maraton",
@@ -398,7 +406,65 @@ def fetch_kondis_stats(
     return content
 
 
+def _manual_rows_for_page(*, page: KondisPage) -> Optional[list[KondisResult]]:
+    if int(page.season) == 2004 and page.gender == "Men" and page.event_no.lower().startswith("maraton"):
+        return _load_manual_maraton_men_2004(page=page)
+    return None
+
+
+def _load_manual_maraton_men_2004(*, page: KondisPage) -> list[KondisResult]:
+    if not _MANUAL_KONDIS_MARATON_MEN_2004_CSV.exists():
+        raise FileNotFoundError(f"Mangler manuell Kondis-korreksjon: {_MANUAL_KONDIS_MARATON_MEN_2004_CSV}")
+
+    out: list[KondisResult] = []
+    with _MANUAL_KONDIS_MARATON_MEN_2004_CSV.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            rank_in_list = _parse_int((row.get("rank_in_list") or "").strip())
+            athlete_name = (row.get("athlete_name") or "").strip()
+            performance_raw = (row.get("performance_raw") or "").strip()
+            if rank_in_list is None or not athlete_name or not performance_raw:
+                continue
+
+            perf = clean_performance(performance_raw)
+            if not perf or not perf.clean:
+                continue
+
+            birth_year = _parse_int((row.get("birth_year") or "").strip())
+            athlete_id = _kondis_athlete_id(gender=page.gender, name=athlete_name, birth_year=birth_year)
+            birth_date = f"{birth_year:04d}-01-01" if birth_year is not None else None
+
+            out.append(
+                KondisResult(
+                    season=page.season,
+                    gender=page.gender,
+                    event_no=page.event_no,
+                    rank_in_list=int(rank_in_list),
+                    performance_raw=perf.raw,
+                    performance_clean=perf.clean,
+                    wind=perf.wind,
+                    athlete_id=int(athlete_id),
+                    athlete_name=athlete_name,
+                    club_name=_none_if_empty((row.get("club_name") or "").strip()),
+                    birth_date=birth_date,
+                    placement_raw=None,
+                    venue_city=_none_if_empty((row.get("venue_city") or "").strip()),
+                    stadium=None,
+                    competition_id=None,
+                    competition_name=None,
+                    result_date=None,
+                    source_url=page.url,
+                )
+            )
+
+    return out
+
+
 def parse_kondis_stats(*, html_bytes: bytes, page: KondisPage) -> Iterable[KondisResult]:
+    manual = _manual_rows_for_page(page=page)
+    if manual is not None:
+        return manual
+
     doc = html.fromstring(html_bytes)
     out = _parse_kondis_stats_table(doc=doc, page=page)
     if out:
