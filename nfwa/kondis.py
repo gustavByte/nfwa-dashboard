@@ -14,7 +14,17 @@ from lxml import html
 from .util import clean_performance
 
 _MANUAL_KONDIS_MARATON_MEN_2004_URL = "https://www.kondis.no/statistikk/norgesstatistikk-2004-maraton-menn/1529518"
-_MANUAL_KONDIS_MARATON_MEN_2004_CSV = Path(__file__).resolve().parent / "reference_data" / "kondis_2004_maraton_menn.csv"
+_REFERENCE_DATA_DIR = Path(__file__).resolve().parent / "reference_data"
+_MANUAL_KONDIS_MARATON_MEN_CSV_BY_SEASON: dict[int, Path] = {
+    2004: _REFERENCE_DATA_DIR / "kondis_2004_maraton_menn.csv",
+    2003: _REFERENCE_DATA_DIR / "kondis_2003_maraton_menn.csv",
+    2002: _REFERENCE_DATA_DIR / "kondis_2002_maraton_menn.csv",
+    2001: _REFERENCE_DATA_DIR / "kondis_2001_maraton_menn.csv",
+    2000: _REFERENCE_DATA_DIR / "kondis_2000_maraton_menn.csv",
+    1999: _REFERENCE_DATA_DIR / "kondis_1999_maraton_menn.csv",
+    1998: _REFERENCE_DATA_DIR / "kondis_1998_maraton_menn.csv",
+    1997: _REFERENCE_DATA_DIR / "kondis_1997_maraton_menn.csv",
+}
 
 
 _MONTHS = {
@@ -407,17 +417,19 @@ def fetch_kondis_stats(
 
 
 def _manual_rows_for_page(*, page: KondisPage) -> Optional[list[KondisResult]]:
-    if int(page.season) == 2004 and page.gender == "Men" and page.event_no.lower().startswith("maraton"):
-        return _load_manual_maraton_men_2004(page=page)
+    if page.gender == "Men" and page.event_no.lower().startswith("maraton"):
+        csv_path = _MANUAL_KONDIS_MARATON_MEN_CSV_BY_SEASON.get(int(page.season))
+        if csv_path is not None:
+            return _load_manual_maraton_men_from_csv(page=page, csv_path=csv_path)
     return None
 
 
-def _load_manual_maraton_men_2004(*, page: KondisPage) -> list[KondisResult]:
-    if not _MANUAL_KONDIS_MARATON_MEN_2004_CSV.exists():
-        raise FileNotFoundError(f"Mangler manuell Kondis-korreksjon: {_MANUAL_KONDIS_MARATON_MEN_2004_CSV}")
+def _load_manual_maraton_men_from_csv(*, page: KondisPage, csv_path: Path) -> list[KondisResult]:
+    if not csv_path.exists():
+        raise FileNotFoundError(f"Mangler manuell Kondis-korreksjon: {csv_path}")
 
     out: list[KondisResult] = []
-    with _MANUAL_KONDIS_MARATON_MEN_2004_CSV.open("r", encoding="utf-8", newline="") as f:
+    with csv_path.open("r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
             rank_in_list = _parse_int((row.get("rank_in_list") or "").strip())

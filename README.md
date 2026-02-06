@@ -266,6 +266,16 @@ git push origin main
 python -m nfwa sync-kondis --years (1997..2010) --gender Women --refresh
 ```
 
+For maraton menn (1997-2003) med manuell korreksjonsfil:
+
+```powershell
+python scripts/generate_kondis_maraton_menn_csv.py `
+  --xlsx "data/manual_sources/kondis/2003 -1997 Norgesstatistikk maraton menn.xlsx"
+python -m nfwa sync-kondis --years (1997..2003) --gender Men --refresh
+```
+
+Scriptet eksporterer kun sesongkolonnen `Tid...` fra arket og ignorerer PB/PR-kolonner.
+
 3. Kjør kontroll:
 
 ```powershell
