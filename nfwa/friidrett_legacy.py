@@ -36,6 +36,39 @@ FRIIDRETT_PAGES_2002: tuple[FriidrettPage, ...] = (
 )
 
 
+FRIIDRETT_PAGES_2000: tuple[FriidrettPage, ...] = (
+    # NOTE: friidrett.no globalassets URLs for 2000 currently return "Vi fant ikke siden";
+    # use the mirrored source on epi-new.nif.no instead.
+    # MENN / MEN 2000
+    FriidrettPage(
+        season=2000,
+        gender="Men",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2000/www.friidrett.no-mskortelop00.htm",
+    ),  # Løp 100m til 1000m
+    FriidrettPage(
+        season=2000,
+        gender="Men",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2000/www.friidrett.no-mslangelop00.htm",
+    ),  # Løp 1500m til 3000m hinder
+    FriidrettPage(
+        season=2000,
+        gender="Men",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2000/www.friidrett.no-mstekn00.htm",
+    ),  # Tekniske øvelser
+    # KVINNER / WOMEN 2000
+    FriidrettPage(
+        season=2000,
+        gender="Women",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2000/www.friidrett.no-kslop00.htm",
+    ),  # Løpsøvelser
+    FriidrettPage(
+        season=2000,
+        gender="Women",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2000/www.friidrett.no-kstekn00.htm",
+    ),  # Tekniske øvelser
+)
+
+
 FRIIDRETT_PAGES_2001: tuple[FriidrettPage, ...] = (
     # NOTE: friidrett.no globalassets URLs for 2001 currently return "Vi fant ikke siden";
     # use the mirrored source on epi-new.nif.no instead.
@@ -238,7 +271,8 @@ FRIIDRETT_PAGES_2010: tuple[FriidrettPage, ...] = (
 )
 
 FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = (
-    FRIIDRETT_PAGES_2001
+    FRIIDRETT_PAGES_2000
+    + FRIIDRETT_PAGES_2001
     + FRIIDRETT_PAGES_2002
     + FRIIDRETT_PAGES_2003
     + FRIIDRETT_PAGES_2004
@@ -316,6 +350,13 @@ def parse_page(*, html_bytes: bytes, season: int, gender: str, source_url: str) 
             if len(parsed) > len(best):
                 best = parsed
         out.extend(best)
+
+    # 2000 pages often use event headings in p/b/h* nodes outside tables (not just h2),
+    # so run an alternate heading-driven pass and prefer it when it recovers more rows.
+    if int(season) == 2000:
+        by_headings = _parse_heading_table_page(doc=doc, season=season, gender=gender, source_url=source_url)
+        if len(by_headings) > len(out):
+            out = by_headings
 
     if out:
         return out
@@ -440,6 +481,68 @@ def _parse_sectioned_table_page(*, doc: html.HtmlElement, season: int, gender: s
         if len(parsed) > len(best):
             best = parsed
     return best
+
+
+def _parse_heading_table_page(*, doc: html.HtmlElement, season: int, gender: str, source_url: str) -> list[ScrapedResult]:
+    body_nodes = doc.xpath("/html/body//*")
+    if not body_nodes:
+        return []
+
+    index_by_node_id = {id(node): i for i, node in enumerate(body_nodes)}
+    candidates: list[tuple[int, str]] = []
+
+    for node in body_nodes:
+        if not isinstance(node.tag, str):
+            continue
+        tag = node.tag.lower()
+        if tag not in {"h1", "h2", "h3", "p", "b"}:
+            continue
+        if node.xpath("ancestor::table"):
+            continue
+
+        heading_raw = _norm_cell(node.text_content())
+        if not heading_raw:
+            continue
+
+        event_no = _canonical_event_no(heading_raw, gender=gender)
+        if not event_no:
+            continue
+        candidates.append((index_by_node_id[id(node)], event_no))
+
+    if not candidates:
+        return []
+
+    out: list[ScrapedResult] = []
+    for i, (start_idx, event_no) in enumerate(candidates):
+        end_idx = candidates[i + 1][0] if i + 1 < len(candidates) else len(body_nodes)
+        tables: list[html.HtmlElement] = []
+        seen: set[int] = set()
+        for node in body_nodes[start_idx + 1 : end_idx]:
+            if not isinstance(node.tag, str) or node.tag.lower() != "table":
+                continue
+            key = id(node)
+            if key in seen:
+                continue
+            seen.add(key)
+            tables.append(node)
+
+        if not tables:
+            continue
+
+        best: list[ScrapedResult] = []
+        for table in tables:
+            parsed = _parse_results_table(
+                table=table,
+                season=season,
+                gender=gender,
+                event_no=event_no,
+                source_url=source_url,
+            )
+            if len(parsed) > len(best):
+                best = parsed
+        out.extend(best)
+
+    return out
 
 
 def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str, source_url: str) -> list[ScrapedResult]:
@@ -774,7 +877,7 @@ def _canonical_event_no(heading: str, *, gender: str) -> Optional[str]:
     # Field events
     if base.startswith("HØYDE") or base.startswith("HOYDE"):
         return "Høyde"
-    if base.startswith("STAV"):
+    if re.match(r"^STAV(?:\b|/)", base):
         return "Stav"
     if base.startswith("LENGDE"):
         return "Lengde"
