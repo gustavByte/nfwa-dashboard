@@ -231,8 +231,17 @@ def _normalize_time_like(text: str, *, wa_event: str | None) -> str:
                 a, b = (int(parts[0]), int(parts[1]))
                 return f"{a}:{b:02d}"
 
-    # Dot-separated segments + decimal comma (e.g. 2.22,28)
+    # Dot-separated segments + decimal comma can mean either:
+    # - m:ss.cc  (e.g. 2.22,28)
+    # - h:mm:ss  (legacy typo on some long events, e.g. 3.12,43)
     if ":" not in text and "." in text and "," in text and text.count(",") == 1:
+        mixed = re.fullmatch(r"\s*(?P<a>\d+)\.(?P<b>\d{1,2}),(?P<c>\d{1,2})\s*", text)
+        if mixed:
+            a = int(mixed.group("a"))
+            b = int(mixed.group("b"))
+            c = int(mixed.group("c"))
+            if _event_likely_has_hours(wa_event) and a <= 9 and b <= 59 and c <= 59:
+                return f"{a}:{b:02d}:{c:02d}"
         text = text.replace(".", ":")
         text = text.replace(",", ".")
         return text

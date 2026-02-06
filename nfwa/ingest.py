@@ -19,11 +19,23 @@ from .wa import ensure_wa_poeng_importable, wa_event_meta, wa_event_names
 
 
 _JUMP_CM_RE = re.compile(r"^\d{3,4}$")
+_MIXED_DOT_COMMA_RE = re.compile(r"^\d+\.\d{1,2},\d{1,2}$")
 
 
-def _display_raw_performance(*, performance_raw: str, wa_event: str | None) -> str:
+def _display_raw_performance(
+    *, performance_raw: str, wa_event: str | None, performance_norm: str | None = None
+) -> str:
     raw = (performance_raw or "").strip()
-    if not raw or wa_event not in {"HJ", "PV"}:
+    if not raw:
+        return performance_raw
+
+    # Keep display format aligned with long-event interpretation when source mixes
+    # dot+comma separators (e.g. "3.12,43" -> "3.12.43").
+    norm = (performance_norm or "").strip()
+    if norm and _MIXED_DOT_COMMA_RE.fullmatch(raw) and norm.count(":") >= 2 and "." not in norm:
+        return norm.replace(":", ".")
+
+    if wa_event not in {"HJ", "PV"}:
         return performance_raw
     if any(sep in raw for sep in (".", ",", ":")):
         return performance_raw
@@ -164,7 +176,11 @@ def sync_landsoversikt(
                                     athlete_id=row.athlete_id,
                                     club_id=club_id,
                                     rank_in_list=row.rank_in_list,
-                                    performance_raw=_display_raw_performance(performance_raw=row.performance_raw, wa_event=wa_event),
+                                    performance_raw=_display_raw_performance(
+                                        performance_raw=row.performance_raw,
+                                        wa_event=wa_event,
+                                        performance_norm=perf_norm,
+                                    ),
                                     performance_clean=perf_norm or None,
                                     value=value,
                                     wind=row.wind,
@@ -262,7 +278,11 @@ def sync_landsoversikt(
                             athlete_id=row.athlete_id,
                             club_id=club_id,
                             rank_in_list=row.rank_in_list,
-                            performance_raw=_display_raw_performance(performance_raw=row.performance_raw, wa_event=wa_event),
+                            performance_raw=_display_raw_performance(
+                                performance_raw=row.performance_raw,
+                                wa_event=wa_event,
+                                performance_norm=perf_norm,
+                            ),
                             performance_clean=perf_norm or None,
                             value=value,
                             wind=row.wind,
@@ -407,7 +427,11 @@ def sync_kondis(
                         athlete_id=row.athlete_id,
                         club_id=club_id,
                         rank_in_list=row.rank_in_list,
-                        performance_raw=row.performance_raw,
+                        performance_raw=_display_raw_performance(
+                            performance_raw=row.performance_raw,
+                            wa_event=wa_event,
+                            performance_norm=perf_norm,
+                        ),
                         performance_clean=perf_norm or None,
                         value=value,
                         wind=row.wind,
