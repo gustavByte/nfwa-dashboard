@@ -176,6 +176,28 @@ def _normalize_time_like(text: str, *, wa_event: str | None) -> str:
     if not text:
         return text
 
+    # Mixed separators (e.g. "3.41:02") appear on some Kondis pages.
+    # Interpret these as h:mm:ss for long events, otherwise m:ss.cc.
+    if "." in text and ":" in text and "," not in text:
+        parts = [p.strip() for p in re.split(r"[.:]", text) if p.strip()]
+        if parts and all(p.isdigit() for p in parts):
+            nums = [int(p) for p in parts]
+            hours_likely = _event_likely_has_hours(wa_event)
+
+            if len(nums) == 3:
+                a, b, c = nums
+                if hours_likely and a <= 9 and b <= 59 and c <= 59:
+                    return f"{a}:{b:02d}:{c:02d}"
+                if b <= 59:
+                    return f"{a}:{b:02d}.{c:02d}"
+
+            if len(nums) == 4:
+                a, b, c, d = nums
+                if hours_likely and a <= 9 and b <= 59 and c <= 59:
+                    return f"{a}:{b:02d}:{c:02d}.{d:02d}"
+                if b <= 59 and c <= 59:
+                    return f"{a}:{b:02d}:{c:02d}.{d:02d}"
+
     # Dot-separated segments (e.g. 29.11.45 => 29:11.45)
     if ":" not in text and "." in text and "," not in text and text.count(".") >= 2:
         parts = [p.strip() for p in text.split(".") if p.strip()]

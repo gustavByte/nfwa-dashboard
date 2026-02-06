@@ -88,6 +88,16 @@ _FIVE_KM_WOMEN_LEGACY_URLS: tuple[tuple[int, str], ...] = (
 )
 
 
+_FIVE_KM_MEN_LEGACY_URLS: tuple[tuple[int, str], ...] = (
+    (2010, "https://www.kondis.no/a/4769526"),
+    (2009, "https://www.kondis.no/a/4627806"),
+    (2008, "https://www.kondis.no/a/4627813"),
+    (2007, "https://www.kondis.no/a/4627814"),
+    (2006, "https://www.kondis.no/a/4627815"),
+    (2005, "https://www.kondis.no/a/4627817"),
+)
+
+
 _MARATON_WOMEN_LEGACY_URLS: tuple[tuple[int, str], ...] = (
     (2010, "https://www.kondis.no/a/4750660"),
     (2009, "https://www.kondis.no/a/4627922"),
@@ -180,6 +190,11 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2013, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-5-km-menn/1529659"),
     KondisPage(season=2012, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-5-km-menn/1529910"),
     KondisPage(season=2011, gender="Men", event_no="5 km gateløp", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-5-km-menn/1530603"),
+    *_pages_from_season_url_pairs(
+        gender="Men",
+        event_no="5 km gateløp",
+        season_url_pairs=_FIVE_KM_MEN_LEGACY_URLS,
+    ),
     # 10 km (Women)
     KondisPage(season=2025, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2025-10-km-kvinner/469281"),
     KondisPage(season=2024, gender="Women", event_no="10 km gateløp", url="https://www.kondis.no/statistikk/de-beste-2024-10-km-kvinner/469743"),
