@@ -56,6 +56,14 @@ jobs:
 
       - name: Build static site (docs/)
         run: |
+          # Keep historical corrections in sync even when DB cache is reused.
+          python -m nfwa sync-kondis \
+            --years 1997 1998 2005 \
+            --gender Both \
+            --refresh \
+            --wa-root wa-poeng \
+            --wa-db wa-poeng/wa_scoring.db
+
           python -m nfwa build-site \
             --min-year 1997 \
             --refresh-years 2 \
