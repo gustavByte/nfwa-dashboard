@@ -105,9 +105,10 @@ Dette lager/oppdaterer:
 Merk: Kondis-listene har ikke en «athlete-id» som minfriidrettsstatistikk gjør. Det genereres derfor en stabil, lokal
 utøver-id (negativ heltalls-id) basert på kjønn + navn + fødselsår (slik det står i listene).
 
-### Hurtigmetode for historiske Kondis-aar (f.eks. halvmaraton kvinner)
+### Hurtigmetode for historiske Kondis-aar (f.eks. 5 km kvinner)
 
 1. Legg inn nye `season -> url`-par i riktig tabell i `nfwa/kondis.py`:
+   - `_FIVE_KM_WOMEN_LEGACY_URLS` for 5 km kvinner
    - `_HALVMARATON_WOMEN_LEGACY_URLS` for halvmaraton kvinner
    - `_MARATON_WOMEN_LEGACY_URLS` for maraton kvinner
 2. Sync berorte aar:
@@ -121,18 +122,19 @@ python -m nfwa sync-kondis --years (1997..2010) --gender Women --refresh
 ```powershell
 @'
 import sqlite3
+event_name = "5 km gateløp"  # Bytt ved behov, f.eks. "Halvmaraton"
 con = sqlite3.connect("data/nfwa_results.sqlite3")
 cur = con.cursor()
 cur.execute("""
 select season, count(*) as n
 from results
 where gender='Women'
-  and event_id = (select id from events where gender='Women' and name_no='Halvmaraton')
+  and event_id = (select id from events where gender='Women' and name_no=?)
   and source_url like '%kondis.no%'
   and season between 1997 and 2010
 group by season
 order by season desc
-""")
+""", (event_name,))
 for season, n in cur.fetchall():
     print(season, n)
 con.close()
