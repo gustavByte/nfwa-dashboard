@@ -36,6 +36,39 @@ FRIIDRETT_PAGES_2002: tuple[FriidrettPage, ...] = (
 )
 
 
+FRIIDRETT_PAGES_2001: tuple[FriidrettPage, ...] = (
+    # NOTE: friidrett.no globalassets URLs for 2001 currently return "Vi fant ikke siden";
+    # use the mirrored source on epi-new.nif.no instead.
+    # MENN / MEN 2001
+    FriidrettPage(
+        season=2001,
+        gender="Men",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2001/www.friidrett.no-mskortelop01.htm",
+    ),  # Løp 100m til 1000m
+    FriidrettPage(
+        season=2001,
+        gender="Men",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2001/www.friidrett.no-mslangelop01.htm",
+    ),  # Løp 1500m til 3000m hinder
+    FriidrettPage(
+        season=2001,
+        gender="Men",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2001/www.friidrett.no-mstekn01.htm",
+    ),  # Tekniske øvelser
+    # KVINNER / WOMEN 2001
+    FriidrettPage(
+        season=2001,
+        gender="Women",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2001/www.friidrett.no-kslop01.htm",
+    ),  # Løpsøvelser
+    FriidrettPage(
+        season=2001,
+        gender="Women",
+        url="https://epi-new.nif.no/globalassets/aktivitet/statistikk/arsstatistikker/2001/www.friidrett.no-kstekn01.htm",
+    ),  # Tekniske øvelser
+)
+
+
 FRIIDRETT_PAGES_2003: tuple[FriidrettPage, ...] = (
     # MENN / MEN 2003
     FriidrettPage(season=2003, gender="Men", url="https://www.friidrett.no/link/d6df2580c7a34855905fec4f8551036a.aspx"),  # Løpsøvelser
@@ -205,7 +238,8 @@ FRIIDRETT_PAGES_2010: tuple[FriidrettPage, ...] = (
 )
 
 FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = (
-    FRIIDRETT_PAGES_2002
+    FRIIDRETT_PAGES_2001
+    + FRIIDRETT_PAGES_2002
     + FRIIDRETT_PAGES_2003
     + FRIIDRETT_PAGES_2004
     + FRIIDRETT_PAGES_2005
