@@ -17,9 +17,6 @@ concurrency:
   group: update-site
   cancel-in-progress: false
 
-env:
-  WA_POENG_TOKEN: ${{ secrets.WA_POENG_TOKEN }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,34 +26,25 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Skip note (missing WA token)
-        if: ${{ env.WA_POENG_TOKEN == '' }}
-        run: echo "WA_POENG_TOKEN not set; skipping automated update."
-
       - name: Setup Python
-        if: ${{ env.WA_POENG_TOKEN != '' }}
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: "pip"
 
       - name: Install deps
-        if: ${{ env.WA_POENG_TOKEN != '' }}
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Checkout WA Poeng (private)
-        if: ${{ env.WA_POENG_TOKEN != '' }}
+      - name: Checkout WA Poeng
         uses: actions/checkout@v4
         with:
           repository: gustavByte/world-athletics-points-calculator
-          token: ${{ env.WA_POENG_TOKEN }}
           path: wa-poeng
           fetch-depth: 1
 
       - name: Restore data/cache
-        if: ${{ env.WA_POENG_TOKEN != '' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -67,7 +55,6 @@ jobs:
             nfwa-data-${{ runner.os }}-
 
       - name: Build static site (docs/)
-        if: ${{ env.WA_POENG_TOKEN != '' }}
         run: |
           python -m nfwa build-site \
             --min-year 1997 \

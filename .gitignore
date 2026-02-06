@@ -16,4 +16,12 @@ Thumbs.db
 
 # Local spreadsheets (not needed for site)
 Reslater friidrett utendørs.ods
-cl
+*.xlsx
+*.xlsx#
+.~lock.*
+
+# Claude Code workspace
+.claude/
+
+# Windows artifact
+nul

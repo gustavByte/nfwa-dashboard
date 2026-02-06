@@ -1,23 +1,116 @@
-# Norsk friidrett (landsoversikt) + WA-poeng (lokalt)
+# Norsk friidrettsstatistikk (NFWA Dashboard)
 
-Dette er et lite Python-oppsett som:
-- henter landsoversikt (utendørs) for Kvinner/Menn Senior fra minfriidrettsstatistikk.info
-- lagrer alt i en lokal SQLite-database
-- regner ut World Athletics-poeng (WA) for de øvelsene/resultatene der dette er mulig (via `WA Poeng/wa_scoring.db`)
+[![MIT-lisens](https://img.shields.io/badge/lisens-MIT-blue.svg)](LICENSE)
+
+Statistikkpipeline for norsk friidrett. Henter sesongresultater fra flere
+kilder, beregner World Athletics (WA)-poeng, lagrer i SQLite, og publiserer
+et statisk dashboard via GitHub Pages.
+
+**[Se live dashboard](https://gustavByte.github.io/nfwa-dashboard/)**
+
+---
+
+## Innhold
+
+- [Arkitektur](#arkitektur)
+- [Kom i gang](#kom-i-gang)
+- [Kommandoer](#kommandoer)
+- [Gateløp (Kondis)](#gateløp-kondis)
+- [Web-dashboard](#web-dashboard)
+- [Publisering (GitHub Pages)](#publisering-github-pages)
+- [Legge til legacy-år](#legge-til-legacy-år)
+- [Datamodell](#datamodell)
+- [CI/CD](#cicd)
+- [Bidra](#bidra)
+- [Lisens](#lisens)
+
+---
+
+## Arkitektur
+
+Prosjektet består av to deler:
+
+1. **`nfwa/`** — Hovedpakke. Scraping, innlasting, spørringer, web-dashboard
+   og statisk site-eksport.
+   Inngang: `python -m nfwa` → `nfwa/__main__.py` → `nfwa/cli.py`.
+
+2. **[`WA Poeng/`](https://github.com/gustavByte/world-athletics-points-calculator)** —
+   Selvstendig WA-poengkalkulator. Parser WA Scoring Tables-PDF til
+   `wa_scoring.db` og tilbyr `ScoreCalculator` for poengoppslag.
+   Importeres av `nfwa` via `sys.path` (se `nfwa/wa.py`).
+
+### Dataflyt
+
+```
+Kilder (HTML)
+  ├── minfriidrett.py     — minfriidrettsstatistikk.info (2011+)
+  ├── friidrett_legacy.py — friidrett.no (2000–2010)
+  └── kondis.py           — kondis.no (gateløp)
+        │
+        ▼
+    ingest.py  — sync_landsoversikt() / sync_kondis()
+        │  bruker: event_mapping.py (norsk øvelsesnavn → WA-kode)
+        │  bruker: util.py (rensing/normalisering av prestasjoner)
+        │  bruker: wa.py (WA ScoreCalculator-bro)
+        ▼
+    db.py  — SQLite-skjema + upserts → data/nfwa_results.sqlite3
+        │
+        ▼
+    queries.py — event_summary, event_trend, event_results, athlete_results
+        │
+        ├── webapp.py      — lokal utviklerserver (JSON API)
+        ├── export_site.py — pre-rendrer JSON API til docs/api/*.json
+        └── site_build.py  — orkestrerer sync + eksport (brukes av CI)
+```
+
+### Frontend
+
+`nfwa/web_static/` inneholder `index.html`, `app.js`, `styles.css`. Ren
+JavaScript uten byggesteg. Både den lokale utviklerserveren og den statiske
+eksporten bruker disse filene.
+
+---
 
 ## Kom i gang
 
-Installer avhengigheter:
+### Forutsetninger
+
+- Python 3.10+ (anbefalt 3.12)
+- Git
+
+### 1. Klon repoet
+
+```powershell
+git clone https://github.com/gustavByte/nfwa-dashboard.git
+cd nfwa-dashboard
+```
+
+### 2. Klon WA Poeng-repoet
+
+```powershell
+git clone https://github.com/gustavByte/world-athletics-points-calculator.git "WA Poeng"
+```
+
+### 3. Installer avhengigheter
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-Krav:
-- Python 3.10+ (anbefalt 3.12)
-- `WA Poeng/wa_scoring.db` (eller angi egen sti med `--wa-db`, og mappe med `wa_poeng/` via `--wa-root`)
+### 4. Verifiser oppsettet
 
-Kjør fra prosjektroten (mappa du står i nå):
+```powershell
+python -m nfwa sync --years 2025
+python -m nfwa web
+```
+
+Åpne `http://127.0.0.1:8000/` i nettleseren — du skal se dashboardet.
+
+---
+
+## Kommandoer
+
+### Synkroniser friidrett (bane og felt)
 
 ```powershell
 python -m nfwa sync --years 2023 2024 2025
@@ -29,16 +122,98 @@ For å hente flere år (t.o.m. 2000), kan du i PowerShell bruke en range:
 python -m nfwa sync --years (2000..2025)
 ```
 
-Dette lager/oppdaterer:
-- resultatdatabase: `data/nfwa_results.sqlite3`
-- cache av HTML-sider: `data/cache/minfriidrett/`
+Merk: For sesongene 2000–2010 brukes legacy-sidene på friidrett.no (annen
+HTML-struktur). Utøver-IDer genereres lokalt (negative heltalls-IDer).
 
-Merk: For sesongene `2000`, `2001`, `2002`, `2003`, `2004`, `2005`, `2006`, `2007`, `2008`, `2009` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
-De caches i samme cache-mappe, og utøver-id'er genereres lokalt (negative heltalls-id'er).
+### Synkroniser gateløp (Kondis)
 
-### Hurtigmetode for nye legacy-år (f.eks. 2000/2001)
+```powershell
+python -m nfwa sync-kondis --years 2023 2024 2025
+```
 
-1. Legg inn årets URL-er i `FRIIDRETT_PAGES_<YEAR>` i `nfwa/friidrett_legacy.py`.
+Henter topp-lister for gateløp fra kondis.no (5 km, 10 km, halvmaraton,
+maraton). Utøver-IDer genereres lokalt basert på kjønn + navn + fødselsår.
+
+### CSV-eksport (top-N per øvelse)
+
+```powershell
+python -m nfwa event-summary --season 2025
+```
+
+Skriver f.eks. `data/event_summary_2025_both.csv` med snitt av WA-poeng og
+prestasjoner for ulike top-N-verdier.
+
+### Slå opp utøver
+
+```powershell
+python -m nfwa athlete --athlete-id 29273 --since 2024
+```
+
+`athlete-id` er `showathl=...`-tallet i lenkene på minfriidrettsstatistikk.
+
+### Full pipeline (sync + eksport)
+
+```powershell
+python -m nfwa build-site --min-year 1997 --out docs
+```
+
+Alle kommandoer aksepterer `--db`, `--wa-db`, `--wa-root`, `--cache-dir` og
+`--refresh`.
+
+---
+
+## Gateløp (Kondis)
+
+```powershell
+python -m nfwa sync-kondis --years (2011..2025)
+```
+
+Data lagres i samme database (`data/nfwa_results.sqlite3`) og vises i
+dashboardet sammen med bane- og feltresultater.
+
+Kondis-listene har ikke `athlete-id` slik minfriidrettsstatistikk har.
+Det genereres derfor en stabil, lokal utøver-id (negativ heltalls-id)
+basert på kjønn + navn + fødselsår.
+
+---
+
+## Web-dashboard
+
+```powershell
+python -m nfwa web
+```
+
+Starter en lokal nettside (default `http://127.0.0.1:8000/`) med:
+
+- Trend per øvelse mellom år (snitt WA-poeng og snitt resultat)
+- Sesongoversikt (sorter på poeng/resultat)
+- Utøveroppslag (athlete-id)
+
+---
+
+## Publisering (GitHub Pages)
+
+Den statiske siden lages lokalt i `docs/` med:
+
+```powershell
+python -m nfwa export-site --out docs
+```
+
+### Oppsett
+
+1. Lag en **public** repo på GitHub (eller bruk eksisterende).
+2. Push koden til repoen.
+3. I GitHub: **Settings → Pages → Source: GitHub Actions**.
+
+Da blir siden tilgjengelig på `https://<brukernavn>.github.io/<repo>/`.
+
+---
+
+## Legge til legacy-år
+
+### friidrett.no (2000–2010)
+
+1. Legg inn årets URLer i `FRIIDRETT_PAGES_<YEAR>` i `nfwa/friidrett_legacy.py`.
 2. Koble året inn i `FRIIDRETT_PAGES` i samme fil.
 3. Kjør sync med refresh:
 
@@ -46,7 +221,7 @@ De caches i samme cache-mappe, og utøver-id'er genereres lokalt (negative helta
 python -m nfwa sync --years 2000 --refresh
 ```
 
-4. Kjør rask kvalitetskontroll (rader, duplikater per person/øvelse, WA-feil):
+4. Kjør rask kvalitetskontroll (rader, duplikater, WA-feil):
 
 ```powershell
 @'
@@ -72,7 +247,7 @@ con.close()
 '@ | python -
 ```
 
-5. Rebygg statiske filer og publiser:
+5. Rebygg og publiser:
 
 ```powershell
 python -m nfwa export-site --out docs
@@ -81,44 +256,17 @@ git commit -m "Add 2000 legacy data"
 git push origin main
 ```
 
-Tips: Samme navn kan være ulike personer. Bruk deduplisering per `gender + event_id + athlete_id` (ikke bare navn).
+### Kondis (gateløp)
 
-## Gateløp (Kondis)
-
-Henter topp-lister for gateløp fra kondis.no (5 km, 10 km, halvmaraton, maraton) og legger dem inn i samme database
-slik at de blir med i `event-summary` og web-dashboardet:
-
-```powershell
-python -m nfwa sync-kondis --years 2023 2024 2025
-```
-
-For å hente flere år, kan du i PowerShell bruke en range:
-
-```powershell
-python -m nfwa sync-kondis --years (2011..2025)
-```
-
-Dette lager/oppdaterer:
-- resultatdatabase: `data/nfwa_results.sqlite3`
-- cache av HTML-sider: `data/cache/kondis/`
-
-Merk: Kondis-listene har ikke en «athlete-id» som minfriidrettsstatistikk gjør. Det genereres derfor en stabil, lokal
-utøver-id (negativ heltalls-id) basert på kjønn + navn + fødselsår (slik det står i listene).
-
-### Hurtigmetode for historiske Kondis-aar (f.eks. 5 km kvinner)
-
-1. Legg inn nye `season -> url`-par i riktig tabell i `nfwa/kondis.py`:
-   - `_FIVE_KM_WOMEN_LEGACY_URLS` for 5 km kvinner
-   - `_HALVMARATON_WOMEN_LEGACY_URLS` for halvmaraton kvinner
-   - `_MARATON_WOMEN_LEGACY_URLS` for maraton kvinner
-   - `_MARATON_MEN_LEGACY_URLS` for maraton menn
-2. Sync berorte aar:
+1. Legg inn `sesong → url`-par i riktig dict i `nfwa/kondis.py`
+   (f.eks. `_FIVE_KM_WOMEN_LEGACY_URLS`).
+2. Kjør sync:
 
 ```powershell
 python -m nfwa sync-kondis --years (1997..2010) --gender Women --refresh
 ```
 
-3. Kjor en rask kontroll i databasen:
+3. Kjør kontroll:
 
 ```powershell
 @'
@@ -142,89 +290,54 @@ con.close()
 '@ | python -
 ```
 
-## Top3/5/10/20/50/100/150/200 per øvelse (CSV)
+---
 
-```powershell
-python -m nfwa event-summary --season 2025
-```
+## Datamodell
 
-Skriver f.eks.:
-- `data/event_summary_2025_both.csv`
+SQLite-database: `data/nfwa_results.sqlite3`
 
-Kolonnene inkluderer bl.a. snitt av `wa_points` (top-N) og snitt av prestasjon:
-- `avg_value_top_n_perf` (tall: sekunder for løp/gange, meter/poeng for andre)
-- `avg_perf_top_n` (formatert streng, f.eks. `4,36,23` for 1500m)
+| Tabell         | Beskrivelse                                          |
+|----------------|------------------------------------------------------|
+| `athletes`     | Utøver-ID, kjønn, navn, fødselsdato                 |
+| `events`       | Norsk øvelsesnavn, WA-kode, retning (lower/higher)  |
+| `results`      | Alle resultater + WA-poeng der mulig                 |
+| `clubs`        | Klubbnavn (normalisert)                              |
+| `competitions` | Stevnemetadata (navn, by, stadion)                   |
 
-## Web-dashboard (lokalt)
+Fullt skjema finnes i `nfwa/db.py`.
 
-```powershell
-python -m nfwa web
-```
+---
 
-Dette starter en liten lokal nettside (default `http://127.0.0.1:8000/`) med:
-- trend per øvelse mellom år (snitt WA-poeng og snitt resultat)
-- sesongoversikt (sorter på poeng/resultat)
-- utøveroppslag (athlete-id)
+## CI/CD
 
-## Publisering (GitHub Pages)
+`.github/workflows/update-site.yml` kjører:
 
-Denne repoen kan publiseres som en statisk side (ingen server) via GitHub Pages.
-Den statiske siden lages lokalt i `docs/` med:
+- **Ukentlig** (mandager kl. 04:15 UTC)
+- **Ved push til `main`**
+- **Manuelt** (workflow_dispatch)
 
-```powershell
-python -m nfwa export-site --out docs
-```
-
-### Raskeste vei ut (offentlig, anbefalt)
-
-1. Lag en ny **public** repo på GitHub
-2. Push denne mappa til repoen
-3. I GitHub: **Settings → Pages**
-   - Source: **GitHub Actions**
-
-Da blir siden tilgjengelig på `https://<brukernavn>.github.io/<repo>/`.
-
-### Ukentlig oppdatering (GitHub Actions)
-
-Det er lagt ved en workflow: `.github/workflows/update-site.yml` som:
-- kjører ukentlig (mandager)
-- oppdaterer databasen fra kildene
-- re-genererer `docs/`
-- publiserer siden direkte med GitHub Pages Actions (ingen commit av `docs/`)
-
-Du må:
-- ha repoen på GitHub (public)
-- ha GitHub Pages satt til **GitHub Actions**
-- evt. endre branch i workflowen hvis du bruker `master` i stedet for `main`
-- hvis `world-athletics-points-calculator` (WA Poeng) er **private**: legg inn en repo-secret `WA_POENG_TOKEN` (PAT med tilgang til å lese repoen)
+Workflowen synkroniserer data fra alle kilder, genererer `docs/`, og
+publiserer til GitHub Pages via `actions/deploy-pages`.
 
 Lokalt kan du kjøre samme flyt med:
 
 ```powershell
-python -m nfwa build-site --out docs
+python -m nfwa build-site --min-year 1997 --out docs
 ```
 
-## Slå opp utøver
+---
 
-```powershell
-python -m nfwa athlete --athlete-id 29273 --since 2024
-```
+## Bidra
 
-`athlete-id` er `showathl=...`-tallet i lenkene på minfriidrettsstatistikk.
+Vi tar gjerne imot bidrag! Se [CONTRIBUTING.md](CONTRIBUTING.md) for
+retningslinjer og oppsett av utviklingsmiljø.
 
-## Datamodell (kort)
+## Lisens
 
-SQLite-tabeller:
-- `athletes` (utøver-id, navn, fødselsdato)
-- `events` (norsk øvelsesnavn, evt. WA-øvelse, orientering)
-- `results` (alle rader/resultater + WA-poeng der mulig)
-- `clubs`, `competitions` (normalisering/metadata)
+Distribuert under [MIT-lisensen](LICENSE).
 
-## Kilder som brukes
+## Datakilder
 
-Koden bygger URL-er tilsvarende:
-- Kvinner Senior utendørs: `showclass=22`
-- Menn Senior utendørs: `showclass=11`
-
-…med `outdoor=Y` og `showseason=YYYY`.
-
+- [minfriidrettsstatistikk.info](https://minfriidrettsstatistikk.info) — bane og felt (2011+)
+- [kondis.no](https://kondis.no) — gateløp
+- [friidrett.no](https://friidrett.no) — legacy bane og felt (2000–2010)
