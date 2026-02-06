@@ -92,7 +92,7 @@ slik at de blir med i `event-summary` og web-dashboardet:
 python -m nfwa sync-kondis --years 2023 2024 2025
 ```
 
-For å hente flere år (t.o.m. 2011), kan du i PowerShell bruke en range:
+For å hente flere år, kan du i PowerShell bruke en range:
 
 ```powershell
 python -m nfwa sync-kondis --years (2011..2025)
@@ -104,6 +104,40 @@ Dette lager/oppdaterer:
 
 Merk: Kondis-listene har ikke en «athlete-id» som minfriidrettsstatistikk gjør. Det genereres derfor en stabil, lokal
 utøver-id (negativ heltalls-id) basert på kjønn + navn + fødselsår (slik det står i listene).
+
+### Hurtigmetode for historiske Kondis-aar (f.eks. halvmaraton kvinner)
+
+1. Legg inn nye `season -> url`-par i riktig tabell i `nfwa/kondis.py`:
+   - `_HALVMARATON_WOMEN_LEGACY_URLS` for halvmaraton kvinner
+   - `_MARATON_WOMEN_LEGACY_URLS` for maraton kvinner
+2. Sync berorte aar:
+
+```powershell
+python -m nfwa sync-kondis --years (1997..2010) --gender Women --refresh
+```
+
+3. Kjor en rask kontroll i databasen:
+
+```powershell
+@'
+import sqlite3
+con = sqlite3.connect("data/nfwa_results.sqlite3")
+cur = con.cursor()
+cur.execute("""
+select season, count(*) as n
+from results
+where gender='Women'
+  and event_id = (select id from events where gender='Women' and name_no='Halvmaraton')
+  and source_url like '%kondis.no%'
+  and season between 1997 and 2010
+group by season
+order by season desc
+""")
+for season, n in cur.fetchall():
+    print(season, n)
+con.close()
+'@ | python -
+```
 
 ## Top3/5/10/20/50/100/150/200 per øvelse (CSV)
 
@@ -190,3 +224,4 @@ Koden bygger URL-er tilsvarende:
 - Menn Senior utendørs: `showclass=11`
 
 …med `outdoor=Y` og `showseason=YYYY`.
+
