@@ -242,6 +242,14 @@ def _normalize_time_like(text: str, *, wa_event: str | None) -> str:
             c = int(mixed.group("c"))
             if _event_likely_has_hours(wa_event) and a <= 9 and b <= 59 and c <= 59:
                 return f"{a}:{b:02d}:{c:02d}"
+        mixed_rev = re.fullmatch(r"\s*(?P<a>\d+),(?P<b>\d{1,2})\.(?P<c>\d{1,2})\s*", text)
+        if mixed_rev:
+            a = int(mixed_rev.group("a"))
+            b = int(mixed_rev.group("b"))
+            c = int(mixed_rev.group("c"))
+            if _event_likely_has_hours(wa_event) and a <= 9 and b <= 59 and c <= 59:
+                return f"{a}:{b:02d}:{c:02d}"
+            return f"{a}:{b:02d}.{c:02d}"
         text = text.replace(".", ":")
         text = text.replace(",", ".")
         return text

@@ -548,8 +548,15 @@ _DATE_TOKEN_RE = re.compile(
 )
 _BIRTH_MARKER_RE = re.compile(r"-(?P<y>\d{2,4}|\?)\b")
 _BIRTH_AT_END_RE = re.compile(r"-(?:\d{2,4}|\?)\s*$")
+_PRE_ATHLETE_VENUE_RE = re.compile(r"^(?P<athlete>.*?\s-\s*(?:\d{2,4}|\?))\s+(?P<venue>.+)$")
 _RANK_PREFIX_RE = re.compile(r"^(?P<rank>\d{1,4}(?:[.,]\d)?\.?)\s+(?P<rest>[A-Z\u00c6\u00d8\u00c5].+)$")
 _PRE_RANK_MARKER_RE = re.compile(r"(?<![\d.,:])(?P<rank>\d{1,4})(?:[.)])?\s+(?=[A-Z\u00c6\u00d8\u00c5])")
+_PRE_DENSE_ENTRY_RE = re.compile(
+    r"(?P<rank>\d{1,3})[.:)]\s*"
+    r"(?P<body>.*?)"
+    r"(?P<time>\d+(?:(?:[:.,])\d{2}){1,3}(?:[A-Za-z]{1,3})?)"
+    r"(?=\s*(?:\d{1,3}[.:)]\s*[A-Z\u00c6\u00d8\u00c5])|$)"
+)
 _PRE_STOP_MARKERS = (
     "andre under",
     "utarbeidet av",
@@ -567,18 +574,25 @@ def _parse_kondis_stats_pre(*, doc: html.HtmlElement, page: KondisPage) -> list[
             continue
 
         text = _truncate_pre_text(text)
-        entries = _split_pre_entries(text)
-        if len(entries) < 3:
-            continue
+        split_candidates = (
+            _split_pre_entries(text),
+            _split_pre_dense_entries(text),
+        )
 
-        rows: list[KondisResult] = []
-        for entry in entries:
-            row = _parse_pre_entry(entry=entry, page=page, rank_in_list=len(rows) + 1)
-            if row is not None:
-                rows.append(row)
+        rows_best_for_pre: list[KondisResult] = []
+        for entries in split_candidates:
+            if len(entries) < 3:
+                continue
+            rows: list[KondisResult] = []
+            for entry in entries:
+                row = _parse_pre_entry(entry=entry, page=page, rank_in_list=len(rows) + 1)
+                if row is not None:
+                    rows.append(row)
+            if len(rows) > len(rows_best_for_pre):
+                rows_best_for_pre = rows
 
-        if len(rows) > len(best):
-            best = rows
+        if len(rows_best_for_pre) > len(best):
+            best = rows_best_for_pre
 
     return best
 
@@ -624,6 +638,35 @@ def _split_pre_entries(text: str) -> list[str]:
     return out
 
 
+def _split_pre_dense_entries(text: str) -> list[str]:
+    s = (text or "").strip()
+    if not s:
+        return []
+
+    out: list[str] = []
+    for m in _PRE_DENSE_ENTRY_RE.finditer(s):
+        body = (m.group("body") or "").strip(" ,;|-")
+        time_cell = (m.group("time") or "").strip()
+        if not body or not time_cell:
+            continue
+        out.append(f"{body} {time_cell}".strip())
+    return out
+
+
+def _split_pre_athlete_and_venue(athlete_cell: str) -> tuple[str, Optional[str]]:
+    s = (athlete_cell or "").strip(" ,;|-")
+    if not s:
+        return ("", None)
+
+    m = _PRE_ATHLETE_VENUE_RE.match(s)
+    if not m:
+        return (s, None)
+
+    athlete = (m.group("athlete") or "").strip(" ,;|-")
+    venue = (m.group("venue") or "").strip(" ,;|-")
+    return (athlete or s, venue or None)
+
+
 def _parse_pre_entry(*, entry: str, page: KondisPage, rank_in_list: int) -> KondisResult | None:
     s = (entry or "").strip()
     if not s:
@@ -639,6 +682,8 @@ def _parse_pre_entry(*, entry: str, page: KondisPage, rank_in_list: int) -> Kond
     if not athlete_cell:
         return None
 
+    athlete_cell, venue_in_athlete = _split_pre_athlete_and_venue(athlete_cell)
+
     return _build_kondis_result(
         page=page,
         rank_in_list=rank_in_list,
@@ -646,7 +691,7 @@ def _parse_pre_entry(*, entry: str, page: KondisPage, rank_in_list: int) -> Kond
         time_cell=time_cell,
         placement_raw=None,
         competition_name=after or None,
-        venue_city=None,
+        venue_city=venue_in_athlete,
         date_cell=None,
     )
 
