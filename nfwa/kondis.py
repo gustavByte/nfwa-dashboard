@@ -129,8 +129,12 @@ _HALVMARATON_WOMEN_LEGACY_URLS: tuple[tuple[int, str], ...] = (
     (2001, "https://www.kondis.no/a/4627962"),
     (2000, "https://www.kondis.no/a/4627964"),
     (1999, "https://www.kondis.no/a/4627965"),
-    (1998, "https://www.kondis.no/a/4627967"),
-    (1997, "https://www.kondis.no/a/4627968"),
+    # Legacy /a/ URL for 1998 women misses the corrected top-50 list.
+    # Use the Norgesstatistikk page (same source used in the correction spreadsheet).
+    (1998, "https://www.kondis.no/statistikk/1998-norgesstatistikk-halvmaraton-kvinner/1529876"),
+    # Legacy /a/ URL parses incorrectly for 1997 women (athlete/venue fields shift).
+    # Use the Norgesstatistikk page (same source used in the correction spreadsheet).
+    (1997, "https://www.kondis.no/statistikk/1997-norgesstatistikk-halvmaraton-kvinner/1529510"),
 )
 
 
@@ -289,6 +293,10 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2013, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-halvmaraton-kvinner/1530037"),
     KondisPage(season=2012, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-halvmaraton-kvinner/1529698"),
     KondisPage(season=2011, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-halvmaraton-kvinner/1529392"),
+    # Legacy URL for 1998 women half marathon points to a different list; keep disabled to purge old rows.
+    KondisPage(season=1998, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/a/4627967", enabled=False),
+    # Legacy URL for 1997 women half marathon produced shifted/wrong fields; keep disabled to purge old rows.
+    KondisPage(season=1997, gender="Women", event_no="Halvmaraton", url="https://www.kondis.no/a/4627968", enabled=False),
     *_pages_from_season_url_pairs(
         gender="Women",
         event_no="Halvmaraton",
@@ -424,6 +432,9 @@ def _parse_kondis_stats_table(*, doc: html.HtmlElement, page: KondisPage) -> lis
         # Skip obvious header-ish rows if they ever appear.
         if any(c.lower() in {"navn", "name", "tid", "time"} for c in cells):
             continue
+        header_blob = " ".join((c or "").lower() for c in cells)
+        if not (cells[0] or "").strip() and any(t in header_blob for t in ("oppnådd", "resultat", "beste", "pb", "tid")):
+            continue
 
         auto_rank += 1
 
@@ -443,6 +454,23 @@ def _parse_kondis_stats_table(*, doc: html.HtmlElement, page: KondisPage) -> lis
             # Handle this shape explicitly so name/time don't get swapped.
             m_rank_athlete = _RANK_PREFIX_RE.match(cells[0]) if cells else None
             if (
+                len(cells) >= 3
+                and m_rank_athlete
+                and not _looks_like_time(cells[1])
+                and _looks_like_time(cells[2])
+            ):
+                # Legacy maraton tables (e.g. men 2005) use:
+                # "1 Name, Club -YY" | "City" | "2.18.36 2.22.15 -04".
+                # Keep only first time token (season result), ignore PB suffix.
+                rank_in_list = _parse_rank_token(m_rank_athlete.group("rank")) or auto_rank
+                athlete_cell = m_rank_athlete.group("rest").strip()
+                venue_city = _none_if_empty(cells[1])
+                raw_time = cells[2]
+                tm = _TIME_TOKEN_RE.match(raw_time)
+                time_cell = tm.group("time") if tm else raw_time
+                if len(cells) > 3:
+                    date_cell = _none_if_empty(cells[3])
+            elif (
                 len(cells) >= 3
                 and _looks_like_time(cells[1])
                 and not _looks_like_time(cells[2])
