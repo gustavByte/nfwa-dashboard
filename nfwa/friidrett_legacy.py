@@ -25,6 +25,27 @@ class FriidrettPage:
     url: str
 
 
+FRIIDRETT_PAGES_2005: tuple[FriidrettPage, ...] = (
+    # MENN / MEN 2005
+    FriidrettPage(season=2005, gender="Men", url="https://www.friidrett.no/link/1f12a57b44d848b8aadcdfb32f938c1a.aspx"),  # Sprint
+    FriidrettPage(season=2005, gender="Men", url="https://www.friidrett.no/link/988739c982df4e7bb07c390dd0d5623c.aspx"),  # Distanse
+    FriidrettPage(season=2005, gender="Men", url="https://www.friidrett.no/link/82aa64ca42914887a47db224da7958f8.aspx"),  # Hekkeøvelser
+    FriidrettPage(season=2005, gender="Men", url="https://www.friidrett.no/link/49c5b34448ca47e9919c3a7deae47ea2.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2005, gender="Men", url="https://www.friidrett.no/link/b3d28584083d4abeb962ee732c5c81b6.aspx"),  # Kastøvelser
+    FriidrettPage(season=2005, gender="Men", url="https://www.friidrett.no/link/81ee84fb2f0f4424ac4c42a4cc0ebf06.aspx"),  # Mangekamp
+    # KVINNER / WOMEN 2005
+    FriidrettPage(season=2005, gender="Women", url="https://www.friidrett.no/link/d2143a1bd9ed4e4fab3cd14b84e8602a.aspx"),  # Sprint
+    FriidrettPage(season=2005, gender="Women", url="https://www.friidrett.no/link/6aad55062a8a4414b502c9010c2e7c60.aspx"),  # Distanse
+    FriidrettPage(season=2005, gender="Women", url="https://www.friidrett.no/link/3331de9bb6c64411864c3014c67b37c9.aspx"),  # Hekkeøvelser
+    FriidrettPage(season=2005, gender="Women", url="https://www.friidrett.no/link/46369a0d6e05445b97011120b8ed8540.aspx"),  # Hoppøvelser
+    FriidrettPage(season=2005, gender="Women", url="https://www.friidrett.no/link/e169051afb604ff8b83df994c2c0c76b.aspx"),  # Kastøvelser
+    FriidrettPage(season=2005, gender="Women", url="https://www.friidrett.no/link/20c7881ac43b4a83b875d6c098987e55.aspx"),  # Mangekamp
+    # Kappgang (samme side inneholder både menn og kvinner)
+    FriidrettPage(season=2005, gender="Men", url="https://www.friidrett.no/link/3c21893a626f47ff9419f23234ed798b.aspx"),
+    FriidrettPage(season=2005, gender="Women", url="https://www.friidrett.no/link/3c21893a626f47ff9419f23234ed798b.aspx"),
+)
+
+
 FRIIDRETT_PAGES_2006: tuple[FriidrettPage, ...] = (
     # MENN / MEN 2006
     FriidrettPage(season=2006, gender="Men", url="https://www.friidrett.no/link/e088594c8bd3428590a022a286aba683.aspx"),  # Sprint
@@ -137,7 +158,8 @@ FRIIDRETT_PAGES_2010: tuple[FriidrettPage, ...] = (
 )
 
 FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = (
-    FRIIDRETT_PAGES_2006
+    FRIIDRETT_PAGES_2005
+    + FRIIDRETT_PAGES_2006
     + FRIIDRETT_PAGES_2007
     + FRIIDRETT_PAGES_2008
     + FRIIDRETT_PAGES_2009
@@ -248,6 +270,7 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
 
     last_full: Optional[tuple[str, Optional[str], Optional[str]]] = None  # (name, club, birth_iso)
     known_by_surname: dict[str, tuple[str, Optional[str], Optional[str]]] = {}
+    known_ids_by_name: dict[str, dict[Optional[str], int]] = defaultdict(dict)
     rank = 0
 
     for tr in table.xpath(".//tr"):
@@ -281,10 +304,23 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
         if surname:
             known_by_surname[surname] = (athlete_name, club_name, birth_iso)
 
-        athlete_id = _friidrett_athlete_id(gender=gender, name=athlete_name, birth_date=birth_iso)
+        athlete_id = _resolve_event_athlete_id(
+            gender=gender,
+            athlete_name=athlete_name,
+            birth_iso=birth_iso,
+            known_ids_by_name=known_ids_by_name,
+        )
+        if athlete_id is None:
+            continue
         if athlete_id in seen:
             continue
         seen.add(athlete_id)
+        _remember_event_athlete_id(
+            athlete_name=athlete_name,
+            birth_iso=birth_iso,
+            athlete_id=athlete_id,
+            known_ids_by_name=known_ids_by_name,
+        )
         rank += 1
 
         out.append(
@@ -328,6 +364,7 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
     rank_by_event: dict[str, int] = defaultdict(int)
     last_full_by_event: dict[str, tuple[str, Optional[str], Optional[str]]] = {}
     known_by_event_surname: dict[str, dict[str, tuple[str, Optional[str], Optional[str]]]] = defaultdict(dict)
+    known_ids_by_event_name: dict[str, dict[str, dict[Optional[str], int]]] = defaultdict(dict)
 
     current_event: Optional[str] = None
     for tr in table.xpath(".//tr"):
@@ -369,10 +406,23 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
         if surname:
             known_by_event_surname[current_event][surname] = (athlete_name, club_name, birth_iso)
 
-        athlete_id = _friidrett_athlete_id(gender=gender, name=athlete_name, birth_date=birth_iso)
+        athlete_id = _resolve_event_athlete_id(
+            gender=gender,
+            athlete_name=athlete_name,
+            birth_iso=birth_iso,
+            known_ids_by_name=known_ids_by_event_name[current_event],
+        )
+        if athlete_id is None:
+            continue
         if athlete_id in seen_by_event[current_event]:
             continue
         seen_by_event[current_event].add(athlete_id)
+        _remember_event_athlete_id(
+            athlete_name=athlete_name,
+            birth_iso=birth_iso,
+            athlete_id=athlete_id,
+            known_ids_by_name=known_ids_by_event_name[current_event],
+        )
 
         rank_by_event[current_event] += 1
         out.append(
@@ -690,6 +740,52 @@ def _friidrett_athlete_id(*, gender: str, name: str, birth_date: Optional[str]) 
     digest = hashlib.sha1(key.encode("utf-8")).digest()
     n = int.from_bytes(digest[:8], "big") & ((1 << 63) - 1)
     return -1 - int(n)
+
+
+def _athlete_name_key(name: str) -> str:
+    return _norm_cell(name).lower()
+
+
+def _resolve_event_athlete_id(
+    *,
+    gender: str,
+    athlete_name: str,
+    birth_iso: Optional[str],
+    known_ids_by_name: dict[str, dict[Optional[str], int]],
+) -> Optional[int]:
+    """Resolve athlete-id within one event table, reusing IDs when rows omit birth dates."""
+    name_key = _athlete_name_key(athlete_name)
+    by_birth = known_ids_by_name.get(name_key, {})
+    if by_birth:
+        if birth_iso in by_birth:
+            return int(by_birth[birth_iso])
+
+        known_births = [b for b in by_birth.keys() if b is not None]
+        if birth_iso is None:
+            if None in by_birth:
+                return int(by_birth[None])
+            if len(known_births) == 1:
+                return int(by_birth[known_births[0]])
+            if len(known_births) > 1:
+                # Ambiguous: same full name already seen with multiple birth dates in this event.
+                return None
+        else:
+            if None in by_birth and not known_births:
+                return int(by_birth[None])
+
+    return _friidrett_athlete_id(gender=gender, name=athlete_name, birth_date=birth_iso)
+
+
+def _remember_event_athlete_id(
+    *,
+    athlete_name: str,
+    birth_iso: Optional[str],
+    athlete_id: int,
+    known_ids_by_name: dict[str, dict[Optional[str], int]],
+) -> None:
+    name_key = _athlete_name_key(athlete_name)
+    by_birth = known_ids_by_name.setdefault(name_key, {})
+    by_birth.setdefault(birth_iso, int(athlete_id))
 
 
 def _safe_cache_filename(url: str) -> str:

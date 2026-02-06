@@ -23,17 +23,17 @@ Kjør fra prosjektroten (mappa du står i nå):
 python -m nfwa sync --years 2023 2024 2025
 ```
 
-For å hente flere år (t.o.m. 2006), kan du i PowerShell bruke en range:
+For å hente flere år (t.o.m. 2005), kan du i PowerShell bruke en range:
 
 ```powershell
-python -m nfwa sync --years (2006..2025)
+python -m nfwa sync --years (2005..2025)
 ```
 
 Dette lager/oppdaterer:
 - resultatdatabase: `data/nfwa_results.sqlite3`
 - cache av HTML-sider: `data/cache/minfriidrett/`
 
-Merk: For sesongene `2006`, `2007`, `2008`, `2009` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
+Merk: For sesongene `2005`, `2006`, `2007`, `2008`, `2009` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
 De caches i samme cache-mappe, og utøver-id'er genereres lokalt (negative heltalls-id'er).
 
 ## Gateløp (Kondis)
