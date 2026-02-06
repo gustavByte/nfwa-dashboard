@@ -25,6 +25,17 @@ class FriidrettPage:
     url: str
 
 
+FRIIDRETT_PAGES_2002: tuple[FriidrettPage, ...] = (
+    # MENN / MEN 2002
+    FriidrettPage(season=2002, gender="Men", url="https://www.friidrett.no/link/d322fc2f10004e01b2e6c79e25bbe297.aspx"),  # Løp 100m til 1000m
+    FriidrettPage(season=2002, gender="Men", url="https://www.friidrett.no/link/34ce49acf14b420a8fb96c64e7d65d9b.aspx"),  # Løp 1500m til 3000m hinder
+    FriidrettPage(season=2002, gender="Men", url="https://www.friidrett.no/link/242fcba865a54164af9c783a9f052ccf.aspx"),  # Tekniske øvelser
+    # KVINNER / WOMEN 2002
+    FriidrettPage(season=2002, gender="Women", url="https://www.friidrett.no/link/1ff3979a3f8f4150aa7d3391a9d256f3.aspx"),  # Løpsøvelser
+    FriidrettPage(season=2002, gender="Women", url="https://www.friidrett.no/link/58b9c22de2a44d7cbd330d7ceee9ad47.aspx"),  # Tekniske øvelser
+)
+
+
 FRIIDRETT_PAGES_2003: tuple[FriidrettPage, ...] = (
     # MENN / MEN 2003
     FriidrettPage(season=2003, gender="Men", url="https://www.friidrett.no/link/d6df2580c7a34855905fec4f8551036a.aspx"),  # Løpsøvelser
@@ -194,7 +205,8 @@ FRIIDRETT_PAGES_2010: tuple[FriidrettPage, ...] = (
 )
 
 FRIIDRETT_PAGES: tuple[FriidrettPage, ...] = (
-    FRIIDRETT_PAGES_2003
+    FRIIDRETT_PAGES_2002
+    + FRIIDRETT_PAGES_2003
     + FRIIDRETT_PAGES_2004
     + FRIIDRETT_PAGES_2005
     + FRIIDRETT_PAGES_2006

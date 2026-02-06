@@ -30,7 +30,7 @@ def build_site(
     wa_poeng_root: Path,
     cache_dir: Path,
     kondis_cache_dir: Path,
-    min_year: int = 2003,
+    min_year: int = 2002,
     max_year: Optional[int] = None,
     gender: str = "Both",
     refresh_years: int = 2,

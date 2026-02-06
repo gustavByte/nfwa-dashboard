@@ -23,27 +23,27 @@ Kjør fra prosjektroten (mappa du står i nå):
 python -m nfwa sync --years 2023 2024 2025
 ```
 
-For å hente flere år (t.o.m. 2003), kan du i PowerShell bruke en range:
+For å hente flere år (t.o.m. 2002), kan du i PowerShell bruke en range:
 
 ```powershell
-python -m nfwa sync --years (2003..2025)
+python -m nfwa sync --years (2002..2025)
 ```
 
 Dette lager/oppdaterer:
 - resultatdatabase: `data/nfwa_results.sqlite3`
 - cache av HTML-sider: `data/cache/minfriidrett/`
 
-Merk: For sesongene `2003`, `2004`, `2005`, `2006`, `2007`, `2008`, `2009` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
+Merk: For sesongene `2002`, `2003`, `2004`, `2005`, `2006`, `2007`, `2008`, `2009` og `2010` brukes legacy-sidene på `friidrett.no` (annen HTML-struktur enn minfriidrettsstatistikk).
 De caches i samme cache-mappe, og utøver-id'er genereres lokalt (negative heltalls-id'er).
 
-### Hurtigmetode for nye legacy-år (f.eks. 2003/2002/2001)
+### Hurtigmetode for nye legacy-år (f.eks. 2002/2001)
 
-1. Legg inn årets 13 URL-er i `FRIIDRETT_PAGES_<YEAR>` i `nfwa/friidrett_legacy.py`.
+1. Legg inn årets URL-er i `FRIIDRETT_PAGES_<YEAR>` i `nfwa/friidrett_legacy.py`.
 2. Koble året inn i `FRIIDRETT_PAGES` i samme fil.
 3. Kjør sync med refresh:
 
 ```powershell
-python -m nfwa sync --years 2003 --refresh
+python -m nfwa sync --years 2002 --refresh
 ```
 
 4. Kjør rask kvalitetskontroll (rader, duplikater per person/øvelse, WA-feil):
@@ -51,7 +51,7 @@ python -m nfwa sync --years 2003 --refresh
 ```powershell
 @'
 import sqlite3
-year = 2003
+year = 2002
 con = sqlite3.connect("data/nfwa_results.sqlite3")
 cur = con.cursor()
 cur.execute("select count(*) from results where season=?", (year,))
@@ -77,7 +77,7 @@ con.close()
 ```powershell
 python -m nfwa export-site --out docs
 git add nfwa/friidrett_legacy.py docs/api README.md
-git commit -m "Add 2003 legacy data"
+git commit -m "Add 2002 legacy data"
 git push origin main
 ```
 
