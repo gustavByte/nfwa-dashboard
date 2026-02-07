@@ -55,17 +55,26 @@ def parse_old_data_dir(*, data_dir: Path, season: int) -> list[ScrapedResult]:
         gender_dir = season_dir / dir_name
         if not gender_dir.exists():
             continue
+        kilde_url = _read_kilde_url(gender_dir)
         for txt_file in sorted(gender_dir.glob("*.txt")):
             results.extend(
-                parse_old_data_file(filepath=txt_file, season=season, gender=gender)
+                parse_old_data_file(
+                    filepath=txt_file, season=season, gender=gender,
+                    kilde_url=kilde_url,
+                )
             )
     return results
 
 
-def parse_old_data_file(*, filepath: Path, season: int, gender: str) -> list[ScrapedResult]:
+def parse_old_data_file(
+    *, filepath: Path, season: int, gender: str, kilde_url: Optional[str] = None,
+) -> list[ScrapedResult]:
     """Parse a single old data .txt file and return ScrapedResult rows."""
     text = filepath.read_text(encoding="utf-8-sig")
-    source_url = f"file://old_data/{season}/{filepath.parent.name}/{filepath.name}"
+    if kilde_url:
+        source_url = f"old_data:{kilde_url} | {filepath.name}"
+    else:
+        source_url = f"old_data:{season}/{filepath.parent.name}/{filepath.name}"
 
     sections = _split_into_sections(text)
     results: list[ScrapedResult] = []
@@ -419,3 +428,16 @@ def _old_data_athlete_id(*, gender: str, name: str, birth_date: Optional[str]) -
     digest = hashlib.sha1(key.encode("utf-8")).digest()
     n = int.from_bytes(digest[:8], "big") & ((1 << 63) - 1)
     return -1 - int(n)
+
+
+def _read_kilde_url(gender_dir: Path) -> Optional[str]:
+    """Read the source URL from kilder/*_kilde.txt if it exists."""
+    kilder_dir = gender_dir / "kilder"
+    if not kilder_dir.exists():
+        return None
+    for f in kilder_dir.glob("*_kilde.txt"):
+        text = f.read_text(encoding="utf-8-sig").strip()
+        m = re.search(r"https?://\S+", text)
+        if m:
+            return m.group(0)
+    return None

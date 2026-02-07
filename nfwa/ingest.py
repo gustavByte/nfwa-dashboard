@@ -503,10 +503,10 @@ def sync_old_data(
                     continue
 
                 # Delete old rows from this source to allow idempotent re-import
-                source_prefix = f"file://old_data/{year}/"
+                # Handle both current format (old_data:...) and legacy format (file://old_data/...)
                 con.execute(
-                    "DELETE FROM results WHERE source_url LIKE ?",
-                    (source_prefix + "%",),
+                    "DELETE FROM results WHERE season = ? AND (source_url LIKE ? OR source_url LIKE ?)",
+                    (int(year), "old_data:%", f"file://old_data/{year}/%"),
                 )
                 pages += 1
 
