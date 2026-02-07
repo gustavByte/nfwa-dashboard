@@ -273,6 +273,7 @@ def _parse_section(
     results: list[ScrapedResult] = []
     seen_ids: set[int] = set()
     rank = 0
+    prev_clean: Optional[str] = None
 
     for line in data_lines:
         parsed = _parse_data_row(line, has_date_col=has_date_col, season=season)
@@ -297,7 +298,10 @@ def _parse_section(
             continue
         seen_ids.add(athlete_id)
 
-        rank += 1
+        # Competition-style ranking: tied performances share the same rank
+        if cleaned.clean != prev_clean:
+            rank = len(results) + 1
+            prev_clean = cleaned.clean
         results.append(ScrapedResult(
             season=season,
             gender=gender,

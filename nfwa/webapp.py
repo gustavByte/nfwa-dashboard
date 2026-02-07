@@ -171,9 +171,15 @@ class _Handler(BaseHTTPRequestHandler):
                 )
 
             out_rows = []
+            rank = 0
+            prev_perf: str | None = None
             for i, r in enumerate(rows):
                 d = dict(r)
-                d["rank"] = int(offset) + i + 1
+                perf = d.get("performance_clean") or ""
+                if perf != prev_perf:
+                    rank = int(offset) + i + 1
+                    prev_perf = perf
+                d["rank"] = rank
                 out_rows.append(d)
 
             return {

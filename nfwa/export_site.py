@@ -121,10 +121,16 @@ def export_site(
                             mode=mode,
                         )
                         out_rows: list[dict[str, Any]] = []
+                        rank = 0
+                        prev_perf: str | None = None
                         for i, r in enumerate(all_rows):
                             d = dict(r)
                             d.pop("sort_value", None)
-                            d["rank"] = i + 1
+                            perf = d.get("performance_clean") or ""
+                            if perf != prev_perf:
+                                rank = i + 1
+                                prev_perf = perf
+                            d["rank"] = rank
                             out_rows.append(d)
 
                         _write_json(

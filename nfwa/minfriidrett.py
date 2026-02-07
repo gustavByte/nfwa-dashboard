@@ -83,6 +83,8 @@ def parse_landsstatistikk(*, html_bytes: bytes, season: int, gender: str, source
             continue
         rows = table[0].xpath(".//tr")[1:]  # skip header
         rank = 0
+        result_count = 0
+        prev_clean: Optional[str] = None
         for tr in rows:
             cells = tr.xpath("./td")
             if len(cells) < 6:
@@ -93,7 +95,6 @@ def parse_landsstatistikk(*, html_bytes: bytes, season: int, gender: str, source
                 continue
             if cleaned.clean == "-----":
                 continue
-            rank += 1
 
             athlete_td = cells[1]
             athlete_link = athlete_td.xpath(".//a")
@@ -134,6 +135,12 @@ def parse_landsstatistikk(*, html_bytes: bytes, season: int, gender: str, source
 
             result_date = parse_ddmmyy(cells[5].text_content().strip())
             result_iso = result_date.isoformat() if result_date else None
+
+            # Competition-style ranking: tied performances share the same rank
+            result_count += 1
+            if cleaned.clean != prev_clean:
+                rank = result_count
+                prev_clean = cleaned.clean
 
             yield ScrapedResult(
                 season=season,

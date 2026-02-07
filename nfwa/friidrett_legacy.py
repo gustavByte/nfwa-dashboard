@@ -397,6 +397,7 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
     known_by_surname: dict[str, tuple[str, Optional[str], Optional[str]]] = {}
     known_ids_by_name: dict[str, dict[Optional[str], int]] = defaultdict(dict)
     rank = 0
+    prev_clean: Optional[str] = None
 
     for tr in table.xpath(".//tr"):
         cells = _compact_cells([_norm_cell(c.text_content()) for c in tr.xpath("./td|./th")])
@@ -446,7 +447,11 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
             athlete_id=athlete_id,
             known_ids_by_name=known_ids_by_name,
         )
-        rank += 1
+
+        # Competition-style ranking: tied performances share the same rank
+        if cleaned.clean != prev_clean:
+            rank = len(out) + 1
+            prev_clean = cleaned.clean
 
         out.append(
             ScrapedResult(
@@ -549,6 +554,8 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
     out: list[ScrapedResult] = []
     seen_by_event: dict[str, set[int]] = defaultdict(set)
     rank_by_event: dict[str, int] = defaultdict(int)
+    count_by_event: dict[str, int] = defaultdict(int)
+    prev_clean_by_event: dict[str, str] = {}
     last_full_by_event: dict[str, tuple[str, Optional[str], Optional[str]]] = {}
     known_by_event_surname: dict[str, dict[str, tuple[str, Optional[str], Optional[str]]]] = defaultdict(dict)
     known_ids_by_event_name: dict[str, dict[str, dict[Optional[str], int]]] = defaultdict(dict)
@@ -611,7 +618,11 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
             known_ids_by_name=known_ids_by_event_name[current_event],
         )
 
-        rank_by_event[current_event] += 1
+        # Competition-style ranking: tied performances share the same rank
+        count_by_event[current_event] += 1
+        if cleaned.clean != prev_clean_by_event.get(current_event):
+            rank_by_event[current_event] = count_by_event[current_event]
+            prev_clean_by_event[current_event] = cleaned.clean
         out.append(
             ScrapedResult(
                 season=int(season),
@@ -1126,6 +1137,8 @@ def _parse_kappgang_pdf(*, pdf_bytes: bytes, season: int, gender: str, source_ur
     out: list[ScrapedResult] = []
     current_event: Optional[str] = None
     rank_by_event: dict[str, int] = defaultdict(int)
+    count_by_event: dict[str, int] = defaultdict(int)
+    prev_clean_by_event: dict[str, str] = {}
     seen_by_event: dict[str, set[int]] = defaultdict(set)
 
     for raw_line in text.splitlines():
@@ -1167,7 +1180,11 @@ def _parse_kappgang_pdf(*, pdf_bytes: bytes, season: int, gender: str, source_ur
             continue
         seen_by_event[current_event].add(athlete_id)
 
-        rank_by_event[current_event] += 1
+        # Competition-style ranking: tied performances share the same rank
+        count_by_event[current_event] += 1
+        if cleaned.clean != prev_clean_by_event.get(current_event):
+            rank_by_event[current_event] = count_by_event[current_event]
+            prev_clean_by_event[current_event] = cleaned.clean
         out.append(
             ScrapedResult(
                 season=int(season),

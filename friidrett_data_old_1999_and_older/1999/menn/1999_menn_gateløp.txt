@@ -3,118 +3,117 @@
 
 Halvmaraton
 Plassering,Utøver,Klubb,Fødselsdato,Sted,Dato,Resultat
-1,Tesfaye Bekele,IK Tjalve,05.02.1971,New York USA,,1:06:11
+1,Tesfaye Bekele,IK Tjalve,05.02.1971,New York USA,07.08,1:06:11
 2,Runar Høiom (SWE),IL i BUL,31.10.1967,Drammen,03.10,1:07:43
-3,Tor Erik Nyquist,Ullensaker/Kisa IL,07.06.1967,Göteborg SWE,,1:07:54
-4,Terje Næss,SK Vidar,06.08.1961,Oslo,,1:08:12
-5,Nils Engevik,IL Norna-Salhus,11.05.1972,Oslo,,1:08:34
-6,Egil Skarpsno,FIK Ren-Eng,17.09.1962,Femunden,,1:08:48
-7,Jon Didriksen,IL i BUL,09.11.1967,Drammen,,1:09:02
-8,Øyvind Simonsen,SK Vidar,17.05.1967,Drammen,,1:09:19
-9,Carlos Silva de Brito,Ogndal IL,14.10.1969,Drammen,,1:09:25
-10,Bjørn Eriksen,Gjesdal IL,08.04.1975,Drammen,,1:09:45
-11,Lars Steinar Haugen,Heimdal IF,06.07.1967,Drammen,,1:10:05
-12,Jan Morten Sandnes,Stjørdal FIK,21.07.1960,Namsos,,1:10:07
+3,Tor Erik Nyquist,Ullensaker/Kisa IL,07.06.1967,Göteborg SWE,08.05,1:07:54
+4,Terje Næss,SK Vidar,06.08.1961,Oslo,04.09,1:08:12
+5,Nils Engevik,IL Norna-Salhus,11.05.1972,Oslo,04.09,1:08:34
+6,Egil Skarpsno,FIK Ren-Eng,17.09.1962,Femunden,26.06,1:08:48
+7,Jon Didriksen,IL i BUL,09.11.1967,Drammen,03.10,1:09:02
+8,Øyvind Simonsen,SK Vidar,17.05.1967,Drammen,03.10,1:09:19
+9,Carlos Silva de Brito,Ogndal IL,14.10.1969,Drammen,03.10,1:09:25
+10,Bjørn Eriksen,Gjesdal IL,08.04.1975,Drammen,03.10,1:09:45
+11,Lars Steinar Haugen,Heimdal IF,06.07.1967,Drammen,03.10,1:10:05
+12,Jan Morten Sandnes,Stjørdal FIK,21.07.1960,Namsos,30.05,1:10:07
 13,Terje Hole,Fræna FIK,01.03.1961,Mottala SWE,,1:10:39
-14,Terje Olsen,Heimdal IF,26.08.1967,Oslo,,1:10:55
-15,Kristen Aaby,Gjesdal IL,10.10.1961,Oslo,,1:11:10
-16,Per Kristian Mørk,Gjesdal IL,22.05.1965,Orlando USA,,1:11:11
-17,Per Briskelund,Gjøvik FIK,07.09.1959,Oslo,,1:11:31
-18,Øyvind Ødeskaug,Bergkameratene,09.02.1972,Drammen,,1:11:54
-19,Runar Gilberg,Ready,31.01.1965,Drammen,,1:11:55
-20,Bent Ove Berntsen,Gjesdal IL,13.07.1962,Drammen,,1:12:04
+14,Terje Olsen,Heimdal IF,26.08.1967,Oslo,04.09,1:10:55
+15,Kristen Aaby,Gjesdal IL,10.10.1961,Oslo,04.09,1:11:10
+16,Per Kristian Mørk,Gjesdal IL,22.05.1965,Orlando USA,11.01,1:11:11
+17,Per Briskelund,Gjøvik FIK,07.09.1959,Oslo,04.09,1:11:31
+18,Øyvind Ødeskaug,Bergkameratene,09.02.1972,Drammen,03.10,1:11:54
+19,Runar Gilberg,Ready,31.01.1965,Drammen,03.10,1:11:55
+20,Bent Ove Berntsen,Gjesdal IL,13.07.1962,Drammen,03.10,1:12:04
 21,Mounir Benoumma (MAR),SK Vidar,12.12.1961,Oslo,04.09,1:12:09
-22,Tore Sand-Hanssen,IF Sturla,25.11.1980,Drammen,,1:12:13
-23,Oddvar Brå,Strindheim IL,16.03.1951,Drammen,,1:12:16
-24,Alemayehu Sitotaw,IL Gular,10.07.1962,Fana,,1:12:25
-25,Ole Petter Ringnes,IL Mogutten,12.04.1965,Femunden,,1:12:40
-26,Bjørn Dæhlie,Ullensaker-Kisa IL,29.06.1967,Göteborg SWE,,1:12:47
-27,Bjarte Vik,Osterøy IL,02.11.1969,Oslo,,1:12:48
-28,Tom Roger Johansen,FIK BFG Fana,11.12.1959,Drammen,,1:12:48
-29,Erik Marki Bjorli,Heddal IL,23.08.1972,Drammen,,1:12:58
-30,Jan Inge Dahl,Mehamn,03.02.1960,Tromsø,,1:13:12
-31,Rune Opem,Stjørdal FIK,17.02.1975,Stjørdal,,1:13:18
-32,Ivar Daasvatn,Bodø & Omegn IF,09.03.1959,Oslo,,1:13:23
-33,Nils Dompidal,Lillehammer IF,08.06.1963,Drammen,,1:13:23
-34,Kim Poulsson,SK Vidar,07.03.1973,Fredrikstad,,1:13:28
-35,Jon Øxnevad,IL i BUL,13.05.1966,Oslo,,1:13:42
-36,Ivar Hansen,Bergkameratene,09.09.1959,Drammen,,1:13:44
-37,Anders G. Johansen,SK Vidar,25.03.1965,Drammen,,1:13:47
-38,Tom Roger Tangen,Mosjøen FIK,14.03.1969,Bodø,,1:13:47
-39,John Hansen,SK Vidar,05.04.1969,Oslo,,1:13:59
-40,Torstein Ribe,Kristiansands IF,22.07.1962,Mandal,,1:14:01
-41,Vidar Kalnes,Horten IF,11.03.1952,Oslo,,1:14:13
-42,Ivar Hovland,IL i BUL,08.09.1961,Drammen,,1:14:24
-43,Jan Hoel,SK Vidar,13.11.1958,Drammen,,1:14:52
-44,Gjermund Sørstad,IF Sturla,17.02.1979,Drammen,,1:14:53
-45,Odd A. Nilsen,Ready,13.12.1947,Fredrikstad,,1:14:55
-46,Arve Stavø,Strindheim IL,07.09.1958,Selbu,,1:14:59
+22,Tore Sand-Hanssen,IF Sturla,25.11.1980,Drammen,03.10,1:12:13
+23,Oddvar Brå,Strindheim IL,16.03.1951,Drammen,03.10,1:12:16
+24,Alemayehu Sitotaw,IL Gular,10.07.1962,Fana,02.10,1:12:25
+25,Ole Petter Ringnes,IL Mogutten,12.04.1965,Femunden,26.06,1:12:40
+26,Bjørn Dæhlie,Ullensaker-Kisa IL,29.06.1967,Göteborg SWE,08.05,1:12:47
+27,Bjarte Vik,Osterøy IL,02.11.1969,Oslo,04.09,1:12:48
+28,Tom Roger Johansen,FIK BFG Fana,11.12.1959,Drammen,03.10,1:12:48
+29,Erik Marki Bjorli,Heddal IL,23.08.1972,Drammen,03.10,1:12:58
+30,Jan Inge Dahl,Mehamn,03.02.1960,Tromsø,03.07,1:13:12
+31,Rune Opem,Stjørdal FIK,17.02.1975,Stjørdal,09.10,1:13:18
+32,Ivar Daasvatn,Bodø & Omegn IF,09.03.1959,Oslo,04.09,1:13:23
+33,Nils Dompidal,Lillehammer IF,08.06.1963,Drammen,03.10,1:13:23
+34,Kim Poulsson,SK Vidar,07.03.1973,Fredrikstad,11.04,1:13:28
+35,Jon Øxnevad,IL i BUL,13.05.1966,Oslo,04.09,1:13:42
+36,Ivar Hansen,Bergkameratene,09.09.1959,Drammen,03.10,1:13:44
+37,Anders G. Johansen,SK Vidar,25.03.1965,Drammen,03.10,1:13:47
+38,Tom Roger Tangen,Mosjøen FIK,14.03.1969,Bodø,01.05,1:13:47
+39,John Hansen,SK Vidar,05.04.1969,Oslo,04.09,1:13:59
+40,Torstein Ribe,Kristiansands IF,22.07.1962,Mandal,19.09,1:14:01
+41,Vidar Kalnes,Horten IF,11.03.1952,Oslo,04.09,1:14:13
+42,Ivar Hovland,IL i BUL,08.09.1961,Drammen,03.10,1:14:24
+43,Jan Hoel,SK Vidar,13.11.1958,Drammen,03.10,1:14:52
+44,Gjermund Sørstad,IF Sturla,17.02.1979,Drammen,03.10,1:14:53
+45,Odd A. Nilsen,Ready,13.12.1947,Fredrikstad,11.04,1:14:55
+46,Arve Stavø,Strindheim IL,07.09.1958,Selbu,28.05,1:14:59
 
 Maraton
 Plassering,Utøver,Klubb,Fødselsdato,Sted,Dato,Resultat
-1,Tesfaye Bekele(ETH),IK Tjalve,05.02.1971,Duluth USA,,2:13.25
-2,Terje Næss,SK Vidar,06.08.1961,Stockholm SWE,,2:20.08
-3,Tor Erik Nyquist,Ullensaker/Kisa IL,07.06.1967,Palma ESP,,2:20.18
-4,Petter Antonsen,SK Vidar,04.01.1961,Drammen,,2:21.46
-5,Eiliv Gjesdal,SK Vidar,11.06.1970,Drammen,,2:22.57
-6,Kristen Aaby,Gjesdal IL,10.10.1961,Drammen,,2:24.13
-7,Tor Fauske,SK Vidar,13.08.1963,Chicago USA,,2:26.47
-8,Egil Skarpsno,FIK Ren-Eng,07.09.1962,Tromsø,,2:26.51
-9,Runar Gilberg,Ready,31.01.1965,Chicago USA,,2:28.37
-10,Knut Aalien,Sigdal FIK,19.02.1968,Drammen,,2:28.46
-11,Helge Hafsås,Olden IL,05.01.1966,Olden,,2:31.11
-12,Ola Indergaard,IF Hellas,05.05.1957,Drammen,,2:34.16
-13,Vidar Kalnes,Horten IF,11.03.1952,Drammen,,2:34.22
-14,Jan Hoel,SK Vidar,13.11.1958,London GBR,,2:34.53
-15,Stein Roar Andersen,IL Varegg,01.07.1957,Drammen,,2:35.44
-16,Arild Tveiten,SK Vidar,15.12.1970,Drammen,,2:35.49
-17,Håvard Nordgård,IL i BUL,17.02.1961,New York USA,,2:36.55
-18,Dick Arvidsson(SWE),Fossum IF,26.02.1956,Drammen,,2:36.58
-19,Jan-Erik Christiansen,FIK BFG Fana,29.03.1972,Chicago USA,,2:37.20
-20,Arve Stavø,Strindheim IL,07.09.1958,Trondheim,,2:38.23
-21,Jon Gjeilo,Lom IL,03.05.1962,Drammen,,2:38.24
-22,Tore Bjerkheim,Bromma IL,22.10.1963,Drammen,,2:39.24
-23,Bjarte Langeland,IL Skjalg,28.06.1965,Frankfurt GER,,2:39.32
-24,Edgar Johansen,Kvæfjord IL,25.12.1958,Drammen,,2:40.11
-25,Odd Gunnar Tveit,Birkenes IL,14.03.1964,Drammen,,2:40.22
-26,Ole Arne Schlytter,Lørenskog IF,08.12.1960,Drammen,,2:40.25
-27,Didrik Grønvold,Stabæk IF,27.03.1960,Drammen,,2:40.30
-28,Øystein R. Johansen,Halden IL,21.04.1966,Drammen,,2:40.40
-29,Ingvar Grønseth,Fræna FIK,09.01.1971,Drammen,,2:40.57
-30,Tommy Torgersen,Lørenskog FIL,09.11.1970,New York USA,,2:42.15
-31,Aage Odfjell,IL Norna-Salhus,09.02.1946,Berlin GER,,2:42.18
-32,Rune Fredriksen,Mandal & Halse IL,24.04.1960,Mandal,,2:42.38
-33,Heming Leira,IL i BUL,25.02.1960,Drammen,,2:42.52
-34,Bjørn Aanensen,Mandal & Halse IL,29.04.1955,Mandal,,2:43.02
-35,Bent Ove Berntsen,Gjesdal IL,13.07.1962,New York USA,,2:43.07
-36,Kurt Nilsen,Rana FIK,13.01.1961,Mo i Rana,,2:43.14
-37,Morten Rønning,IL Skjalg,28.10.1960,Frankfurt GER,,2:44.25
-38,Martin Seierstad,IL Driv,19.05.1969,Drammen,,2:44.27
-39,Bjørnar Andersen,IL Stovnerkameratene,05.11.1963,Jessheim,,2:44.53
-40,Arne Hugo Hansen,Tromsdalen UIL,04.06.1955,London GBR,,2:45.30
-41,Arne Øvergård,Øverbygd IL,,Wroclaw POL,,2:45.42
-42,Ivar Hansen,IF Bergkameratene,09.09.1959,Stockholm SWE,,2:45.43
-43,Knut Hegvold,Heimdal IF,19.09.1961,Frankfurt GER,,2:45.50
-44,John Martin Andresen,Follo FIK,16.08.1964,Drammen,,2:46.06
-45,Stig Morten Moen,IL Jotun,,Drammen,,2:46.26
-46,Birger Haug,Oslo Politis IL,18.05.1951,Drammen,,2:47.01
-47,Nicolai Heilemann,OSI,03.08.1973,Oslo/Nordmarka,,2:47.16
-48,Fredrik Skattkjær,Haugesund IL,20.03.1955,London GBR,,2:47.23
-49,Bjørn Reitan,IL i BUL Tromsø,14.08.1958,Tromsø,,2:47.24
-50,Helge Johansen,Strindheim IL,26.08.1969,Oslo,,2:47.54
-51,Sten S. Solfjeld,Hadeland FIK,12.10.1950,Drammen,,2:48.10
-52,Kjetil Kveli,IL i BUL,11.06.1956,New York USA,,2:48.12
-53,Oddvar Hausken,Torvastad IL,28.02.1942,Drammen,,2:48.16
-54,Hallgeir Hansen,Bryne FIK,09.05.1955,Mandal,,2:48.59
-55,Frank Tore Berntsen,Veldre IL,11.02.1968,Oslo/Nordmarka,,2:49.15
-56,Thomas Holm,Oppegård IL,,Drammen,,2:49.20
-57,Stein Hermansen,Rana FIK,06.07.1955,Drammen,,2:49.41
-58,Bjørn Einar Eide,Øystre Slidre IL,29.07.1956,Beitostølen,,2:49.44
-59,Sverre Aksland,Stegaberg IL,21.04.1949,Drammen,,2:49.44
-60,Bjørn Gjerde,IL i BUL,26.12.1955,Drammen,,2:49.55
--,Rune Tyssedal,Rævedilterne (Utenfor NFIF),30.11.1963,Ålesund,,2:40.32
--,Jan Halland,Statskraft Nore BIL (Utenfor NFIF),19.10.1965,Kongsvinger,,2:43.00
--,Ole-Tom Amlien,Hadeland Glassverk BIL (Utenfor NFIF),,Drammen,,2:44.27
--,Arild Johnsen,Helling (Utenfor NFIF),,Drammen,,2:44.40
--,Hans Jørgen Baglo,TVK (Utenfor NFIF),03.03.1972,Stemshaug,,2:47.10
-
+1,Tesfaye Bekele (ETH),IK Tjalve,05.02.1971,Duluth USA,19.06,2:13.25
+2,Terje Næss,SK Vidar,06.08.1961,Stockholm SWE,12.06,2:20.08
+3,Tor Erik Nyquist,Ullensaker/Kisa IL,07.06.1967,Palma ESP,05.12,2:20.18
+4,Petter Antonsen,SK Vidar,04.01.1961,Drammen,03.10,2:21.46
+5,Eiliv Gjesdal,SK Vidar,11.06.1970,Drammen,03.10,2:22.57
+6,Kristen Aaby,Gjesdal IL,10.10.1961,Drammen,03.10,2:24.13
+7,Tor Fauske,SK Vidar,13.08.1963,Chicago USA,24.10,2:26.47
+8,Egil Skarpsno,FIK Ren-Eng,07.09.1962,Tromsø,03.07,2:26.51
+9,Runar Gilberg,Ready,31.01.1965,Chicago USA,24.10,2:28.37
+10,Knut Aalien,Sigdal FIK,19.02.1968,Drammen,03.10,2:28.46
+11,Helge Hafsås,Olden IL,05.01.1966,Olden,03.07,2:31.11
+12,Ola Indergaard,IF Hellas,05.05.1957,Drammen,03.10,2:34.16
+13,Vidar Kalnes,Horten IF,11.03.1952,Drammen,03.10,2:34.22
+14,Jan Hoel,SK Vidar,13.11.1958,London GBR,18.04,2:34.53
+15,Stein Roar Andersen,IL Varegg,01.07.1957,Drammen,03.10,2:35.44
+16,Arild Tveiten,SK Vidar,15.12.1970,Drammen,03.10,2:35.49
+17,Håvard Nordgård,IL i BUL,17.02.1961,New York USA,07.11,2:36.55
+18,Dick Arvidsson (SWE),Fossum IF,26.02.1956,Drammen,03.10,2:36.58
+19,Jan-Erik Christiansen,FIK BFG Fana,29.03.1972,Chicago USA,24.10,2:37.20
+20,Arve Stavø,Strindheim IL,07.09.1958,Trondheim,29.08,2:38.23
+21,Jon Gjeilo,Lom IL,03.05.1962,Drammen,03.10,2:38.24
+22,Tore Bjerkheim,Bromma IL,22.10.1963,Drammen,03.10,2:39.24
+23,Bjarte Langeland,IL Skjalg,28.06.1965,Frankfurt GER,31.10,2:39.32
+24,Edgar Johansen,Kvæfjord IL,25.12.1958,Drammen,03.10,2:40.11
+25,Odd Gunnar Tveit,Birkenes IL,14.03.1964,Drammen,03.10,2:40.22
+26,Ole Arne Schlytter,Lørenskog IF,08.12.1960,Drammen,03.10,2:40.25
+27,Didrik Grønvold,Stabæk IF,27.03.1960,Drammen,03.10,2:40.30
+28,Øystein R. Johansen,Halden IL,21.04.1966,Drammen,03.10,2:40.40
+29,Ingvar Grønseth,Fræna FIK,09.01.1971,Drammen,03.10,2:40.57
+30,Tommy Torgersen,Lørenskog FIL,09.11.1970,New York USA,07.11,2:42.15
+31,Aage Odfjell,IL Norna-Salhus,09.02.1946,Berlin GER,26.09,2:42.18
+32,Rune Fredriksen,Mandal & Halse IL,24.04.1960,Mandal,19.09,2:42.38
+33,Heming Leira,IL i BUL,25.02.1960,Drammen,03.10,2:42.52
+34,Bjørn Aanensen,Mandal & Halse IL,29.04.1955,Mandal,19.09,2:43.02
+35,Bent Ove Berntsen,Gjesdal IL,13.07.1962,New York USA,07.11,2:43.07
+36,Kurt Nilsen,Rana FIK,13.01.1961,Mo i Rana,29.05,2:43.14
+37,Morten Rønning,IL Skjalg,28.10.1960,Frankfurt GER,31.10,2:44.25
+38,Martin Seierstad,IL Driv,19.05.1969,Drammen,03.10,2:44.27
+39,Bjørnar Andersen,IL Stovnerkameratene,05.11.1963,Jessheim,21.11,2:44.53
+40,Arne Hugo Hansen,Tromsdalen UIL,04.06.1955,London GBR,18.04,2:45.30
+41,Arne Øvergård,Øverbygd IL,,Wroclaw POL,25.04,2:45.42
+42,Ivar Hansen,IF Bergkameratene,09.09.1959,Stockholm SWE,12.06,2:45.43
+43,Knut Hegvold,Heimdal IF,19.09.1961,Frankfurt GER,31.10,2:45.50
+44,John Martin Andresen,Follo FIK,16.08.1964,Drammen,03.10,2:46.06
+45,Stig Morten Moen,IL Jotun,,Drammen,03.10,2:46.26
+46,Birger Haug,Oslo Politis IL,18.05.1951,Drammen,03.10,2:47.01
+47,Nicolai Heilemann,OSI,03.08.1973,Oslo/Nordmarka,26.06,2:47.16
+48,Fredrik Skattkjær,Haugesund IL,20.03.1955,London GBR,18.04,2:47.23
+49,Bjørn Reitan,IL i BUL Tromsø,14.08.1958,Tromsø,03.07,2:47.24
+50,Helge Johansen,Strindheim IL,26.08.1969,Oslo,04.09,2:47.54
+51,Sten S. Solfjeld,Hadeland FIK,12.10.1950,Drammen,03.10,2:48.10
+52,Kjetil Kveli,IL i BUL,11.06.1956,New York USA,07.11,2:48.12
+53,Oddvar Hausken,Torvastad IL,28.02.1942,Drammen,03.10,2:48.16
+54,Hallgeir Hansen,Bryne FIK,09.05.1955,Mandal,19.09,2:48.59
+55,Frank Tore Berntsen,Veldre IL,11.02.1968,Oslo/Nordmarka,26.06,2:49.15
+56,Thomas Holm,Oppegård IL,,Drammen,03.10,2:49.20
+57,Stein Hermansen,Rana FIK,06.07.1955,Drammen,03.10,2:49.41
+58,Bjørn Einar Eide,Øystre Slidre IL,29.07.1956,Beitostølen,12.06,2:49.44
+59,Sverre Aksland,Stegaberg IL,21.04.1949,Drammen,03.10,2:49.44
+60,Bjørn Gjerde,IL i BUL,26.12.1955,Drammen,03.10,2:49.55
+-,Rune Tyssedal,Rævedilterne (Utenfor NFIF),30.11.1963,Ålesund,08.05,2:40.32
+-,Jan Halland,Statskraft Nore BIL (Utenfor NFIF),19.10.1965,Kongsvinger,07.08,2:43.00
+-,Ole-Tom Amlien,Hadeland Glassverk BIL (Utenfor NFIF),,Drammen,03.10,2:44.27
+-,Arild Johnsen,Helling (Utenfor NFIF),,Drammen,03.10,2:44.40
+-,Hans Jørgen Baglo,TVK (Utenfor NFIF),03.03.1972,Stemshaug,25.09,2:47.10
