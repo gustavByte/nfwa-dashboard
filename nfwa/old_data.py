@@ -227,13 +227,13 @@ def _parse_event_header(header: str, gender: str) -> tuple[Optional[str], bool]:
     if upper.startswith("TRESTEG"):
         return "Tresteg", False
 
-    # Throws (use canonical names matching minfriidrett)
+    # Throws (canonical names must match existing DB events exactly)
     if upper.startswith("KULE"):
-        return ("Kule 7,26kg" if gender == "Men" else "Kule 4,00kg"), False
+        return ("Kule 7,26kg" if gender == "Men" else "Kule 4,0kg"), False
     if upper.startswith("DISKOS"):
-        return ("Diskos 2,00kg" if gender == "Men" else "Diskos 1,00kg"), False
+        return ("Diskos 2,0kg" if gender == "Men" else "Diskos 1,0kg"), False
     if upper.startswith("SLEGGE"):
-        return ("Slegge 7,26kg/121,5cm" if gender == "Men" else "Slegge 4,00kg/119,5cm"), False
+        return ("Slegge 7,26kg/121,5cm" if gender == "Men" else "Slegge 4,0kg/119,5cm"), False
     if upper.startswith("SPYD"):
         return ("Spyd 800gram" if gender == "Men" else "Spyd 600gram"), False
 
