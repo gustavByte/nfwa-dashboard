@@ -39,6 +39,10 @@ def default_kondis_cache_dir() -> Path:
     return default_data_dir() / "cache" / "kondis"
 
 
+def default_old_data_dir() -> Path:
+    return Path("friidrett_data_old_1999_and_older")
+
+
 def default_wa_scoring_db_path() -> Path:
     # Re-uses the existing toolkit in ./WA Poeng/
     return Path("WA Poeng") / "wa_scoring.db"

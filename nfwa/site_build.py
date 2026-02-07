@@ -6,9 +6,9 @@ from datetime import date
 from pathlib import Path
 from typing import Iterable, Optional
 
-from .config import SOURCES, Source
+from .config import SOURCES, Source, default_old_data_dir
 from .export_site import export_site
-from .ingest import SyncSummary, sync_kondis, sync_landsoversikt
+from .ingest import SyncSummary, sync_kondis, sync_landsoversikt, sync_old_data
 from .queries import DEFAULT_TOP_NS, available_seasons
 
 
@@ -35,6 +35,8 @@ def build_site(
     gender: str = "Both",
     refresh_years: int = 2,
     include_kondis: bool = True,
+    include_old_data: bool = True,
+    old_data_dir: Optional[Path] = None,
     out_dir: Path = Path("docs"),
     top_ns: Iterable[int] = DEFAULT_TOP_NS,
     include_athlete_index: bool = True,
@@ -93,6 +95,20 @@ def build_site(
     )
 
     lands_total = _sum_sync_summaries(lands_fill, lands_refresh)
+
+    # Sync pre-2000 hand-transcribed data files
+    if include_old_data:
+        _old_dir = old_data_dir if old_data_dir is not None else default_old_data_dir()
+        if _old_dir.exists():
+            old_years = [y for y in years_all if y < 2000]
+            if old_years:
+                sync_old_data(
+                    db_path=db_path,
+                    wa_db_path=wa_db_path,
+                    wa_poeng_root=wa_poeng_root,
+                    data_dir=_old_dir,
+                    years=old_years,
+                )
 
     kondis_total: Optional[SyncSummary] = None
     if include_kondis:

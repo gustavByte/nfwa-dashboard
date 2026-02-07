@@ -1,0 +1,518 @@
+Høyde (High Jump)
+rank_in_list,athlete_name,club_name,birth_year,venue_city,performance_raw
+1,Steinar Hoen,IK Tjalve,1971,Lahti, FIN,2.25
+2,Bjørn Olsson,IK Tjalve,1975,Byrkjelo,2.23
+3,Jon S. Utgårdsløkken,IL Norna-Salhus,1973,Byrkjelo,2.14
+4,Trond Høiby,Ski IL,1973,Herentals, BEL,2.12
+5,Anders Falkum,IK Tjalve,1977,Sandefjord,2.10
+6,Arjan Bos,IK Tjalve,1976,Byrkjelo,2.08
+7,Andreas Aune Viken,Fredrikstad IF,1982,Nadderud,2.05
+8,Bård Inge Bø,IL Fri,1977,Fana,2.05
+9,Vegard André Hansen,SK Vidar,1976,Dublin, IRL,2.05
+10,Viggo Steen,Tromsø FIK,1974,Byrkjelo,2.04
+11,Tommy Stuen,Kristiansands IF,1981,Florø,2.03
+12,Ove Lindekleiv,IL Trio,1976,Stord,2.01
+13,Kjetil Theodorsen,SK Vidar,1973,Oslo/Bi,2.00
+14,Haakon Asmyhr,Aurskog-Høland FIL,1982,Oslo/Bi,2.00
+15,Marcus Nøstdahl,Kjøpsnes IL,1978,Lillehammer,2.00
+16,Benjamin Jensen,IK Tjalve,1975,Roskilde, DEN,1.97
+17,Tom Erik Olsen,SK Vidar,1974,Alhama de Murcia, ESP,1.95
+18,Olav Bjarne Fidle,Gloppen FIL,1974,Byrkjelo,1.95
+19,Roger Vestrum,Land FIK,1977,Lillehammer,1.95
+20,Tomas Fritsvold,SK Vidar,1977,Oslo/Bi,1.95
+21,Kjetil Særsland Midthun,Os TF,1981,Fana,1.95
+22,Gøran Moen,IL Gular,1971,Fana,1.93
+23,Erik Pettersen,Herkules Friidrett,1979,Skien,1.93
+24,Dag Frode Skogheim,IF Hellas,1967,Drammen,1.93
+25,Vegar Sellæg,Namsen FIF,1978,Herentals, BEL,1.92
+26,Knut Skårø Solberg,Egersunds IK,1981,Sand i Suldal,1.92
+27,Erlend Kolstø,Trondheim FIK,1978,Trondheim/Le,1.91
+28,Fredrik Milde,Laksevåg TIL,1979,Fana,1.90
+29,Fredrik Holtan,Tønsberg FIK,1982,Tønsberg,1.90
+30,Jon Fiva,Bodø FIK,1978,Oslo/Bi,1.90
+31,Kristoffer Gressli,Vestby IL,1983,Oslo/Bi,1.90
+32,Jan Eivind Bertelsen,Laksevåg TIL,1981,Oslo/St,1.90
+33,Rune Berger,IL Tyrving,1981,Lillehammer,1.90
+34,Jon Olav Bjørhusdal,IL Skjalg,1968,Stavanger,1.90
+35,Torgeir Falkum,IK Tjalve,1980,Oslo/Bi,1.90
+36,Andreas Wehus,Lista IL,1983,Vanse,1.90
+37,Svenn Melstveit,Flora TIF,1979,Øvre Årdal,1.90
+38,Steffen Solheim,Flora TIF,1983,Øvre Årdal,1.90
+39,Håvard Eilertsen,IL Norodd,1980,Ålesund,1.90
+40,Trond Erik Nilsen,Ask IL,1972,Ravnanger,1.90
+41,Espen Strindeberg,IF Hellas,1976,Waco, USA,1.88
+42,Trygve Olsen,Modum FIK,1980,Geithus,1.88
+43,Magnus Sveen Pedersen,Trondheim FIK,1983,Oppdal,1.88
+44,Roy André Berget,IF Eiker Kvikk,1983,Geithus,1.87
+45,Alf Henrik Trøen,IL Staal,1975,Egersund,1.86
+46,Olav A. Opdal,Overhalla IL,1982,Overhalla,1.86
+47,Ragnar Bergheim,IL Norna-Salhus,1982,Haukås,1.85
+48,Bjørnar Eilertsen,IL Norodd,1980,Straumsnes,1.85
+49,Magnus Olderøy,Vestby IL,1983,Oslo/Bi,1.85
+50,Mats Eirik Elvik,Osterøy IL,1971,Stord,1.85
+51,Øystein Skåden,Sveio IL,1978,Sveio,1.85
+52,Andreas Borg,IL Tyrving,1981,Florø,1.85
+53,Espen Johnsen,Jevnaker IF,1983,Hønefoss,1.85
+54,Eirik Ruud,Namsen FIF,1984,Oppdal,1.85
+55,Olav Røe,Steinkjer FIK,1982,Oppdal,1.85
+56,Stian Tanum,Minerva IS,1978,Asker,1.85
+57,Roar Kalviknes,IL Staal,1981,Sand i Suldal,1.85
+58,Jon Inge Hagen,Raufoss IL,1984,Lillehammer,1.83
+59,Øystein Lindekleiv,IL Trio,1979,Husnes,1.82
+60,Halvard Leirvik,Stord TIL,1972,Stord,1.82
+61,Knut Harald Sommerfeldt,IF Hellas,1979,Roskilde, DEN,1.80
+62,Øyvind Sandbakk,Ørsta IL,1981,Ørsta,1.80
+63,Sigurd Nilsen Ribu,IL Tyrving,1979,Bjørkelangen,1.80
+64,Lars Ytterhaug,IK Tjalve,1981,Bjørkelangen,1.80
+65,Torbjørn Naas,Ålesund FIK,1963,Ålesund,1.80
+66,Ole Jakob H. Nielsen,Fredrikstad IF,1980,Lisleby,1.80
+67,Jan Tore Risbakken,Nordre Trysil IL,1981,Oslo/Bi,1.80
+68,Magnus Halsnes,Dale IL,1983,Førde,1.80
+69,Bård Oina,Kristiansands IF,1973,Oslo/Bi,1.80
+70,Snorre Sønju,Modum FIK,1974,Lillehammer,1.80
+71,Eirik Røe,Steinkjer FIK,1980,Krokom, SWE,1.80
+72,Geir Dahl,IK Tjalve,1980,Oslo/Bi,1.80
+73,Øystein Aa,Gloppen FIL,1980,Byrkjelo,1.80
+74,Kai Arne Aa,Gloppen FIL,1977,Byrkjelo,1.80
+75,Kai Arne Andreassen,IK Sport-71,1984,Gjøvik,1.80
+76,Marius Skole,Mandal & Halse IL,1980,Vanse,1.80
+77,Nils Petter Dyrkorn,Aksla IL,1970,Ålesund,1.80
+78,Esten Konstad Haanæs,Trondheim FIK,1980,Trondheim/Le,1.80
+79,Andreas Johansen,Hamar IL,1981,Hamar,1.80
+80,Stig Børge Røiland,Moi IL,1982,Søgne,1.80
+81,Espen Næss Lund,IL Ivrig,1985,Tønsberg,1.80
+82,Ole Morten Mardal,Gloppen FIL,1969,Byrkjelo,1.80
+83,Anders Johannessen,IL Norna-Salhus,1982,Fana,1.80
+84,Birger Søyland,FIK Orion,1961,Ski,1.80
+85,Torbjørn Herder Kaggerud,Stathelle OIL,1982,Porsgrunn,1.80
+86,Gunnar Ensrud,Ski IL,1970,Oslo/Bi,1.80
+
+
+Stavsprang (Pole Vault)
+rank_in_list,athlete_name,club_name,birth_year,venue_city,performance_raw
+1,Trond Barthel,Gjøvik FIK,1970,Hengelo, NED,5.65
+2,Ketil Rønneberg,SK Vidar,1976,Oslo/So,5.40
+3,Tom Erik Olsen,SK Vidar,1974,Oslo/So,5.30
+4,Benjamin Jensen,IK Tjalve,1975,Minneapolis, USA,5.24
+5,Maciek Musial,IL BUL,1979,Byrkjelo,4.90
+6,Øystein Kamperud,SK Vidar,1979,Moelv,4.90
+7,Tor Taraldsrud,SK Vidar,1975,Oslo/So,4.85
+8,Trond Høiby,Ski IL,1973,Lillehammer,4.80
+9,Atle Hansen,Fredrikstad IF,1969,Byrkjelo,4.80
+10,Alexander Grelland,Spydeberg IL,1966,Østerbro, DEN,4.80
+11,Stein Joar Myrvang,Sandefjord TIF,1977,Kristiansand,4.72
+12,Espen Strindeberg,IF Hellas,1976,Azusa, USA,4.70
+13,Leif Rune Haug,IL Skjalg,1973,Lillehammer,4.60
+14,Ketill Hanstveit,IL Norna-Salhus,1973,Fana,4.60
+15,Simen Gylterud,IL Tyrving,1980,Moelv,4.60
+16,Pål Haug,SK Vidar,1979,Oslo/Bi,4.55
+17,Geir Ove Rasmussen,Fredrikstad IF,1980,Lillehammer,4.50
+18,Vegar Sellæg,Namsen FIF,1978,Lillehammer,4.50
+19,Knut Harald Sommerfeldt,IF Hellas,1979,Roskilde, DEN,4.50
+20,Sverre Helland,IL Staal,1980,Oslo/Bi,4.40
+21,Mats Eirik Elvik,Osterøy IL,1971,Fana,4.40
+22,Runar Heltne,IK Tjalve,1980,Oslo/So,4.30
+23,Gjermund Myrvang,Sandefjord TIF,1982,Lillehammer,4.10
+24,Oddvar Hårde,Stord TIL,1969,Stord,4.10
+25,Trygve Olsen,Modum FIK,1980,Stord,4.00
+26,Eirik Ruud,Namsen FIF,1984,Florø,3.92
+27,Terje Polden,Minerva IS,1980,Nadderud,3.90
+28,Marius Kalseth,Moelven IL,1983,Oslo/Bi,3.80
+29,Henrik Narvesen,Kongsvinger IL,1983,Moelv,3.80
+30,Snorre Sønju,Modum FIK,1974,Hønefoss,3.80
+31,Ingvald Førland,IL Staal,1971,Stavanger,3.75
+32,Eirik Storslett,Moelven IL,1983,Moelv,3.73
+33,Alf Henrik Trøen,IL Staal,1975,Jørpeland,3.71
+34,Sigbjørn Reigstad,Osterøy IL,1978,Fana,3.71
+35,Eivind Klubbenes,IL Hødd,1980,Lillehammer,3.70
+36,Torbjørn Herder Kaggerud,Stathelle OIL,1982,Skien,3.70
+37,Erlend Gjøen,FIK BFG Fana,1959,Fana,3.60
+38,Birger Søyland,FIK Orion,1961,Ski,3.60
+39,Daniel Nydal,IL Fri,1983,Stord,3.55
+40,Gøran Moen,IL Gular,1971,Fana,3.54
+41,Kjetil Theodorsen,Tromsø FIK,1973,Finnfjordbotn,3.50
+42,Håvard Lunde,IL Trio,1970,Oslo/Bi,3.50
+43,Tormod Bjerke,Veldre IL,1952,Moelv,3.45
+44,Hans Olav Uldal,IK Grane,1982,Sand i Suldal,3.45
+45,Jan Erik Pedersen,IK Grane,1980,Sandefjord,3.40
+46,Ole Christian Strømberg,Ski IL,1972,Ski,3.40
+47,Lars Christian Solheim,Fana IL,1984,Lillehammer,3.40
+48,Bjørn Sigurd Sommerfeldt,IF Hellas,1983,Hafnarfjordur, ISL,3.40
+49,Bjørn Åge Herdlevær,FIL Frisk,1984,Florø,3.40
+50,Tom Syring,IK Tjalve,1974,Ski,3.40
+51,Paul André Solberg,Halden IL,1980,Halden,3.40
+52,Knut Skårø Solberg,Egersunds IK,1981,Fana,3.35
+53,Jim Eirik Liland,IL Norna-Salhus,1984,Fana,3.31
+54,Svein Olaf Sørheim,IL Staal,1984,Jørpeland,3.31
+55,Einar Johan Svendgård,Skogn IL,1949,Steinkjer,3.30
+56,Geir Solheim,Stord TIL,1971,Stord,3.30
+57,Robert Kristensen,Namdalseid IL,1961,Steinkjer,3.30
+58,Martin Norbye,IL Nordlys,1981,Lakselv,3.30
+59,Marcus Nøstdahl,Kjøpsnes IL,1978,Finnfjordbotn,3.30
+60,Esten Konstad Haanæs,Trondheim FIK,1980,Krokom, SWE,3.20
+61,Øyvind Sandbakk,Ørsta IL,1981,Krokom, SWE,3.20
+62,Christoffer Karlsen,Sandefjord TIF,1984,Nadderud,3.10
+63,Karsten Nordli,IL Pioner,1950,Finnfjordbotn,3.10
+64,Sindre Steinsland,Lysekloster IL,1981,Fana,3.10
+65,Håvard Røssland,IL Trio,1980,Stord,3.10
+66,Thomas Stuberg,IK Tjalve,1977,Oslo/Bi,3.10
+67,Ketil Rønneberg,SK Vidar,1984,Oslo/Bi,3.10
+68,Knut Henrik Skramstad,Kongsberg IF,1937,Oslo/Bi,3.10
+69,Ove Lindekleiv,IL Trio,1976,Stord,3.10
+70,Sindre Sandbakk,Ørsta IL,1984,Florø,3.10
+71,Lars Martin Jæger,Halden IL,1968,Lisleby,3.10
+72,Rein Rudloff,Tønsberg FIK,1976,Tønsberg,3.05
+73,Olav Røe,Steinkjer FIK,1982,Sand i Suldal,3.01
+74,Jan Olav Husbyn,Stjørdal FIK,1976,Stjørdal,3.01
+75,Ivar Nilssen,Lånke IL,1947,Tonsåsen,3.01
+76,Kjell Adamski,Sarpsborg IL,1950,Steinkjer,3.00
+77,Ole Morten Mardal,Gloppen FIL,1969,Byrkjelo,3.00
+
+
+Lengde (Long Jump)
+rank_in_list,athlete_name,club_name,birth_year,venue_city,performance_raw
+1,Tom Erik Olsen,SK Vidar,1974,Alhama de Murcia, ESP,7.57
+2,Arjan Bos,IK Tjalve,1976,Lerum, SWE,7.44
+3,Trond Erik Nilsen,Ask IL,1972,Lillehammer,7.40
+4,Gøran Moen,IL Gular,1971,Byrkjelo,7.31
+5,Benjamin Jensen,IK Tjalve,1975,Fana,7.30
+6,Ronny Skårdal,Lyngdal IL,1975,Fana,7.29
+7,Leif Rune Haug,IL Skjalg,1973,Lillehammer,7.25
+8,Ketill Hanstveit,IL Norna-Salhus,1973,Fana,7.24
+9,Simen Gylterud,IL Tyrving,1980,Moelv,7.23
+10,Pål Haug,SK Vidar,1976,Oslo/Bi,7.21
+11,Geir Ove Rasmussen,Fredrikstad IF,1980,Lillehammer,7.21
+12,Vegar Sellæg,Namsen FIF,1978,Steinkjer,7.21
+13,Finn Tysland Johnsen,IL Sørfjell,1980,Byrkjelo,7.21
+14,Lars Jacob Woie,IL Sørfjell,1982,Oslo/Bi,7.21
+15,Knut Harald Sommerfeldt,IF Hellas,1979,Roskilde, DEN,7.21
+16,Thomas Stuberg,IK Tjalve,1977,Oslo/Bi,7.13
+17,Arne Reigstad,Osterøy IL,1967,Stord,7.07
+18,Fernando Ramirez,IL Norna-Salhus,1974,Lillehammer,7.03
+19,Erik Pettersen,Herkules Friidrett,1979,Geithus,7.01
+20,Ole Christian Strømberg,Ski IL,1972,Ski,7.00
+21,Bjarte Holmelid,FIK BFG Fana,1977,Fana,6.99
+22,Erlend Kolstø,Egersunds IK,1978,Fana,6.97
+23,Runar Heltne,IK Tjalve,1980,Sandefjord,6.94
+24,Trond Høiby,Ski IL,1973,Sevilla, ESP,6.85
+25,Kenneth Halhjem,IL Gular,1976,Fana,6.84
+26,Ove Lindekleiv,IL Trio,1976,Stord,6.83
+27,Sverre Helland,IL Staal,1980,Stord,6.76
+28,Joachim Vestre,NTNUI,1975,Fana,6.74
+29,Daniel Nydal,IL Fri,1983,Stord,6.74
+30,Ingvald Førland,IL Staal,1971,Stavanger,6.73
+31,Sigbjørn Reigstad,Osterøy IL,1978,Lillehammer,6.71
+32,Magnus Kleppe,Gloppen FIL,1965,Øvre Årdal,6.68
+33,Lars Eric Sæther,Steinkjer FIK,1979,Närpiö, FIN,6.67
+34,Jan Erik Pedersen,IK Grane,1980,Sandefjord,6.66
+35,Morten Næss,IL Norna-Salhus,1967,Fana,6.65
+36,Stein Erik Lund,IL Tyrving,1981,Oslo/Bi,6.63
+37,Ketil Rønneberg,SK Vidar,1976,Oslo/Bi,6.61
+38,Tommy Stuen,Kristiansands IF,1981,Florø,6.55
+39,Lars Ytterhaug,IK Tjalve,1981,Florø,6.48
+40,Kjetil Falkegård,IL BUL Tromsø,1976,Finnfjordbotn,6.47
+41,Fredrik Smith,Tønsberg FIK,1983,Skien,6.46
+42,Bjørn Sigurd Sommerfeldt,IF Hellas,1983,Florø,6.45
+43,Mats Eirik Elvik,Osterøy IL,1971,Fana,6.45
+44,Joachim Prasch Johnsen,Lillehammer IF,1972,Oslo/Bi,6.41
+45,Marius Aabø,SK Vidar,1979,Lisleby,6.41
+46,Anders Nyhuus,SK Vidar,1977,Oslo/Bi,6.40
+47,Bjørnar Pettersen,TIL Hovding,1981,Stord,6.36
+48,Torbjørn Sola,IF Sturla,1979,Hønefoss,6.35
+49,Karl Børre Flatås,IK Hind,1982,Bodø,6.35
+50,Magnus Husby Rostad,Inderøy IL,1980,Overhalla,6.34
+51,Sindre Steinsland,Lysekloster IL,1981,Fana,6.33
+52,Espen Strindeberg,IF Hellas,1976,Porsgrunn,6.33
+53,Eivind Stavang,Florø TIF,1982,Byrkjelo,6.30
+54,Eirik Røe,Steinkjer FIK,1980,Lillehammer,6.30
+55,Rivo Andrianjafintrimo,IK Tjalve,1982,Oslo/Bi,6.30
+56,Joakim Hagenes,Stord TIL,1981,Stord,6.29
+57,Maciek Musial,IL BUL,1979,Oslo/Bi,6.29
+58,Øystein Kandal,TIL Hovding,1983,Flora,6.27
+59,Kristian David Smogeli,Kongsvinger IL,1982,Kongsvinger,6.27
+60,Jon Dahl Tveter,IL Flint,1983,Grimstad,6.27
+61,Carsten Hay,Ringerike FIK,1951,Tønsberg,6.27
+62,Trygve Eriksen,IL Valder,1980,Florø,6.26
+63,Håvard Laukeland,Førde IL,1981,Førde,6.25
+64,Sigurd Nilsen Ribu,IL Tyrving,1979,Bjørkelangen,6.25
+65,Atle Vesttorp,FIL Bamse,1982,Florø,6.25
+66,Fredrik Smith,Tønsberg FIK,1983,Lisleby,6.23
+67,Magnus Dybvad,Stjørdal FIK,1982,Stjørdal,6.22
+68,Martin Blekkerud,Moss IL,1975,Moss,6.22
+69,Jan Tore Risbakken,Nordre Trysil IL,1981,Flora,6.21
+70,Lasse Raa,FIL Frisk,1980,Haugesund,6.20
+
+
+Tresteg (Triple Jump)
+rank_in_list,athlete_name,club_name,birth_year,venue_city,performance_raw
+1,Ketill Hanstveit,IL Norna-Salhus,1973,Byrkjelo,17.27
+2,Trond Erik Nilsen,Ask IL,1972,Lillehammer,15.70
+3,Ronny Skårdal,Lyngdal IL,1975,Byrkjelo,15.47
+4,Gjermund Myrvang,Sandefjord TIF,1982,Lillehammer,15.15
+5,Arjan Bos,IK Tjalve,1976,Byrkjelo,15.02
+6,Jon S. Utgårdsløkken,IL Norna-Salhus,1973,"Herentals, BEL",14.88
+7,Trond Høiby,Ski IL,1973,Sandefjord,14.87
+8,Anders Falkum,IK Tjalve,1977,Byrkjelo,14.77
+9,Lars Erik Moe,Frol IL,1958,Levanger,14.51
+10,Christian Nordgård,Bodø FIK,1981,Bodø,14.39
+11,Karl Erik Utheim,Gloppen FIL,1979,Hyen,12.84
+12,Sigurd Larsen,IL Fri,1966,Oslo/Bi,12.75
+13,Jan Erik Gustavsen,IF Urædd,1978,Porsgrunn,12.72
+14,Arild Holsen,Førde IL,1979,Førde,12.63
+15,Lars Erik Moe,Frol IL,1958,Levanger,12.63
+16,Espen Strindeberg,IF Hellas,1976,"Azusa, USA",12.58
+17,Eivind Svendsen,IL Fri,1972,Bergen/Sk,12.57
+18,Gunnar Åsvestad,Spydeberg IL,1983,Lisleby,12.51
+19,Erlend Sæterstøl,IL Gular,1975,Fana,12.45
+20,Gøran Moen,IL Gular,1971,Fana,12.45
+21,Sigurd Nilsen Ribu,IL Tyrving,1979,Grimstad,12.44
+22,Birger Søyland,FIK Orion,1961,Ski,12.44
+23,Dag Frode Skogheim,IF Hellas,1967,Drammen,12.43
+24,Helge Kvarven,Bremnes IL,1969,Bremnes,12.35
+25,Erik Drange Tønnessen,IK Tjalve,1977,Oslo/Bi,12.35
+26,Thomas Mellin-Olsen,IL Gular,1977,Fana,12.33
+27,Jan Magne Sørensen,Halden IL,1966,Halden,12.24
+28,Endre Reigstad,FIL Aks-77,1974,Ostereidet,12.20
+
+
+Kule (Shot Put)
+rank_in_list,athlete_name,club_name,birth_year,venue_city,performance_raw
+1,Trond Høiby,Ski IL,1973,"Roskilde, DEN",15.10
+2,Lukas Udelhoven,Søgne IL,1967,Søgne,14.42
+3,Benjamin Jensen,IK Tjalve,1975,"Herentals, BEL",13.50
+4,Karl Erik Utheim,Gloppen FIL,1979,Hyen,12.84
+5,Sigurd Larsen,IL Fri,1966,Oslo/Bi,12.75
+6,Knut Harald Sommerfeldt,IF Hellas,1979,"West Lafayette, USA",12.74
+7,Jan Erik Gustavsen,IF Urædd,1978,Porsgrunn,12.72
+8,Arild Holsen,Førde IL,1979,Førde,12.63
+9,Lars Erik Moe,Frol IL,1958,Levanger,12.63
+10,Espen Strindeberg,IF Hellas,1976,"Azusa, USA",12.58
+11,Vegar Sellæg,Namsen FIF,1978,Stord,12.58
+12,Eivind Svendsen,IL Fri,1972,Bergen/Sk,12.57
+13,Ove Lindekleiv,IL Trio,1976,Stord,12.55
+14,Gunnar Åsvestad,Spydeberg IL,1983,Lisleby,12.51
+15,Erlend Sæterstøl,IL Gular,1975,Fana,12.45
+16,Gøran Moen,IL Gular,1971,Fana,12.45
+17,Sigurd Nilsen Ribu,IL Tyrving,1979,Grimstad,12.44
+18,Birger Søyland,FIK Orion,1961,Ski,12.44
+19,Dag Frode Skogheim,IF Hellas,1967,Drammen,12.43
+20,Helge Kvarven,Bremnes IL,1969,Bremnes,12.35
+21,Erik Drange Tønnessen,IK Tjalve,1977,Oslo/Bi,12.35
+22,Thomas Mellin-Olsen,IL Gular,1977,Fana,12.33
+23,Jan Magne Sørensen,Halden IL,1966,Halden,12.24
+24,Endre Reigstad,FIL Aks-77,1974,Ostereidet,12.20
+25,Oddvar Hårde,Stord TIL,1969,Stord,12.05
+
+
+Diskos (Discus Throw)
+rank_in_list,athlete_name,club_name,birth_year,venue_city,performance_raw
+1,Eivind Smørgrav,Ringerike FIK,07.06.1974,"Hafnarfjordur, ISL",64.20
+2,Einar Kristian Tveitå,IL i BUL,22.02.1973,"Hafnarfjordur, ISL",63.64
+3,Svein Inge Valvik,IK Tjalve,20.09.1956,Ski,62.57
+4,Olav Jenssen,IF Urædd,11.05.1962,"Helsingborg, SWE",61.87
+5,Thomas Rosvold,IK Tjalve,21.07.1967,"Helsingborg, SWE",59.96
+6,Gjøran Sørli,Egersunds IK,03.06.1978,Byrkjelo,55.75
+7,Gaute Myklebust,Hinna IL,29.04.1979,Byrkjelo,53.44
+8,Tor Norlund,IK Grane,26.06.1965,Eydehavn,51.02
+9,Rune Johansen,IL Sørfjell,13.04.1980,Eydehavn,50.39
+10,Morten Bredholt,Rakkestad IF,02.09.1977,Aremark,50.23
+11,Christian Nordgård,Bodø FIK,06.06.1981,Bodø,49.11
+12,Trond Hatlenes,Gloppen FIL,11.01.1979,Oslo/So,47.39
+13,Lars Ola Sundt,IK Tjalve,07.01.1968,Oslo/So,47.28
+14,Ole Christian Strømberg,Ski IL,24.10.1972,Ski,46.88
+15,Trond Høiby,Ski IL,24.01.1973,"Herentals, BEL",46.85
+16,Thor Kristensen,Askim IF,26.06.1966,Spydeberg,46.02
+17,Joakim Tryland,IF Torodd,03.06.1978,Oslo/So,45.88
+18,Tom Erik Olsen,SK Vidar,20.10.1974,Oslo/So,45.13
+19,Torstein Ryland,IL Norna-Salhus,15.10.1974,Fana,44.97
+20,Jan Tore Robøle,Vestre Slidre IL,14.07.1963,Slidrebrenno,44.95
+21,Lars Martin Jæger,Halden IL,31.10.1968,Oslo/So,44.79
+22,Knut Arne Sæbø,FIL AKS-77,10.11.1977,Knarvik,44.05
+23,Benjamin Jensen,IK Tjalve,13.04.1975,"Roskilde, DEN",43.83
+24,Roar Hoff,Stjørdal FIK,21.05.1965,"Närpiö, FIN",43.78
+25,Aage Indrebø,Gloppen FIL,01.06.1961,Byrkjelo,43.78
+26,Terje Buch,Tønsberg FIK,19.06.1964,Vallø,43.32
+27,Espen Hem Jacobsen,IL Runar,11.11.1976,Sandefjord,43.13
+28,Eirik Apeland,Sveio IL,14.03.1964,Sveio,43.13
+29,Kai Dagfinn Stenhjem,Fræna FIK,02.05.1970,Tresfjord,42.62
+30,Øystein Bjørbæk,Bodø FIK,03.09.1953,Finnfjordbotn,42.47
+31,Knut Skeie Solberg,Egersunds IK,03.05.1981,Sandefjord,42.41
+32,Geir Sommerseth,Moss IL,19.05.1961,Moss,42.18
+33,Vegar Sellæg,Namsen FIF,07.02.1978,Steinkjer,41.50
+34,Teemu Pasanen,"Halden IL (FIN)",24.05.1977,Halden,41.20
+35,Even Hytten,Tønsberg FIK,15.12.1967,Tønsberg,40.82
+36,Trygve Olsen,Modum FIK,20.03.1980,Oslo/Bi,40.81
+37,Ståle Sunde,Oppstryn IL,05.03.1970,Oppstryn,40.66
+38,Nils Sigurd Glesnes,Lyngdal IL,01.04.1950,"Odense, DEN",40.63
+39,Per Olav Meosli,Namsen FIF,28.06.1971,Stjørdal,40.47
+40,Runar Heltne,IK Tjalve,21.04.1980,Oslo/So,40.12
+41,Andreas Vaa,SK Snøgg,03.02.1976,Notodden,39.53
+42,"Arild Wæraas","IL i BUL, Tromsø",18.06.1971,Finnfjordbotn,39.36
+43,Ole Petter Lillehagen,Asker Skiklubb,18.08.1961,Lillehammer,39.18
+44,Knut Harald Sommerfeldt,IF Hellas,13.07.1979,"Reykjavik, ISL",38.97
+45,Øystein Glesnes,Lyngdal IL,20.02.1980,Lyngdal,38.91
+46,Gunnar Åsvestad,Spydeberg IL,05.11.1983,Oslo/So,38.80
+47,Helge Kvarven,Bremnes IL,21.06.1969,Bremnes,38.75
+48,Arild Holsen,Førde IL,14.01.1979,Reed,38.67
+49,Bjørn Heggelund,FIK Stein,18.04.1938,Hammerfest,38.67
+50,Egil Ravnestad,IL Brodd,11.06.1963,Hyen,38.31
+51,Dag Frode Skogheim,IF Hellas,25.03.1967,Drammen,38.27
+52,Øyvind Larsen,Gloppen FIL,18.01.1974,Hyen,38.09
+53,Klaus Hansen,FIK Stein,26.05.1958,Sem,38.07
+54,Espen Strindeberg,IF Hellas,31.03.1976,"Waco, USA",37.94
+55,Edgar Henriksen,Ask IL,03.01.1951,"Odense, DEN",37.86
+56,Oddvar Hårde,Stord TIL,11.01.1969,Stord,37.81
+57,Karl Jørgen Hoff,Spydeberg IL,25.04.1959,Oslo/La,37.61
+58,Birger Søyland,FIK Orion,08.08.1961,Oslo/Bi,37.56
+59,Bjarne Olav Paulsen,Steinkjer FIK,14.01.1980,Steinkjer,37.52
+60,Stein T. Syversen,Sarpsborg IL,11.06.1980,Ski,37.47
+61,Sigurd Nilsen Ribu,IL Tyrving,03.03.1979,Asker,36.66
+62,Lars Henrik Gimmestad,IL Brodd,11.03.1982,Hyen,36.15
+63,Anders Grov,IL Brodd,09.07.1981,Hyen,36.13
+64,Jan Erik Romestrand,Ørsta IL,05.01.1981,Ørsta,35.33
+65,Thomas Bråthen,IF Hellas,02.01.1981,Hønefoss,34.91
+66,Sverre Helland,IL Staal,02.12.1980,Kristiansand,34.90
+67,Fredrik Holtan,Tønsberg FIK,14.05.1982,Tønsberg,34.33
+68,Kenneth Bergesen,IL Hødd,24.05.1979,Elnesvågen,33.84
+69,Henrik Hem Jakobsen,IL Runar,20.05.1982,Sandefjord,33.71
+70,Gjermund Myrvang,Sandefjord TIF,30.09.1982,Sandefjord,32.89
+71,Sveinung Nydal,Førde IL,24.04.1980,Førde,32.61
+72,Karl Erik Utheim,Hyen IL,12.01.1979,Hyen,32.09
+
+
+Slegge (Hammer Throw)
+rank_in_list,athlete_name,club_name,birth_date,venue_city,performance_raw
+1,Knut Vikne,SK Vidar,29.01.1976,Drammen,64.63
+2,Kåre Sagedal,IK Tjalve,19.06.1960,Froland,64.13
+3,Bjørn Erik Pettersen,Moss IL,21.09.1976,Byrkjelo,63.96
+4,Anders Halvorsen,SK Vidar,01.03.1969,Fairfax, USA,59.94
+5,Bjørn Henning Bøe,Vestre Slidre IL,17.03.1973,Byrkjelo,58.75
+6,Tore Vaagen,Fræna FIK,22.03.1966,Byrkjelo,58.49
+7,Thomas Rosvold,IK Tjalve,21.07.1967,Durham, USA,57.68
+8,Karl Marthinussen,SK Vidar,01.08.1960,Byrkjelo,56.32
+9,Espen Halvorsen,Tønsberg FIK,28.11.1970,Oslo/So,56.16
+10,Amund Vaagen,Fræna FIK,30.01.1959,Tresfjord,55.02
+11,Sindre Mathisen,Løten IL,03.09.1977,Lisleby,54.81
+12,Kai Dagfinn Stenhjem,Fræna FIK,02.05.1970,Florø,54.37
+13,Lars Martin Jæger,Halden IL,31.10.1968,Oslo/So,53.82
+14,Eivind Smørgrav,Ringerike FIK,07.06.1974,Oslo/So,52.43
+15,Lars Vidar Torgersen,Otra IL,12.01.1977,Øyestad,51.69
+16,Olav Jenssen,IF Urædd,11.05.1962,Oslo/So,51.53
+17,Arild Busterud,Løten IL,26.01.1948,Løten,49.93
+18,Jan Erik Hopen,Florø TIF,05.09.1979,Hyen,48.69
+19,Rune Johansen,IL Sørfjell,13.04.1980,Eydehavn,48.63
+20,Nils Glesnes,Lyngdal IL,01.04.1950,Søgne,48.35
+21,Thor Kubon,Bergens TF,04.06.1974,Knarvik,47.90
+22,Vidar André Sagstad,FIL AKS-77,10.05.1978,Fana,47.86
+23,Arne Lothe,FIL AKS-77,22.05.1938,Knarvik,47.05
+24,Øystein Glesnes,Lyngdal IL,20.02.1980,Grimstad,45.99
+25,Stig Lien,Stjørdal FIK,30.04.1953,Stjørdal,44.30
+26,Håvard Eide,Gloppen FIL,01.05.1978,Sandane,43.80
+27,Oddvar Hårde,Stord TIL,11.01.1969,Stord,43.66
+28,Jørund Årdal,Gloppen FIL,02.07.1953,Byrkjelo,43.38
+29,Jan Erik Waldal,Løten IL,07.04.1976,Løten,43.32
+30,Trygve Olsen,Modum FIK,20.03.1980,Hønefoss,42.00
+31,Eirik Apeland,Sveio IL,14.03.1964,Sveio,41.86
+32,Torrey Enoksen,Lyngdal IL,10.03.1963,Kristiansand,41.86
+33,Karl Erik Utheim,Gloppen FIL,12.01.1979,Hyen,41.48
+34,Jan Tore Robøle,Vestre Slidre IL,14.07.1963,Lillehammer,41.18
+35,Jostein Myrvang,Larvik TIF,11.08.1946,Kristiansand,40.88
+36,Dagfinn Taraldsrud,Biri IL,03.12.1972,Fagernes,40.07
+37,Geir Sommerseth,Moss IL,19.05.1961,Sem,39.90
+38,Bjørn Erik Helgeland,Stavanger IF,25.03.1974,Stavanger/La,39.53
+39,Stein Joar Myrvang,Sandefjord TIF,03.05.1977,Tønsberg,39.31
+40,Geir Lien,Ringerike FIK,16.08.1968,Hønefoss,38.44
+41,Trond Hatlenes,Gloppen FIL,11.01.1979,Byrkjelo,37.56
+42,Torgeir Haugen,Jægervatnet IL,08.02.1975,Tromsø,37.46
+43,Thor Rudolf Danielsen,Lyngdal IL,22.06.1962,Kristiansand,37.16
+44,Are Nordgård,Bodø FIK,03.10.1971,Bodø,37.11
+45,Knut Arne Sæbø,FIL AKS-77,10.11.1977,Ostereidet,36.92
+46,Anders Johannessen,IL Norna-Salhus,10.09.1982,Fana,36.87
+47,Andreas Vaa,SK Snøgg,03.02.1976,Notodden,36.85
+48,Gjermund Myrvang,Sandefjord TIF,30.09.1982,Sandefjord,36.80
+49,Per Steinar Osmundnes,Hyen IL,20.08.1980,Hyen,35.92
+50,Karl Jørgen Hoff,Spydeberg IL,25.04.1959,Odense, DEN,35.87
+51,Lars Ola Sundt,IK Tjalve,07.01.1968,Oslo/So,35.66
+52,Tom Andreassen,Lørenskog FIL,09.12.1955,Oslo/La,35.47
+53,Thomas Rastad,IL Fri,21.09.1980,Bergen/Sk,35.35
+54,Kristoffer Reigstad,Osterøy IL,27.05.1980,Fana,35.34
+55,Birger Søyland,FIK Orion,08.08.1961,Løten,35.00
+56,Bjarne Olav Paulsen,Steinkjer FIK,14.01.1980,Krokom, SWE,28.99
+57,Kenneth Bergesen,IL Hødd,24.05.1979,Straumsnes,28.86
+58,Hans Olav Uldal,IK Grane,16.12.1982,Eydehavn,25.56
+
+
+Spyd (Javelin Throw)
+rank_in_list,athlete_name,club_name,birth_date,venue_city,performance_raw
+1,Pål Arne Fagernes,IK Tjalve,08.06.1974,Sevilla, ESP,86.24
+2,Sturle Sæbø,IL Norna-Salhus,21.04.1970,Fana,73.85
+3,Ronny Nilsen,IL Norna-Salhus,07.05.1971,Fana,73.46
+4,Andreas Thorkildsen,Kristiansands IF,01.04.1982,Riga, LAT,72.11
+5,Tore Haukedalen,Årdalstangen IL,20.07.1975,Øvre Årdal,72.02
+6,Ola Pramm Larsen,SK Vidar,01.02.1977,Nadderud,71.02
+7,Nils Thomas Fearnley,IK Tjalve,07.03.1971,Byrkjelo,70.71
+8,Trond Høiby,Ski IL,24.01.1973,Herentals, BEL,66.20
+9,Paul André Solberg,Halden IL,30.06.1980,Byrkjelo,65.72
+10,Knut Føleide,Måløy IL,05.05.1961,Byrkjelo,64.20
+11,Narve Hoff,Ålesund FIK,16.07.1957,Ålesund,63.78
+12,Henrik Kjæreng,Lillehammer IF,22.05.1975,Los Angeles, USA,62.33
+13,Benjamin Jensen,IK Tjalve,13.04.1975,Palma de Mallorca, ESP,61.54
+14,John Solem,Hegra IL,13.05.1960,Steinkjer,60.58
+15,Johan Sørstrønen,FIK BFG Fana,08.06.1975,Fana,59.91
+16,Knut Harald Sommerfeldt,IF Hellas,13.07.1979,Hafnarfjördur, ISL,59.27
+17,Håvard Røssland,IL Trio,04.09.1980,Stord,58.86
+18,Kennet Bergesen,IL Hødd,24.05.1979,Närpiö, FIN,58.42
+19,Helge Kvarven,Bremnes IL,21.06.1969,Stord,57.80
+20,Roy-Arne Tollefsen,Kongsberg IF,23.05.1981,Kongsberg,57.63
+21,Trygve Olsen,Modum FIK,20.03.1980,Sandefjord,56.93
+22,Espen Strindeberg,IF Hellas,31.03.1976,Azusa, USA,56.64
+23,Stian Tanum (Sigvartsen),Minerva IS,05.01.1978,Asker,56.51
+24,Sondre Bjørnbet,Selsbakk IF,23.06.1982,Stjørdal,56.31
+25,Erik Drange Tønnessen,IK Tjalve,29.08.1977,Oslo/Bi,55.19
+26,Øystein Skåden,Sveio IL,17.01.1978,Sandefjord,54.95
+27,Leiv Ravnestad,Gloppen FIL,20.07.1980,Øvre Årdal,54.84
+28,Svein Gjermundsen,IF Herkules,13.07.1975,Skien/Gj,54.26
+29,Birger Søyland,FIK Orion,08.08.1961,Lillehammer,54.05
+30,Runar Heltne,IK Tjalve,21.04.1980,Oslo/Tr,53.81
+31,Stein Halvor Nyhus,Lyngdal IL,16.01.1982,Grimstad,53.73
+32,Ole Jørgen Simensen,Espa IL,26.05.1963,Poznan, POL,53.72
+33,Elling Fjellestad,Gloppen FIL,17.05.1977,Reed,53.64
+34,Trond Knaplund,IL i BUL,12.05.1960,Oslo/Bi,53.21
+35,Øystein Glesnes,Lyngdal IL,20.02.1980,Vanse,53.15
+36,Gudmund Gabrielsen,Oppdal FIK,03.05.1968,Stjørdal,53.12
+37,Atle Hansen,Fredrikstad IF,07.06.1969,Lisleby,52.93
+38,Endre Reigstad,FIL AKS-77,23.04.1974,Bergen/Sk,52.88
+39,Geir Haukedalen,Årdalstangen IL,15.10.1970,Øvre Årdal,52.86
+40,Hans Olav Uldal,IK Grane,16.12.1982,Florø,52.78
+41,Roar Hoff,Stjørdal FIK,21.05.1965,Stjørdal,52.72
+42,Karl Jørgen Hoff,Spydeberg IL,25.04.1959,Oslo/Bi,52.31
+43,Magnus Dahl Eide,Teie IF,18.08.1982,Tønsberg,52.16
+44,Erlend Sæterstøl,IL Gular,07.01.1975,Bergen/Sk,52.02
+45,Bård Øina,Kristiansands IF,16.01.1973,Lillehammer,51.97
+46,Geir Dahl,IK Tjalve,24.03.1980,Oslo/Bi,51.90
+47,Vegar Sellæg,Namsen FIF,07.02.1978,Trondheim/Le,51.89
+48,Hermod Flaaen,IL Valder,08.04.1957,Steinkjer,51.25
+49,Fredrik Holtan,Tønsberg FIK,14.05.1982,Tønsberg,51.00
+50,Ivar Terje Kvisvik,Tingvoll FIK,02.12.1954,Straumsnes,50.92
+51,Rune Havaas,Lista IL,04.06.1977,Vanse,50.71
+
+10-kamp (Decathlon)
+rank_in_list,athlete_name,club_name,birth_year,venue_city,performance_raw
+1,Benjamin Jensen,IK Tjalve,13.04.1975,"Roskilde, DEN",8160
+2,Trond Høiby,Ski IL,24.01.1973,"Herentals, BEL",8085
+3,Espen Strindeberg,IF Hellas,31.03.1976,"Azusa, USA",7114
+4,Runar Heltne,IK Tjalve,21.04.1980,"Bern, SUI",6903
+5,Vegar Sellæg,Namsen FIF,07.02.1978,Stord,6850
+6,Knut Harald Sommerfeldt,IF Hellas,13.07.1979,"Hafnarfjørður, ISL",6849
+7,Sverre Helland,IL Staal,02.12.1980,Sand i Suldal,6215
+8,Birger Søyland,FIK Orion,08.08.1961,Ski,6169
+9,Ove Lindekleiv,IL Trio,08.04.1976,Stord,6167
+10,Mats Eirik Elvik,Osterøy IL,06.08.1971,Stord,6019
+11,Oddvar Hårde,Stord TIL,11.01.1969,Stord,5815
+12,Tor Taraldsrud,SK Vidar,04.10.1975,Ski,5701
+13,Tom Syring,IK Tjalve,27.05.1974,Ski,5611
+14,Erlend Kolstø,Egersunds IK,06.06.1978,Trondheim/Le,5478
+15,Jon Olav Bjørhusdal,IL Skjalg,03.01.1968,Sand i Suldal,5163
+16,Bjørn Sigurd Sommerfeldt,IF Hellas,29.05.1983,Stord,5046
+17,Yngve Sundsfjord,Trondheim FIK,05.01.1980,Trondheim/Le,4985
+18,Ragnar Bergheim,IL Norna-Salhus,19.06.1982,Fana,4850

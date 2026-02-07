@@ -4,9 +4,9 @@ import argparse
 import sqlite3
 from pathlib import Path
 
-from .config import default_cache_dir, default_kondis_cache_dir, default_results_db_path, default_wa_scoring_db_path
+from .config import default_cache_dir, default_kondis_cache_dir, default_old_data_dir, default_results_db_path, default_wa_scoring_db_path
 from .export_site import export_site
-from .ingest import sync_kondis, sync_landsoversikt
+from .ingest import sync_kondis, sync_landsoversikt, sync_old_data
 from .queries import DEFAULT_TOP_NS, athlete_results, event_summary, write_event_summary_csv
 from .site_build import build_site
 from .webapp import run_web
@@ -35,6 +35,13 @@ def main(argv: list[str] | None = None) -> int:
     sync_k.add_argument("--cache-dir", type=Path, default=default_kondis_cache_dir(), help="Cache for nedlastede HTML-sider")
     sync_k.add_argument("--refresh", action="store_true", help="Last ned på nytt selv om cache finnes")
     sync_k.add_argument("--polite-delay", type=float, default=0.5, help="Pause mellom sider (sekunder)")
+
+    sync_old = sub.add_parser("sync-old", help="Importer gamle data (pre-2000) fra tekstfiler")
+    sync_old.add_argument("--years", nargs="+", type=int, default=[1999], help="Sesonger, f.eks. 1999")
+    sync_old.add_argument("--db", type=Path, default=default_results_db_path(), help="SQLite-fil for resultater")
+    sync_old.add_argument("--wa-db", type=Path, default=default_wa_scoring_db_path(), help="WA scoring-db (fra WA Poeng)")
+    sync_old.add_argument("--wa-root", type=Path, default=Path("WA Poeng"), help="Mappe som inneholder wa_poeng/")
+    sync_old.add_argument("--data-dir", type=Path, default=default_old_data_dir(), help="Mappe med gamle data-filer")
 
     summary = sub.add_parser("event-summary", help="Lager top-N-snitt per øvelse (CSV)")
     summary.add_argument("--season", type=int, required=True, help="Sesong, f.eks. 2025")
@@ -78,6 +85,8 @@ def main(argv: list[str] | None = None) -> int:
     build.add_argument("--refresh-years", type=int, default=2, help="Hvor mange siste år som re-lastest ned (default: 2)")
     build.add_argument("--gender", choices=["Women", "Men", "Both"], default="Both", help="Kjønn")
     build.add_argument("--no-kondis", action="store_true", help="Ikke synk Kondis (gateløp)")
+    build.add_argument("--no-old-data", action="store_true", help="Ikke synk gamle data (pre-2000)")
+    build.add_argument("--old-data-dir", type=Path, default=default_old_data_dir(), help="Mappe med gamle data-filer")
     build.add_argument("--db", type=Path, default=default_results_db_path(), help="SQLite-fil for resultater")
     build.add_argument("--wa-db", type=Path, default=default_wa_scoring_db_path(), help="WA scoring-db (fra WA Poeng)")
     build.add_argument("--wa-root", type=Path, default=Path("WA Poeng"), help="Mappe som inneholder wa_poeng/")
@@ -143,6 +152,26 @@ def main(argv: list[str] | None = None) -> int:
         print(
             "Sync ferdig (Kondis):",
             f"pages={res.pages}",
+            f"rows={res.rows_seen}",
+            f"wa_ok={res.wa_points_ok}",
+            f"wa_failed={res.wa_points_failed}",
+            f"wa_missing={res.wa_points_missing}",
+            sep=" ",
+        )
+        return 0
+
+    if args.cmd == "sync-old":
+        years = [int(y) for y in args.years]
+        res = sync_old_data(
+            db_path=args.db,
+            wa_db_path=args.wa_db,
+            wa_poeng_root=args.wa_root,
+            data_dir=args.data_dir,
+            years=years,
+        )
+        print(
+            "Sync ferdig (gamle data):",
+            f"seasons={res.pages}",
             f"rows={res.rows_seen}",
             f"wa_ok={res.wa_points_ok}",
             f"wa_failed={res.wa_points_failed}",
@@ -220,6 +249,8 @@ def main(argv: list[str] | None = None) -> int:
             gender=args.gender,
             refresh_years=int(args.refresh_years),
             include_kondis=not bool(args.no_kondis),
+            include_old_data=not bool(args.no_old_data),
+            old_data_dir=args.old_data_dir,
             out_dir=args.out,
             top_ns=[int(x) for x in args.top],
             include_athlete_index=not bool(args.no_athlete_index),

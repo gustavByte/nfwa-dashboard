@@ -1,0 +1,498 @@
+100 meter – Elektronisk tid
+rank_in_list,athlete_name,club_name,birth_date,venue_city,performance_raw
+1,John Ertzgaard,Raufoss IL,18.06.1977,Oslo/Bi,10.27(+1.3)
+2,Geir Moen,Moss IL,26.06.1969,Göteborg,10.32(+0.7)
+3,Thomas Mellin-Olsen,IL Gular,08.11.1977,Oslo/Bi,10.39(+1.3)
+4,Erik Kringeland,Haugesund IL,19.03.1977,Oslo/Bi,10.55(+1.3)
+5,Kenneth Halhjem,IL Gular,10.07.1976,København,10.62(-1.1)
+6,Fernando Ramirez,IL Norna-Salhus,30.05.1974,Lillehammer,10.63(+0.3)
+7,Bjørn Åge Scheide,Gjøvik FIK,23.11.1973,Oslo/Bi,10.81(+1.4)
+8,Trond Lindanger,Haugesund IL,20.11.1972,Egersund,10.84(+1.2)
+8,Johan Syljeset,FIK Orion,21.05.1976,Oslo/Bi,10.84(+1.9)
+10,Benjamin Jensen,IK Tjalve,13.04.1975,Roskilde,10.86(+1.6)
+11,Quincy Douglas,IL Gular,07.09.1975,Tønsberg,10.87(-0.7)
+11,Johan Sørstrønen,FIK BFG Fana,08.06.1975,Helsingborg,10.87(+1.0)
+13,Thomas Green,IL Gular,20.06.1972,Fana,10.88(+1.0)
+14,Tore Markussen,Bodø FIK,16.12.1976,Bodø,10.93(+0.1)
+15,Ole Christian Østrem,Lillehammer IF,08.03.1979,Oslo/Bi,10.96(+0.5)
+16,Thomas Lünell(DEN),Raufoss IL,20.02.1977,Lillehammer,10.97(+1.3)
+17,Martin Blekkerud,Moss IL,07.08.1975,Oslo/Bi,10.98(+1.9)
+18,Mariusz Musial,IL i BUL,01.01.1978,Oslo/Bi,11.02(-0.1)
+19,Marcus Karlsen,IL Runar,15.02.1973,Oslo/Bi,11.03(+0.6)
+20,Øystein Paulsen,IL Skjalg,09.03.1977,Oslo/Bi,11.04(+1.5)
+20,Arill Larsen,Hareid IL,08.07.1970,Straumsnes,11.04(+0.6)
+20,Frank Fiske,Frol IL,16.09.1975,Närpiö,11.04(+0.7)
+23,Omar Ellingsen Chammas,IL i BUL,09.11.1976,Oslo/Bi,11.05(+1.9)
+24,Christopher Selmer,IK Tjalve,10.05.1981,Oslo/Bi,11.06(-0.5)
+24,Torleiv Hølland,Sandnes IL,27.12.1969,Egersund,11.06(+1.2)
+24,Runar Heltne,IK Tjalve,21.04.1980,Oslo/Bi,11.06(+1.0)
+27,Vegar Hollås,Steinkjer FIK,15.03.1977,Sandefjord,11.07(-1.6)
+28,Bård Venholen,FIK Orion,11.04.1975,Oslo/Bi,11.08(+1.5)
+29,Espen Rønningsland,SK Snøgg,30.04.1978,Oslo/Bi,11.10(+1.2)
+30,Martin Hjelseth,IK Tjalve,12.04.1979,Tønsberg,11.11(+2.0)
+31,Øystein Jonassen,IF Urædd,16.09.1980,Tønsberg,11.13(+2.0)
+31,Per Øivin Sola,SK Vidar,17.06.1972,Oslo/Bi,11.13(+0.4)
+33,Trond Fjeld,Søgne IL,09.02.1976,Oslo/Bi,11.14(+0.9)
+33,Ådne Nerhus,IL Gular,24.05.1975,Haukås,11.14
+35,Simen Andersen,FIK Orion,26.01.1982,Esbjerg,11.15
+36,Bjørn Johansen,FIK Stein,17.12.1970,Narvik,11.16(+0.8)
+36,Marius Heggholmen,FIK BFG Fana,01.05.1974,Uddevalla,11.16
+38,Jørn Tollefsen,Moss IL,19.02.1973,Oslo/Bi,11.18(+0.9)
+39,Njål Kvendseth,Tromsdalen UIL,28.11.1981,Fana,11.19
+39,Remi Kopperud,Varteig IL,21.03.1972,Oslo/Bi,11.19
+41,Martin Rypdal,IL i BUL Tromsø,19.05.1980,Narvik,11.22
+41,Joachim Wiborg,IF Herkules,29.12.1978,Sandefjord,11.22(-0.3)
+43,Stian Danielsen,Søgne IL,29.10.1979,Søgne,11.23
+43,Ole Henrik Egren,IL Runar,17.05.1982,Sandefjord,11.23(+1.6)
+43,Magnus Kleppe,Gloppen FIL,04.07.1965,Haukås,11.23(+2.0)
+43,Andreas Kristiansen,IL Gular,18.09.1981,Fana,11.23(+1.0)
+47,Stein Erik Hilmersen,SK Vidar,27.02.1980,Tønsberg,11.24(+2.0)
+47,Arild Solheim,IL Fri,08.10.1975,Fana,11.24(+1.2)
+49,Chisom Okeke,IK Tjalve,06.09.1982,Oslo/Bi,11.25(-0.3)
+50,Bjarte Holmelid,FIK BFG Fana,15.04.1977,Lillehammer,11.26(+1.2)
+50,Arjan Bos,IK Tjalve,06.04.1976,Oslo/Bi,11.26(+1.6)
+52,Erlend Kolstø,Egersunds IK,06.06.1978,Lillehammer,11.27(+1.3)
+53,Jone Eskeland,IL Skjalg,17.09.1980,Egersund,11.28(-0.1)
+53,André Sævik,Dimna IL,06.01.1979,Nadderud,11.28(+1.3)
+55,Birger Hermansen,Moss IL,10.11.1976,Oslo/Bi,11.29(+0.9)
+56,Rune Selstad,Kristiansands IF,17.05.1982,Oslo/Bi,11.30(+2.0)
+56,Petr Steiner(CZE),NTNUI,18.01.1973,Trondheim/Le,11.30(0.0)
+58,Hallvard Rise,Rennebu IL,04.06.1966,Brekstad,11.31(+0.9)
+58,Trond Høiby,Ski IL,24.01.1973,Sevilla,11.31(+0.2)
+58,Even Hytten,Tønsberg FIK,15.12.1967,Tønsberg,11.31(+0.4)
+58,Yngve Sundsfjord,Trondheim FIK,05.01.1980,Trondheim/Le,11.31(0.0)
+62,Anders Nyhuus,SK Vidar,28.02.1977,Göteborg,11.32(+0.9)
+63,Roald Bergheim,IL Norna-Salhus,04.03.1977,Fana,11.34(+0.1)
+64,Vegar Sellæg,Namsen FIF,07.02.1978,Trondheim/Le,11.35(-0.2)
+65,Preben Lifoss,IL Runar,15.11.1971,Sandefjord,11.36(+1.6)
+65,Kjetil Falkegård,IL i BUL Tromsø,05.05.1976,Narvik,11.36(+0.8)
+65,Odd Egil Stokke,IL Norodd,18.05.1973,Straumsnes,11.36(+1.0)
+65,Christian Strand,SK Vidar,02.05.1980,Oslo/Bi,11.36(+1.5)
+65,Ole Christian Strømberg,Ski IL,24.10.1972,Oslo/Bi,11.36(-1.3)
+65,Rivo Andrianjafintrimo,IK Tjalve,12.04.1982,Oslo/Bi,11.36(+1.7)
+71,Hans Chr. Guttormsen,IL Stålkameratene,24.05.1978,Steinkjer,11.38(+1.6)
+71,Jan Erik Pedersen,IK Grane,24.10.1980,Oslo/St,11.38(-0.6)
+71,Maciek Musial,IL i BUL,22.10.1979,Oslo/Bi,11.38(-0.1)
+74,Eirik Sætre Ulvestad,Trondheim FIK,12.08.1982,Trondheim/Le,11.39(+0.5)
+75,Finn Tysland Johnsen,IL Sørfjell,16.04.1980,Oslo/Bi,11.40(+1.7)
+75,Helge Farbrot,IK Tjalve,19.01.1975,Oslo/Bi,11.40(+0.4)
+75,Eivind Formoe,Fredrikstad IF,11.07.1980,Tønsberg,11.40(-0.1)
+75,Kenneth Hoffmann(USA),Heimdal IF,26.06.1973,Stjørdal,11.40(+0.4)
+79,Eystein Bråthen,Spydeberg IL,07.02.1980,Oslo/Bi,11.42(+1.2)
+79,Eystein Lysholm,IL Skjalg,05.01.1980,Sandefjord,11.42(-0.3)
+79,Ketil Rønneberg,SK Vidar,09.12.1976,Oslo/Bi,11.42(+1.1)
+82,Thomas Ulset,IL Gular,23.09.1975,Fana,11.43(+0.8)
+83,Trygve Eriksen,IL Valder,20.01.1980,Ørsta,11.44(+0.5)
+83,Bjørn Gunnar Husby,Torvastad IL,17.05.1975,Trondheim/Le,11.44(+1.6)
+83,Kåre Strande,Fagernes IL,29.05.1961,Lillehammer,11.44(+0.3)
+83,Jasper Buitink(NED),IL i BUL,18.02.1973,Oslo/Bi,11.44(-1.3)
+87,Trygve Angeltveit,IF Hellas,16.06.1979,Hokksund/Rø,11.45(+1.9)
+87,Lars Eric Sæther,Steinkjer FIK,21.04.1979,Stjørdal,11.45(+0.4)
+89,Espen Engebrethsen,IL i BUL,27.05.1980,Oslo/Bi,11.46(+1.4)
+89,Frank A. Naustdal,FIL Frisk,18.04.1981,Fana,11.46(+0.3)
+91,Thomas Grønnern,FIL Bamse,25.07.1977,Oslo/Bi,11.47(+0.9)
+91,Joakim Hagenes,Stord TIL,24.08.1981,Haugesund,11.47(+0.4)
+91,Andreas Totsås,Namsen FIF,01.07.1981,Levanger,11.47(+1.9)
+91,Jon Olav Bjørhusdal,IL Skjalg,03.01.1968,Sand i Suldal,11.47(+1.0)
+91,Sverre Helland,IL Staal,02.12.1980,Haugesund,11.47(+1.6)
+96,Andreas Tryti,Ski IL,21.01.1982,Oslo/Bi,11.48(+1.2)
+97,Atle Vesttorp,FIL Bamse,14.04.1982,Oslo/Bi,11.49(-0.2)
+98,Rune Berger,IL Tyrving,07.01.1981,Oslo/Bi,11.50(+0.5)
+98,Magne Skovli,IL Tyrving,01.03.1982,Oslo/Bi,11.50(+1.3)
+100,Sjur André Midthun,Raufoss IL,23.03.1978,Lillehammer,11.51(0.0)
+100,Trond Erik Nilsen,Ask IL,18.04.1972,Knarvik,11.51
+102,Bård Anders Ruud Granum,IL i BUL,21.07.1982,Florø,11.52(+0.5)
+102,Øystein Heggelund,NTNUI,01.03.1975,Trondheim/Le,11.52(+1.6)
+102,Trond Støre,Frol IL,06.12.1966,Oslo/Bi,11.52(+1.2)
+105,Jan Børge Haugen,Haugesund IL,16.03.1980,Haugesund,11.53(+1.6)
+106,Martin Bjune,Minerva IS,04.02.1980,Oslo/Bi,11.56(+0.5)
+106,Espen Kvalheim,IL Fri,22.04.1980,Fana,11.56
+108,Eirik Røe,Steinkjer FIK,30.08.1980,Steinkjer,11.58(+1.6)
+109,Trygve Olsen,Modum FIK,20.03.1980,Hønefoss,11.59(+1.2)
+110,Torbjørn Sola,IF Sturla,19.02.1979,Hønefoss,11.60(+1.2)
+111,Stein Erik Lund,IL Tyrving,02.04.1981,Oslo/Bi,11.61(+0.3)
+111,Erik Stark,FIK Orion,30.10.1981,Mora,11.61(+0.8)
+113,Magnus Dybvad,Stjørdal FIK,07.04.1982,Stjørdal,11.62(+0.4)
+113,Ragnar Bergheim,IL Norna-Salhus,19.06.1982,Fana,11.62(+1.3)
+113,Jonas Sjolte Bakken,Moss IL,21.07.1980,Tønsberg,11.62(-0.9)
+
+
+100 meter – Manuell tid (Håndtid)
+rank_in_list,athlete_name,club_name,birth_year,venue_city,performance_raw
+1,Kjetil Falkegård,IL BUL Tromsø,1976,Finnfjordbotn,10.7
+2,Tore Johnsen,Sandnes IL,1980,Lillehammer,10.7
+3,Trond Lindanger,Haugesund IL,1972,Oslo,10.8
+4,Torleiv Hølland,Sandnes IL,1969,Haugesund,10.8
+5,Trond Erik Nilsen,Ask IL,1972,Ravnanger,11.0
+6,Jens Ronny Woldal,FIK Ren-Eng,1981,Tau,11.0
+7,Hans Chr. Guttormsen,IL Stålkameratene,1978,Lillehammer,11.0
+8,Rune Selstad,Kristiansands IF,1982,Lillehammer,11.1
+9,Thomas Ulset,IL Gular,1975,Trondheim,11.1
+10,Andreas Kristiansen,IL Gular,1981,Fana,11.1
+11,Jan Børge Haugen,Haugesund IL,1980,Oslo,11.1
+12,Ole Christian Strømberg,Ski IL,1972,Haugesund,11.1
+13,Magnus Kleppe,IL Gular,1965,Fana,11.2
+14,Trygve Eriksen,IL Valder,1980,Lillehammer,11.2
+15,Sverre Helland,IL Staal,1980,Mo i Rana,11.2
+16,Jan Erik Pedersen,IK Grane,1980,Vanse,11.3
+17,Rune Berger,IL Tyrving,1981,Rena,11.3
+18,Preben Lifoss,IL Runar,1971,Tønsberg,11.3
+
+200 meter
+rank_in_list,athlete_name,club_name,birth_date,venue_city,performance_raw
+1,John Ertzgaard,Raufoss IL,18.06.1977,Göteborg, SWE,20.47(-0,6)
+2,Geir Moen,Moss IL,26.06.1969,Byrkjelo,21.04(-0,1)
+3,Erik Kringeland,Haugesund IL,19.03.1977,Byrkjelo,21.19(-0,1)
+4,Quincy Douglas,IL Gular,07.09.1975,Haugesund,21.28(+2,0)
+5,Thomas Mellin-Olsen,IL Gular,08.11.1977,Göteborg, SWE,21.39(0,0)
+6,Martin Blekkerud,Moss IL,07.08.1975,Byrkjelo,21.50(-0,1)
+7,Trond Lindanger,Haugesund IL,20.11.1972,Haugesund,21.63(+0,9)
+8,Frank Fiske,Frol IL,16.09.1975,Haugesund,21.70(+0,9)
+9,Per Øivin Sola,SK Vidar,17.06.1972,Oslo/St,21.73(+0,7)
+10,Johan Syljeset,FIK Orion,21.05.1976,Lillehammer,21.86(+0,5)
+11,Tore Markussen,Bodø FIK,16.12.1976,Byrkjelo,21.96(-0,1)
+12,Roald Bergheim,IL Norna-Salhus,04.03.1977,Fana,22.01(+0,1)
+13,Martin Hjelseth,IK Tjalve,12.04.1979,Lillehammer,22.04(+1,6)
+14,Yngve Sundsfjord,Trondheim FIK,05.01.1980,Espoo, FIN,22.09(+0,1)
+15,Johan Sørstrønen,FIK BFG Fana,08.06.1975,Haukås,22.16(-1,4)
+16,Thomas Green,IL Gular,20.06.1972,Fana,22.26(+0,1)
+17,Trond Solvang,IK Tjalve,28.04.1976,Hønefoss,22.26
+18,Øystein Paulsen,IL Skjalg,09.03.1977,Sandefjord,22.27(-0,7)
+19,Simen Andersen,FIK Orion,26.01.1982,Lillehammer,22.29(+1,4)
+20,Vegar Hollås,Steinkjer FIK,15.03.1977,Lillehammer,22.34(-0,8)
+21,Ole Christian Østrem,Lillehammer IF,08.03.1979,Lillehammer,22.35(+0,1)
+22,Bård Venholen,FIK Orion,11.04.1975,Oslo/Bi,22.35(+1,6)
+23,Jørn Tollefsen,Moss IL,19.02.1973,Oslo/Bi,22.39(-0,4)
+24,Remi Kopperud,Varteig IL,21.03.1972,Oslo/St,22.45(+0,7)
+25,Arill Larsen,Hareid IL,08.07.1970,Straumsnes,22.48
+26,Bjørn Åge Scheide,Gjøvik FIK,23.11.1973,Straumsnes,22.50
+27,Rune Selstad,Kristiansands IF,17.05.1982,Lillehammer,22.52(-0,8)
+28,Hans Chr. Guttormsen,IL Stålkameratene,24.05.1978,Grimstad,22.56(+0,6)
+29,Marcus Karlsen,Lillehammer IF,15.02.1973,Steinkjer,22.60(+1,1)
+30,Torleiv Hølland,Sandnes IL,27.12.1969,Byrkjelo,22.61(-1,5)
+31,Preben Lifoss,IL Runar,15.11.1971,Tønsberg,22.61(+1,3)
+32,Aksel Haavik,IK Tjalve,01.09.1982,Sandefjord,22.62(-2,4)
+33,Thomas Lünell(DEN),Raufoss IL,20.02.1977,Lillehammer,22.63(-0,8)
+34,Trond Fjeld,Søgne IL,09.02.1976,Oslo/Bi,22.63(+0,9)
+35,Magnus Kleppe,Gloppen FIL,04.07.1965,Haukås,22.63(+1,0)
+36,Michael Tomala,Minerva IS,01.10.1979,Kraków, POL,22.64(+0,4)
+37,Øystein Jonassen,IF Urædd,16.09.1980,Sandefjord,22.64(+1,6)
+38,Arild Solheim,IL Fri,08.10.1975,Fana,22.64(0,0)
+39,Odd Egil Stokke,IL Norodd,18.05.1973,Straumsnes,22.68
+40,Anders Nyhuus,SK Vidar,28.02.1977,Göteborg, SWE,22.69
+41,Lars Eric Sæther,Steinkjer FIK,21.04.1979,Steinkjer,22.70(+1,1)
+42,Njål Kvendseth,Tromsdalen UIL,28.11.1981,Florø,22.71(+0,3)
+43,Erlend Kolstø,Egersunds IK,06.06.1978,Lillehammer,22.72(+0,1)
+44,Espen Engebrethsen,IL i BUL,27.05.1980,Göteborg, SWE,22.73
+45,Trygve Eriksen,IL Valder,20.01.1980,Straumsnes,22.74
+46,Thomas Grønnern,FIL Bamse,25.07.1977,Lillehammer,22.77(+0,1)
+47,Morten Sand,Lillehammer IF,24.07.1977,Lillehammer,22.81(-0,7)
+48,Eystein Lysholm,IL Skjalg,05.01.1980,Sandefjord,22.81(+1,6)
+49,Rune Berger,IL Tyrving,07.01.1981,Lillehammer,22.83(+1,4)
+50,Jan Petter Bjørnevik,Stjørdal FIK,20.08.1974,Trondheim/Le,22.84(+0,2)
+51,Helge Farbrot,IK Tjalve,19.01.1975,Oslo/Bi,22.87(+0,6)
+52,Espen Rønningsland,SK Snøgg,30.04.1978,Sandefjord,22.87(+1,6)
+53,André Sævik,Dimna IL,06.01.1979,Sandefjord,22.88(+1,5)
+54,Bård A. Ruud Granum,IL i BUL,21.07.1982,Oslo/Bi,22.89(+0,3)
+55,Joakim Hagenes,Stord TIL,24.08.1981,Haugesund,22.90(+0,9)
+56,Mariusz Musial,IL i BUL,01.01.1978,Oslo/Bi,22.91(+0,1)
+57,Atle McAdam,IK Tjalve,18.06.1977,Oslo/Bi,22.92(-0,3)
+58,Marius Heggholmen,FIK BFG Fana,01.05.1974,Haukås,22.95(-1,4)
+59,Martin Wollert-Nielsen,FIK Orion,30.04.1983,Lillehammer,22.97(+0,8)
+60,Birger Hermansen,Moss IL,10.11.1976,Tønsberg,22.99(+1,3)
+61,Runar Heltne,IK Tjalve,21.04.1980,Lillehammer,22.99(+0,6)
+62,Kjetil (Johansen) Falkegård,IL i BUL Tromsø,05.05.1976,Narvik,23.00(+1,4)
+63,Thomas Ulset,IL Gular,23.09.1975,Haukås,23.01(-1,4)
+64,Vegard Sellæg,Namsen FIF,07.02.1978,Steinkjer,23.03(+0,6)
+65,Kjetil Hodnekvam,FIL AKS-77,25.06.1977,Fana,23.04(+0,1)
+66,Stein Erik Lund,IL Tyrving,02.04.1981,Lillehammer,23.05(+1,2)
+67,Martin Rypdal,IL i BUL Tromsø,19.05.1980,Narvik,23.06(+1,4)
+68,Jone Eskeland,IL Skjalg,17.08.1980,Lillehammer,23.06(+0,7)
+69,Eirik Næss Ulvestad,Trondheim FIK,12.08.1982,Florø,23.07(+0,3)
+70,Ragnar Bergheim,IL Norna-Salhus,19.06.1982,Fana,23.09(+0,5)
+71,Jonas Sjolte Bakken,Moss IL,21.07.1980,Sandefjord,23.10(+1,6)
+72,Torleiv Bjørnestad,IL Skjalg,03.10.1975,Stavanger,23.11(-1,0)
+73,Kai Arne Hermo,Ranheim IL,16.12.1976,Stjørdal,23.13(+0,5)
+74,Hallvard Rise,Rennebu IL,04.06.1966,Trondheim/Le,23.14(+0,2)
+75,Akin Olowo,IL Gular,24.01.1972,Fana,23.14
+76,Ørjan Vie,IL Fri,27.04.1978,Fana,23.15
+77,Omar Ellingsen Chammas,IL i BUL,09.11.1976,Oslo/Tr,23.15(-0,8)
+78,Jon Are Sundland,IL Fri,23.08.1978,Fana,23.16(+0,3)
+79,Einar Inge Aasen,IF Hellas,15.04.1982,Lillehammer,23.16(+1,2)
+80,Finn Tysland Johnsen,IL Sørfjell,16.04.1980,Stjørdal,23.16(+0,2)
+81,Espen Kvalheim,IL Fri,22.04.1980,Haukås,23.16(+0,2)
+82,Eivind Formoe,Fredrikstad IF,11.07.1980,Göteborg, SWE,23.19
+83,Bjørnar Pettersen,TIL Hovding,06.10.1981,Lillehammer,23.19(+1,2)
+84,Trond Støre,Frol IL,06.12.1966,Oslo/Bi,23.20(+0,5)
+85,Andreas Tryti,Ski IL,21.01.1982,Oslo/Bi,23.21(+0,7)
+86,Lars Eirik Ulseth,Frol IL,11.10.1967,Tønsberg,23.21(+1,3)
+87,Odd Arne Elstad,IF Hellas,10.04.1980,Oslo/Bi,23.21(-0,3)
+88,Ole Henrik Egren,IL Runar,17.05.1982,Lillehammer,23.22(+1,4)
+89,Ivar Olsen,IL Gular,03.07.1976,Fana,23.22(+1,6)
+90,Petter Smith,Tønsberg FIK,15.09.1978,Tønsberg,23.23(+1,2)
+91,Kåre Strande,Fagernes IL,29.05.1961,Lillehammer,23.25(-0,8)
+92,Atle Vesttorp,FIL Bamse,14.02.1982,Lillehammer,23.25(+1,0)
+93,Martin Bjune,Minerva IS,04.02.1980,Oslo/Bi,23.26(-0,4)
+94,Christian Strand,SK Vidar,02.05.1980,Göteborg, SWE,23.26(-1,2)
+95,Lars Erik Fareid,IF Urædd,26.11.1981,Lillehammer,23.29(+1,0)
+96,Andreas Kristiansen,Bergens TF,18.09.1981,Fitjar,23.30(+0,6)
+97,Fredrik Paus,SK Vidar,30.03.1979,Göteborg, SWE,23.30
+98,Andreas Horsdal,IK Tjalve,15.06.1979,Lillehammer,23.30(+1,2)
+99,Tom Syring,IK Tjalve,27.05.1974,Oslo/Tr,23.30(-0,8)
+100,Chisom Okeke,IK Tjalve,06.09.1982,Oslo/Bi,23.30(+0,3)
+101,Frank Øines,Ullensaker/Kisa IL,04.06.1968,Oslo/Bi,23.31(-0,3)
+102,Egil Ohm,Haugesund IL,22.11.1980,Haugesund,23.31(+0,9)
+103,Nils Erik Mikalsen,Lærdal IL,27.03.1980,Øvre Årdal,23.44
+104,Magnus Dybvad,Stjørdal FIK,07.04.1982,Lillehammer,23.44(+1,2)
+105,Pål Vammervold,Oppdal FIK,09.05.1981,Oslo/Bi,23.45(-0,7)
+106,Pål-Inge Sæbø,IL Norna-Salhus,03.08.1982,Fana,23.45(+1,6)
+107,Trygve Angeltveit,IF Hellas,16.06.1979,Lillehammer,23.46(+0,7)
+108,Eystein Bråthen,Spydeberg IL,07.02.1980,Lillehammer,23.48(+0,7)
+109,Tore Johnsen,Sandnes IL,31.12.1980,Lillehammer,23.49(0,0)
+110,Espen Grønnern,FIL Bamse,02.07.1981,Lillehammer,23.49(+1,0)
+
+
+200 meter – Manuell tid (Håndtid)
+rank_in_list,athlete_name,club_name,birth_date,venue_city,performance_raw
+1,Trond Solvang,IK Tjalve,28.04.1976,Øyestad,21.9(+1,3)
+2,Tom Erik Olsen,SK Vidar,20.10.1974,Oslo/Bi,22.3(-0,3)
+3,Espen Engebrethsen,IL i BUL,27.05.1980,Moss,22.6(0,0)
+4,Kai Arne Hermo,Ranheim IL,16.12.1976,Oppdal,22.9
+5,Jonas Sjolte Bakken,Moss IL,21.07.1980,Moss,23.0(0,0)
+6,Pål Vammervold,Oppdal FIK,09.05.1981,Oppdal,23.2
+
+
+400 meter – Elektronisk tid
+Plassering,Utøver,Klubb,Fødselsår,Sted,Dato,Resultat
+1,Quincy Douglas,IL Gular,07.09.1975,Oslo/Bi,30.06,46.11
+2,Frank Fiske,Frol IL,16.09.1975,Byrkjelo,07.08,46.99
+3,Roald Bergheim,IL Norna-Salhus,04.03.1977,Sandefjord,18.07,47.29
+4,Wayne Whyte (JAM),IL Gular,04.05.1974,Fana,28.07,47.34
+5,Ole Christian Alsand,SK Vidar,16.04.1971,Lisleby,30.05,47.88
+6,Yngve Sundsfjord,Trondheim FIK,05.01.1980,Sandefjord,18.07,48.04
+7,Emmanuel Kemboi (KEN),IL Norna-Salhus,01.01.1981,Oslo/Bi,09.07,48.27
+8,Vebjørn Rodal,Oppdal FIK,16.09.1972,Elnesvågen,24.05,48.50
+9,Lars Eirik Ulseth,Frol IL,11.10.1967,Oslo/Bi,07.09,48.61
+10,Per Øivin Sola,SK Vidar,17.06.1972,Oslo/Bi,15.06,48.65
+11,Jon Are Sundland,IL Fri,23.08.1978,Fana,18.08,48.70
+12,Arild Solheim,IL Fri,08.10.1975,Byrkjelo,07.08,48.92
+13,Tor Øivind Ødegård,Fredrikstad IF,28.02.1969,Oslo/St,16.08,49.00
+14,Atle McAdam,IK Tjalve,18.06.1977,Tønsberg,07.07,49.09
+15,Jan Petter Bjørnevik,Stjørdal FIK,20.08.1974,Oslo/Bi,09.07,49.15
+16,Benjamin Jensen,IK Tjalve,13.04.1975,"Herentals, BEL",03.07,49.23
+17,Trond Lindanger,Haugesund IL,20.11.1972,Haugesund,07.07,49.23
+18,Morten Sand,Lillehammer IF,24.07.1977,Sandefjord,18.07,49.31
+19,Lars Eric Sæther,Steinkjer FIK,21.04.1979,Sandefjord,18.07,49.32
+20,Martin Hjelseth,IK Tjalve,12.04.1979,Oslo/Bi,13.06,49.43
+21,Kjetil Hodnekvam,FIL AKS-77,25.06.1977,Fana,10.08,49.43
+22,Trond Solvang,IK Tjalve,28.04.1976,Oslo/Bi,31.08,49.51
+23,Kristian Fagerland,IK Tjalve,08.06.1976,Oslo/Bi,31.08,49.58
+24,Tom Erik Olsen,SK Vidar,20.10.1974,"Alhama de Murcia, ESP",22.05,49.62
+25,Jørn Erik Norangshol,Ørsta IL,13.04.1978,Byrkjelo,06.08,49.64
+26,Karl Henrik Felde,IL Gular,23.02.1977,Fana,20.06,49.67
+27,Torleiv Bjørnestad,IL Skjalg,03.10.1975,Stavanger,12.06,49.72
+28,Bjørn Arild Bøhleng,IL i BUL,23.03.1972,Oslo/St,16.08,49.76
+29,Michael Tomala,Minerva IS,01.10.1979,Sandefjord,16.07,49.79
+30,Remi Kopperud,Varteig IL,21.03.1972,Sandefjord,16.07,49.81
+31,Tom Syring,IK Tjalve,27.05.1974,Oslo/Bi,07.09,49.86
+32,Jørn Tollefsen,Moss IL,19.02.1973,Lillehammer,26.06,49.94
+33,Erlend Kolstø,Egersunds IK,06.06.1978,Lillehammer,26.06,49.96
+34,Ørjan Vie,IL Fri,27.04.1978,Fana,20.06,49.99
+35,Ragnar Bergheim,IL Norna-Salhus,19.06.1982,Lillehammer,26.06,50.09
+36,Einar Inge Aasen,IF Hellas,15.04.1982,Lillehammer,26.06,50.10
+37,Trond Høiby,Ski IL,24.01.1973,"Sevilla, ESP",24.08,50.11
+38,Njål Kvendseth,Tromsdalen UIL,28.11.1981,Sandefjord,16.07,50.40
+39,Fredrik Paus,SK Vidar,30.03.1979,"Göteborg, SWE",19.06,50.42
+40,Espen Engebrethsen,IL i BUL,27.05.1980,Sandefjord,16.07,50.43
+41,Martin Rypdal,IL i BUL Tromsø,19.05.1980,Finnfjordbotn,20.06,50.46
+42,Espen Kvalheim,IL Fri,22.04.1980,Fana,05.09,50.47
+43,Lars Øyvind Kvaale,Trondheim FIK,07.04.1981,Nadderud,19.06,50.48
+44,Kyrre Øvrebø,Ås IL,13.08.1981,Nadderud,19.06,50.49
+45,Rune Selstad,Kristiansands IF,17.05.1982,Søgne,05.09,50.52
+46,Pål Vammervold,Oppdal FIK,09.05.1981,Lillehammer,26.06,50.53
+47,Aksel Haavik,IL Koll,01.09.1982,Oslo/Bi,13.06,50.56
+48,Thomas Grønnern,FIL Bamse,25.07.1977,Lillehammer,26.06,50.56
+49,Runar Heltne,IK Tjalve,21.04.1980,"Bern, SUI",17.07,50.57
+50,Bjørnar Pettersen,IL Gular,06.10.1981,Fana,20.06,50.60
+51,Petter Smith,Tønsberg FIK,15.09.1978,Fana,20.06,50.60
+52,Akin Olowo,IL Gular,24.01.1972,Sandefjord,16.07,50.60
+53,Andreas Totsås,Namsen FIF,01.07.1981,Levanger,08.08,50.63
+54,Eyvind Solbu,Ås IL,17.11.1972,Oslo/St,16.08,50.74
+55,Stig Vervik Ellingsen,IL Tyrving,08.09.1981,Asker,04.09,50.80
+56,Martin P. Wollert-Nielsen,FIK Orion,30.04.1983,Tønsberg,07.07,50.85
+57,Svein Olav Eidsæter,IL Frode,01.04.1977,Ålesund,28.08,50.86
+58,Odd Arne Elstad,IF Hellas,10.04.1980,Oslo/Bi,13.06,50.88
+59,Per Erik Ohlgren,Halden IL,28.08.1981,Lillehammer,26.06,50.92
+60,Eystein Lysholm,IL Skjalg,05.01.1980,Byrkjelo,06.08,50.94
+61,Daniel Twerenbold (SUI),Oslo-Studentenes IK,Ukjent dato,Oslo/Bi,27.07,50.95
+62,Jon Andreas Rove,IL Runar,18.01.1978,Oslo/Bi,08.06,50.98
+63,Sverre Helland,IL Staal,02.12.1980,Sand i Suldal,21.08,51.15
+64,Raymond Maudal,Sandnes IL,01.07.1981,Florø,14.08,51.17
+65,Frank Øines,Ullensaker/Kisa IL,04.06.1968,Oslo/St,16.08,51.22
+66,Espen Folmo,IF Hellas,09.06.1980,Kifisia (GRE),17.07,51.23
+67,Petter Haarberg,Heimdal IF,27.03.1980,Lillehammer,26.06,51.24
+68,Kristian Nedregård,Aksla IL,28.08.1974,Ålesund,28.08,51.28
+69,Ivar Olsen,IL Gular,03.07.1976,Fana,19.05,51.29
+70,Andreas Horsdal,IK Tjalve,15.06.1979,Nadderud,19.06,51.30
+71,Espen Grønnern,FIL Bamse,02.07.1981,Tønsberg,07.07,51.31
+72,Lars Sundstrøm,SK Vidar,12.11.1978,Oslo/Bi,13.06,51.34
+73,Egil Ohm,Haugesund IL,22.11.1980,Kristiansand,11.07,51.39
+74,Jimmy Nymoen,FIK Ren-Eng,07.07.1981,Florø,14.08,51.42
+75,Jens Ronny Waidal,FIK Ren-Eng,17.02.1981,Florø,14.08,51.43
+76,Even Rønnekleiv,Hyen IL,13.08.1982,Florø,25.09,51.47
+77,Terje Dyb,IL Hødd,04.02.1969,Ørsta,22.08,51.50
+78,Hans Martin Johnsrud,IF Sturla,07.01.1980,Oslo/Bi,08.06,51.52
+79,Jonas Sjolte Bakken,Moss IL,21.07.1980,Sandefjord,16.07,51.58
+80,Lars Erik Fareid,IF Urædd,26.11.1981,Oslo/Bi,27.07,51.62
+81,Alejandro E. Perez (CUB),Haugesund IL,01.01.1983,Haugesund,03.09,51.62
+82,Torleiv Hølland,Sandnes IL,27.12.1969,Kristiansand,11.07,51.63
+83,Espen Strindeberg,IF Hellas,31.03.1976,"Waco, USA",21.05,51.65
+84,Odd Arnvid Bollingmo,IK Tjalve,08.10.1973,Oslo/Bi,31.08,51.70
+85,Anders Jacobsen,IK Tjalve,27.07.1980,Oslo/Bi,07.09,51.71
+86,Andreas Høiby,IK Tjalve,10.02.1980,Oslo/Bi,31.08,51.74
+87,Martin Rygh,Trondheim FIK,14.03.1981,Lillehammer,26.06,51.88
+88,Thomas Stange,Torvastad IL,24.09.1983,Lillehammer,26.06,52.13
+89,Jørgen Ommedal,Osterøy IL,05.01.1980,Lillehammer,26.06,52.14
+
+
+400 meter – Manuell tid
+Plassering,Utøver,Klubb,Fødselsår,Sted,Dato,Resultat
+1,Roald Bergheim,IL Norna-Salhus,1977,Byrkjelo,07.08,47.8
+2,Martin Hjelseth,IK Tjalve,1979,Oslo/Bi,13.06,49.4
+3,Eystein Lysholm,IL Skjalg,1980,Stavanger,21.08,50.3
+4,Jørgen Ommedal,Osterøy IL,1980,Sandefjord,17.07,51.7
+5,Thor Asbjørn Hagen,IL BUL,1977,Oslo/Bi,23.09,52.0
+
+300 meter – Elektronisk tid
+rank_in_list,athlete_name,club_name,birth_date,venue_city,performance_raw
+1,Quincy Douglas,IL Gular,07.09.1975,Stjørdal,32.82
+2,Frank Fiske,Frol IL,16.09.1975,Stjørdal,33.37
+3,Geir Moen,Moss IL,26.06.1969,Stjørdal,33.54
+4,Roald Bergheim,IL Norna-Salhus,04.03.1977,Fana,33.98
+5,Per Øivin Sola,SK Vidar,17.06.1972,Oslo/La,34.45
+6,Martin Blekkerud,Moss IL,07.08.1975,Oslo/La,35.11
+7,Arild Solheim,IL Fri,08.10.1975,Fana,35.18
+8,Jon Are Sundland,IL Fri,23.08.1978,Fana,35.41
+9,Jan Petter Bjørnevik,Stjørdal FIK,20.08.1974,Stjørdal,35.42
+10,Helge Farbrot,IK Tjalve,19.01.1975,Oslo/La,35.64
+11,Bjørnar Pettersen,TIL Hovding,06.10.1981,Fana,36.13
+12,Ørjan Vie,IL Fri,27.04.1978,Fana,36.21
+13,Bård Venholen,IL Gular,11.04.1975,Oslo/La,36.39
+14,Ragnar Bergheim,IL Norna-Salhus,19.06.1982,Fana,36.39
+15,Akin Olowo,IL Gular,24.01.1972,Fana,36.49
+16,Espen Engebrethsen,IL i BUL,27.05.1980,Oslo/La,36.61
+17,Ivar Olsen,IL Gular,03.07.1976,Fana,36.65
+18,Gøran Ruud Rødsjø,Oppdal FIK,01.11.1975,Oslo/La,36.94
+19,Lars Eric Sæther,Steinkjer FIK,21.04.1979,Oslo/La,37.04
+20,Pål Vammervold,Oppdal FIK,09.05.1981,Oslo/La,37.08
+21,Espen Kvalheim,IL Fri,22.04.1980,Fana,37.11
+22,Jørgen Eide,Fana IL,26.04.1981,Fana,37.20
+23,Kjetil Myrmel,Bergens TF,25.05.1981,Fana,37.49
+
+600 meter
+Plassering,Utøver,Klubb,Fødselsår,Sted,Dato,Resultat
+1,Vebjørn Rodal,Oppdal FIK,16.09.1972,Stjørdal,12.06,1:15.32
+2,Kjetil Hodnekvam,FIL AKS-77,25.06.1977,Stjørdal,12.06,1:18.32
+3,Tor Øivind Ødegård,Fredrikstad IF,28.02.1969,Lisleby,30.05,1:19.99
+4,Jon Are Sundland,IL Fri,23.08.1978,Fana,19.05,1:20.82
+5,Terje Dyb,IL Hødd,04.02.1969,Ålesund,18.08,1:22.7h
+6,Bjørnar Pettersen,TIL Hovding,06.10.1981,Fana,19.05,1:24.16
+7,Terje Aggvin,Ås IL,11.04.1974,Lisleby,30.05,1:24.18
+8,Hans Martin Johnsrud,IF Sturla,07.01.1980,Drammen,13.05,1:24.61
+
+110 meter hekk – Elektronisk tid
+rank_in_list,athlete_name,club_name,birth_date,venue_city,performance_raw
+1,Kenneth Halhjem,IL Gular,10.07.1976,Lillehammer,14.00(+0,5)
+2,Tom Erik Olsen,SK Vidar,20.10.1974,Palma de Mallorca, ESP,14.19(-2,1)
+3,Benjamin Jensen,IK Tjalve,13.04.1975,Byrkjelo,14.61(-2,7)
+4,Ådne Nerhus,IL Gular,24.05.1975,Fana,14.66(+1,4)
+5,Torbjørn Sola,IF Sturla,19.02.1979,Nadderud,14.86(+0,6)
+6,Birger Hermansen,Moss IL,10.11.1976,Helsingborg, SWE,14.87(-0,2)
+7,Vegar Sellæg,Namsen FIF,07.02.1978,Steinkjer,14.95(+1,2)
+8,Magnus Husby Rostad,Inderøy IL,07.03.1980,Steinkjer,15.03(+1,2)
+9,Espen Strindeberg,IF Hellas,31.03.1976,Ann Arbor, USA,15.08(+0,8)
+10,Trond Høiby,Ski IL,24.01.1973,Lillehammer,15.10(+0,5)
+11,Knut Harald Sommerfeldt,IF Hellas,13.07.1979,Sandefjord,15.40(-0,4)
+12,Runar Heltne,IK Tjalve,21.04.1980,Bern, SUI,15.69(-0,7)
+13,Ole Jakob H. Nielsen,Fredrikstad IF,09.05.1980,Nadderud,15.75(+0,6)
+14,Ragnar Bergheim,IL Norna-Salhus,19.06.1982,Fana,15.98(+1,5)
+15,Magnus Kleppe,Gloppen FIL,04.07.1965,Fana,16.13(+1,5)
+16,Ørjan Vie,IL Fri,27.04.1978,Fana,16.25(+0,5)
+17,Eivind Stavang,Florø TIF,08.03.1982,Sandefjord,16.55(-0,4)
+18,Sverre Helland,IL Staal,02.12.1980,Sand i Suldal,16.69(+0,9)
+19,Mats Eirik Elvik,Osterøy IL,06.08.1971,Haukås,16.74(+0,2)
+20,Ove Lindekleiv,IL Trio,08.04.1976,Fana,16.85(+1,5)
+21,Sigbjørn Reigstad,Osterøy IL,15.08.1978,Haukås,16.93(+0,2)
+22,Bård Øina,Kristiansands IF,16.01.1973,Lillehammer,16.97(+0,5)
+23,Jon Olav Bjørhusdal,IL Skjalg,03.01.1968,Stavanger,17.08(-2,6)
+24,Erik Pettersen,IF Herkules,29.12.1979,Porsgrunn,17.60(-0,8)
+25,Esten Konstad Haanæs,Trondheim FIK,26.07.1980,Stjørdal,17.84(-0,2)
+26,Mons Fjeldstad,IL Norna-Salhus,12.04.1982,Fana,18.35(+0,7)
+27,Kristian Gundersen,IL Norodd,30.08.1982,Straumsnes,18.86(+1,3)
+
+
+200 meter hekk
+Plassering,Utøver,Klubb,Fødselsår,Sted,Dato,Resultat
+1,Ragnar Bergheim,IL Norna-Salhus,19.06.1982,Fana,25.08,25.23(+0,7)
+2,Roald Bergheim,IL Norna-Salhus,04.03.1977,Fana,25.08,25.25(+0,7)
+3,Ørjan Vie,IL Fri,27.08.1978,Fana,25.08,25.26(+0,7)
+4,Bjørnar Pettersen,TIL Hovding,06.10.1981,Voss,29.08,25.46(-1,4)
+5,Ole Jacob H. Nielsen,Fredrikstad IF,09.05.1980,Drammen,12.09,26.58(+0,1)
+6,Torbjørn Herder Kaggerud,Stathelle OIL,07.05.1982,Drammen,12.09,26.85(+0,1)
+7,Morten Skaar,Osterøy IL,22.08.1983,Fana,25.08,27.15(+0,4)
+8,Sigbjørn Reigstad,Osterøy IL,15.08.1978,Fana,08.09,27.32(+0,7)
+9,Øystein Kandal,TIL Hovding,18.06.1983,Voss,29.08,27.33(-1,5)
+10,Håkon Mageland,Moi IL,27.03.1981,Sandnes,01.09,27.41(-2,0)
+11,Mats Eirik Elvik,Osterøy IL,06.08.1971,Fana,08.09,27.86(+0,2)
+
+
+300 meter hekk – Elektronisk tid
+Plassering,Utøver,Klubb,Fødselsår,Sted,Dato,Resultat
+1,Ragnar Bergheim,IL Norna-Salhus,19.06.1982,Fana,10.08,38.33
+2,Bjørnar Pettersen,TIL Hovding,06.10.1981,Fana,10.08,38.68
+3,Andreas Totsås,Namsen FIF,01.07.1981,Florø,14.08,39.02
+4,Akin Olowo,IL Gular,24.01.1972,Fana,19.05,39.56
+5,Stein Erik Lund,IL Tyrving,02.04.1981,Oslo/Bi,12.06,39.61
+6,Kjetil Myrmel,Bergens TF,25.05.1981,Fana,19.05,40.19
+
+
+400 meter hekk – Elektronisk tid
+Plassering,Utøver,Klubb,Fødselsår,Sted,Dato,Resultat
+1,Atle McAdam,IK Tjalve,18.06.1977,Oslo/Bi,25.05,50.98
+2,Per Øivin Sola,SK Vidar,17.06.1972,Oslo/Bi,28.07,51.18
+3,Ørjan Vie,IL Fri,27.04.1978,Fana,19.06,53.28
+4,Ragnar Bergheim,IL Norna-Salhus,19.06.1982,Sandefjord,17.07,53.59
+5,Kristian Fagerland,IK Tjalve,08.06.1976,Waco, USA,22.05,53.65
+6,Michael Tomala,Minerva IS,01.10.1979,Sandefjord,17.07,53.79
+7,Jon Andreas Rove,IL Runar,18.01.1978,Sandefjord,17.07,54.10
+8,Roald Bergheim,IL Norna-Salhus,04.03.1977,Fana,15.09,54.56
+9,Andreas Totsås,Namsen FIF,01.07.1981,Sandefjord,17.07,55.43
+10,Harald Lund,IL i BUL,20.05.1975,Oslo/Bi,28.07,55.52
+11,Bjørnar Pettersen,IL Gular,06.10.1981,Fana,19.06,55.63
+12,Tom Syring,IK Tjalve,27.05.1974,Oslo/Bi,28.07,55.77
+13,Tor Øyvind Ødegaard,Fredrikstad IF,28.02.1969,Oslo/Bi,29.09,56.55
+14,Akin Olowo,IL Gular,24.01.1972,Byrkjelo,08.08,56.69
+15,Magnus Husby Rostad,Inderøy IL,07.03.1980,Sandefjord,17.07,56.77
+16,Håkon Mageland,Moi IL,27.03.1981,Egersund,25.09,57.52
+17,Andreas Høiby,IK Tjalve,10.02.1980,Sandefjord,17.07,57.53
+18,Ketil Knudsen,Trønder-Øst FIK,11.03.1961,Steinkjer,04.07,57.57
+19,Espen Kvalheim,IL Fri,22.04.1980,Oslo/Bi,10.07,57.70
+20,Kjetil Hodnekvam,FIL AKS-77,25.06.1977,Knarvik,25.09,58.31
+21,Erlend Kolstø,Egersunds IK,06.06.1978,Egersund,19.08,58.40
+22,Jon Are Sundland,IL Fri,23.08.1978,Fana,15.09,58.47
+23,Haakon Helmersen,Søgne IL,01.04.1980,Kristiansand,11.07,59.05
+24,Morten Skaar,Osterøy IL,22.08.1983,Fana,22.06,59.16
+25,Askild Solberg,IL Gular,11.01.1980,Fana,22.06,59.73
+26,Hans Olav Uldal,IK Grane,16.12.1982,Søgne,04.09,61.30
+27,Lorentz Corneliussen,IK Tjalve,09.02.1979,Oslo/Bi,12.06,61.44
+
+
+
+400 meter hekk – Manuell tid
+Plassering,Utøver,Klubb,Fødselsår,Sted,Dato,Resultat
+1,Lars Eric Sæther,Steinkjer FIK,1979,Overhalla,11.07,56.5
+2,Thomas Karlsen,Modum FIK,1978,Geithus,26.09,58.2
+3,Magnus Husby Rostad,Inderøy IL,1980,Overhalla,11.07,58.8
+4,Jens Ronny Woldal,FIK Ren-Eng,1981,Rena,05.09,60.1
+
+

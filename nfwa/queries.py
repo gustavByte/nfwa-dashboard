@@ -104,7 +104,7 @@ def event_summary(
         """
         SELECT e.id, e.name_no, e.wa_event, e.orientation
         FROM events e
-        WHERE e.gender = ?
+        WHERE e.gender = ? AND e.name_no NOT LIKE '%Håndtid%'
         ORDER BY e.name_no
         """,
         (gender,),
@@ -262,7 +262,7 @@ def events_for_gender(*, con: sqlite3.Connection, gender: str) -> list[sqlite3.R
         """
         SELECT name_no, wa_event, orientation
         FROM events
-        WHERE gender = ?
+        WHERE gender = ? AND name_no NOT LIKE '%Håndtid%'
         ORDER BY name_no
         """,
         (gender,),

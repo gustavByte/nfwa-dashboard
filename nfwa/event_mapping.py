@@ -64,6 +64,9 @@ def map_event_to_wa(*, event_no: str, gender: str, wa_events: set[str]) -> Optio
     name = (event_no or "").strip()
     if not name:
         return None
+    # Hand-timed events should never map to WA scoring
+    if "Håndtid" in name:
+        return None
 
     low = name.lower()
     if low.startswith(("maraton", "marathon")):
