@@ -30,6 +30,7 @@ class ScrapedResult:
     athlete_name: str
     club_name: Optional[str]
     birth_date: Optional[str]  # ISO YYYY-MM-DD
+    nationality: Optional[str]  # ISO 3166-1 alpha-3, e.g. "NOR", "ETH"; None = default NOR
     placement_raw: Optional[str]
     venue_city: Optional[str]
     stadium: Optional[str]
@@ -154,6 +155,7 @@ def parse_landsstatistikk(*, html_bytes: bytes, season: int, gender: str, source
                 athlete_name=athlete_name,
                 club_name=club_name,
                 birth_date=birth_iso,
+                nationality=None,  # minfriidrett does not provide nationality; defaults to NOR
                 placement_raw=placement,
                 venue_city=venue_city,
                 stadium=stadium,

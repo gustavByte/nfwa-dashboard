@@ -5,15 +5,23 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
+SCHEMA_VERSION = 2
 
 SCHEMA = """
 PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS schema_version (
+    version INTEGER NOT NULL,
+    applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    description TEXT
+);
 
 CREATE TABLE IF NOT EXISTS athletes (
     id INTEGER PRIMARY KEY,
     gender TEXT NOT NULL CHECK(gender IN ('Men','Women')),
     name TEXT NOT NULL,
     birth_date TEXT,
+    nationality TEXT NOT NULL DEFAULT 'NOR',
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -68,6 +76,7 @@ CREATE TABLE IF NOT EXISTS results (
     wa_event TEXT,
     wa_error TEXT,
     source_url TEXT NOT NULL,
+    source_type TEXT,
     scraped_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(
         season,
@@ -84,6 +93,42 @@ CREATE TABLE IF NOT EXISTS results (
 CREATE INDEX IF NOT EXISTS idx_results_athlete ON results(athlete_id, season);
 CREATE INDEX IF NOT EXISTS idx_results_event ON results(event_id, season, gender);
 CREATE INDEX IF NOT EXISTS idx_results_points ON results(season, gender, event_id, wa_points);
+
+CREATE TABLE IF NOT EXISTS sources (
+    id INTEGER PRIMARY KEY,
+    source_type TEXT NOT NULL,
+    url TEXT,
+    internal_ref TEXT,
+    description TEXT,
+    season INTEGER,
+    gender TEXT,
+    last_synced_at TEXT,
+    row_count INTEGER,
+    UNIQUE(source_type, url)
+);
+
+CREATE TABLE IF NOT EXISTS change_log (
+    id INTEGER PRIMARY KEY,
+    change_type TEXT NOT NULL,
+    table_name TEXT NOT NULL,
+    record_id INTEGER,
+    field_name TEXT,
+    old_value TEXT,
+    new_value TEXT,
+    reason TEXT,
+    changed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_changelog_record ON change_log(table_name, record_id);
+
+CREATE TABLE IF NOT EXISTS athlete_aliases (
+    id INTEGER PRIMARY KEY,
+    canonical_id INTEGER NOT NULL REFERENCES athletes(id),
+    alias_id INTEGER NOT NULL REFERENCES athletes(id),
+    confidence TEXT NOT NULL CHECK(confidence IN ('confirmed','suggested')),
+    reason TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(canonical_id, alias_id)
+);
 """
 
 NATURAL_DEDUP_SQL = """
@@ -133,8 +178,22 @@ def connect(db_path: Path) -> sqlite3.Connection:
     return con
 
 
+def _table_columns(con: sqlite3.Connection, table: str) -> set[str]:
+    return {row[1] for row in con.execute(f"PRAGMA table_info({table})").fetchall()}
+
+
+def _migrate_to_v2(con: sqlite3.Connection) -> None:
+    """Add columns/tables introduced in schema v2."""
+    if "nationality" not in _table_columns(con, "athletes"):
+        con.execute("ALTER TABLE athletes ADD COLUMN nationality TEXT NOT NULL DEFAULT 'NOR'")
+    if "source_type" not in _table_columns(con, "results"):
+        con.execute("ALTER TABLE results ADD COLUMN source_type TEXT")
+
+
 def init_db(con: sqlite3.Connection) -> None:
     con.executescript(SCHEMA)
+    # Migrate existing tables that CREATE TABLE IF NOT EXISTS won't touch.
+    _migrate_to_v2(con)
     # Drop known junk sections (non-event tables) if they were ever ingested.
     con.executescript(
         """
@@ -154,15 +213,30 @@ def init_db(con: sqlite3.Connection) -> None:
     # Ensure stable upserts even when some columns are NULL (SQLite UNIQUE treats NULLs as distinct).
     con.executescript(NATURAL_DEDUP_SQL)
     con.executescript(NATURAL_UNIQUE_INDEX_SQL)
+    # Record schema version if not already recorded.
+    row = con.execute("SELECT MAX(version) AS v FROM schema_version").fetchone()
+    if row["v"] is None or row["v"] < SCHEMA_VERSION:
+        con.execute(
+            "INSERT INTO schema_version (version, description) VALUES (?, ?)",
+            (SCHEMA_VERSION, "Add nationality, source_type, sources, change_log, athlete_aliases"),
+        )
     con.commit()
 
 
-def upsert_athlete(*, con: sqlite3.Connection, athlete_id: int, gender: str, name: str, birth_date: str | None) -> None:
+def upsert_athlete(
+    *,
+    con: sqlite3.Connection,
+    athlete_id: int,
+    gender: str,
+    name: str,
+    birth_date: str | None,
+    nationality: str = "NOR",
+) -> None:
     norm_name = " ".join((name or "").split())
     con.execute(
         """
-        INSERT INTO athletes (id, gender, name, birth_date)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO athletes (id, gender, name, birth_date, nationality)
+        VALUES (?, ?, ?, ?, ?)
         ON CONFLICT(id) DO UPDATE SET
             gender=excluded.gender,
             name=CASE
@@ -172,9 +246,13 @@ def upsert_athlete(*, con: sqlite3.Connection, athlete_id: int, gender: str, nam
                 ELSE athletes.name
             END,
             birth_date=COALESCE(excluded.birth_date, athletes.birth_date),
+            nationality=CASE
+                WHEN athletes.nationality != 'NOR' THEN athletes.nationality
+                ELSE excluded.nationality
+            END,
             updated_at=CURRENT_TIMESTAMP
         """,
-        (athlete_id, gender, norm_name, birth_date),
+        (athlete_id, gender, norm_name, birth_date, nationality),
     )
 
 
@@ -271,6 +349,7 @@ def upsert_result(
     wa_event: str | None,
     wa_error: str | None,
     source_url: str,
+    source_type: str | None = None,
 ) -> None:
     con.execute(
         """
@@ -278,8 +357,8 @@ def upsert_result(
             season, gender, event_id, athlete_id, club_id, rank_in_list,
             performance_raw, performance_clean, value, wind, placement_raw,
             competition_id, competition_name, venue_city, stadium, result_date,
-            wa_points, wa_exact, wa_event, wa_error, source_url
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            wa_points, wa_exact, wa_event, wa_error, source_url, source_type
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT DO UPDATE SET
             club_id=excluded.club_id,
             rank_in_list=excluded.rank_in_list,
@@ -293,6 +372,7 @@ def upsert_result(
             wa_exact=excluded.wa_exact,
             wa_event=excluded.wa_event,
             wa_error=excluded.wa_error,
+            source_type=COALESCE(excluded.source_type, results.source_type),
             scraped_at=CURRENT_TIMESTAMP
         """,
         (
@@ -317,5 +397,91 @@ def upsert_result(
             wa_event,
             wa_error,
             source_url,
+            source_type,
         ),
     )
+
+
+def upsert_source(
+    *,
+    con: sqlite3.Connection,
+    source_type: str,
+    url: str | None,
+    internal_ref: str | None = None,
+    description: str | None = None,
+    season: int | None = None,
+    gender: str | None = None,
+    row_count: int | None = None,
+) -> None:
+    """Register or update a data source in the sources catalog."""
+    con.execute(
+        """
+        INSERT INTO sources (source_type, url, internal_ref, description, season, gender, last_synced_at, row_count)
+        VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
+        ON CONFLICT(source_type, url) DO UPDATE SET
+            internal_ref=COALESCE(excluded.internal_ref, sources.internal_ref),
+            description=COALESCE(excluded.description, sources.description),
+            season=COALESCE(excluded.season, sources.season),
+            gender=COALESCE(excluded.gender, sources.gender),
+            last_synced_at=CURRENT_TIMESTAMP,
+            row_count=excluded.row_count
+        """,
+        (source_type, url, internal_ref, description, season, gender, row_count),
+    )
+
+
+def log_change(
+    *,
+    con: sqlite3.Connection,
+    change_type: str,
+    table_name: str,
+    record_id: int | None = None,
+    field_name: str | None = None,
+    old_value: str | None = None,
+    new_value: str | None = None,
+    reason: str | None = None,
+) -> None:
+    """Record a manual change to the change_log for audit trail."""
+    con.execute(
+        """
+        INSERT INTO change_log (change_type, table_name, record_id, field_name, old_value, new_value, reason)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+        (change_type, table_name, record_id, field_name, old_value, new_value, reason),
+    )
+
+
+def fill_club_gaps(con: sqlite3.Connection, season: int | None = None) -> int:
+    """Fill missing club_id in results using other results for the same athlete/season.
+
+    Returns the number of rows updated.
+    """
+    where = "WHERE r.club_id IS NULL"
+    params: tuple = ()
+    if season is not None:
+        where += " AND r.season = ?"
+        params = (season,)
+    cur = con.execute(
+        f"""
+        UPDATE results SET club_id = (
+            SELECT r2.club_id FROM results r2
+            WHERE r2.athlete_id = results.athlete_id
+              AND r2.season = results.season
+              AND r2.club_id IS NOT NULL
+            ORDER BY r2.scraped_at DESC
+            LIMIT 1
+        )
+        WHERE results.id IN (
+            SELECT r.id FROM results r
+            {where}
+            AND EXISTS (
+                SELECT 1 FROM results r2
+                WHERE r2.athlete_id = r.athlete_id
+                  AND r2.season = r.season
+                  AND r2.club_id IS NOT NULL
+            )
+        )
+        """,
+        params,
+    )
+    return cur.rowcount

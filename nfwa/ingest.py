@@ -136,6 +136,7 @@ def sync_landsoversikt(
                                     gender=row.gender,
                                     name=row.athlete_name,
                                     birth_date=row.birth_date,
+                                    nationality=row.nationality or "NOR",
                                 )
                                 club_id = results_db.get_or_create_club(con=con, club_name=row.club_name)
                                 event_id = results_db.get_or_create_event(
@@ -196,9 +197,14 @@ def sync_landsoversikt(
                                     wa_event=wa_event,
                                     wa_error=wa_error,
                                     source_url=row.source_url,
+                                    source_type="friidrett_legacy",
                                 )
                                 rows_inserted += 1
 
+                            results_db.upsert_source(
+                                con=con, source_type="friidrett_legacy", url=page.url,
+                                season=int(year), gender=src.gender, row_count=len(parsed_rows),
+                            )
                             con.commit()
                             time.sleep(max(0.0, polite_delay_s))
                         continue
@@ -231,6 +237,7 @@ def sync_landsoversikt(
                             gender=row.gender,
                             name=row.athlete_name,
                             birth_date=row.birth_date,
+                            nationality=row.nationality or "NOR",
                         )
                         club_id = results_db.get_or_create_club(con=con, club_name=row.club_name)
                         event_id = results_db.get_or_create_event(
@@ -298,11 +305,19 @@ def sync_landsoversikt(
                             wa_event=wa_event,
                             wa_error=wa_error,
                             source_url=row.source_url,
+                            source_type="minfriidrett",
                         )
                         rows_inserted += 1
 
+                    results_db.upsert_source(
+                        con=con, source_type="minfriidrett", url=url,
+                        season=int(year), gender=src.gender, row_count=len(parsed_rows),
+                    )
                     con.commit()
                     time.sleep(max(0.0, polite_delay_s))
+
+            results_db.fill_club_gaps(con)
+            con.commit()
 
         return SyncSummary(
             pages=pages,
@@ -383,6 +398,7 @@ def sync_kondis(
                         gender=row.gender,
                         name=row.athlete_name,
                         birth_date=row.birth_date,
+                        nationality=row.nationality or "NOR",
                     )
                     club_id = results_db.get_or_create_club(con=con, club_name=row.club_name)
                     event_id = results_db.get_or_create_event(
@@ -447,11 +463,19 @@ def sync_kondis(
                         wa_event=wa_event,
                         wa_error=wa_error,
                         source_url=row.source_url,
+                        source_type="kondis",
                     )
                     rows_inserted += 1
 
+                results_db.upsert_source(
+                    con=con, source_type="kondis", url=page.url,
+                    season=int(page.season), gender=page.gender, row_count=len(parsed_rows),
+                )
                 con.commit()
                 time.sleep(max(0.0, polite_delay_s))
+
+            results_db.fill_club_gaps(con)
+            con.commit()
 
         return SyncSummary(
             pages=pages,
@@ -524,6 +548,7 @@ def sync_old_data(
                         gender=row.gender,
                         name=row.athlete_name,
                         birth_date=row.birth_date,
+                        nationality=row.nationality or "NOR",
                     )
                     club_id = results_db.get_or_create_club(con=con, club_name=row.club_name)
                     event_id = results_db.get_or_create_event(
@@ -584,10 +609,24 @@ def sync_old_data(
                         wa_event=wa_event,
                         wa_error=wa_error,
                         source_url=row.source_url,
+                        source_type="old_data",
                     )
                     rows_inserted += 1
 
+                # Register sources — old_data may have multiple source_urls per gender
+                source_counts: dict[tuple[str, str], int] = {}
+                for r in parsed_rows:
+                    key = (r.source_url, r.gender)
+                    source_counts[key] = source_counts.get(key, 0) + 1
+                for (src_url, src_gender), count in source_counts.items():
+                    results_db.upsert_source(
+                        con=con, source_type="old_data", url=src_url,
+                        season=int(year), gender=src_gender, row_count=count,
+                    )
                 con.commit()
+
+            results_db.fill_club_gaps(con)
+            con.commit()
 
         return SyncSummary(
             pages=pages,

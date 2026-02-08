@@ -218,6 +218,24 @@ function formatHigherPerfNo(value) {
   return formatDecimalNo(v, 2);
 }
 
+const WIND_EVENTS = new Set(["100m", "200m", "100mH", "110mH", "LJ", "TJ"]);
+
+function isWindEvent(waEvent) {
+  return WIND_EVENTS.has(waEvent);
+}
+
+function formatWind(wind) {
+  if (wind === null || wind === undefined) return "";
+  const n = Number(wind);
+  if (!Number.isFinite(n)) return "";
+  return (n >= 0 ? "+" : "") + n.toFixed(1);
+}
+
+function formatPerfWithWind(perf, wind, waEvent) {
+  if (wind === null || wind === undefined || !isWindEvent(waEvent)) return fmt(perf);
+  return `${fmt(perf)}(${formatWind(wind)})`;
+}
+
 function padRight(text, width) {
   const s = (text ?? "").toString();
   return s.length >= width ? s : s + " ".repeat(width - s.length);
@@ -645,7 +663,7 @@ async function loadResultsEvents({ preferredEventNo = null } = {}) {
   );
 }
 
-function renderResultsTable(rows) {
+function renderResultsTable(rows, { waEvent = null } = {}) {
   const tbody = $("resultsTable").querySelector("tbody");
   tbody.innerHTML = "";
   for (const r of rows) {
@@ -664,7 +682,7 @@ function renderResultsTable(rows) {
     tr.appendChild(clubTd);
 
     const perfTd = document.createElement("td");
-    perfTd.textContent = fmt(r.performance_raw);
+    perfTd.textContent = formatPerfWithWind(r.performance_raw, r.wind, waEvent);
     tr.appendChild(perfTd);
 
     const waTd = document.createElement("td");
@@ -745,7 +763,7 @@ async function refreshResults() {
     return refreshResults();
   }
 
-  renderResultsTable(data.rows || []);
+  renderResultsTable(data.rows || [], { waEvent: data.wa_event || null });
   setResultsInfo({ offset: resultsOffset, limit, total: resultsTotal, mode: data.mode });
 }
 
@@ -775,7 +793,7 @@ async function searchAthlete() {
     tr.innerHTML = `
       <td>${fmt(r.season)}</td>
       <td>${fmt(r.event_no)}</td>
-      <td>${fmt(r.performance_raw)}</td>
+      <td>${formatPerfWithWind(r.performance_raw, r.wind, r.wa_event)}</td>
       <td>${fmt(r.wa_points ?? "")}</td>
       <td>${fmt(r.result_date ?? "")}</td>
       <td>${fmt(r.competition_name ?? "")}</td>

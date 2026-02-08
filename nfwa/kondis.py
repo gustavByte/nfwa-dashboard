@@ -70,7 +70,8 @@ class KondisResult:
     athlete_id: int
     athlete_name: str
     club_name: Optional[str]
-    birth_date: Optional[str]  # ISO YYYY-MM-DD (year-only if inferred)
+    birth_date: Optional[str]  # ISO YYYY-MM-DD or YYYY (year-only)
+    nationality: Optional[str]  # ISO 3166-1 alpha-3, e.g. "NOR", "ETH"; None = default NOR
     placement_raw: Optional[str]
     venue_city: Optional[str]
     stadium: Optional[str]
@@ -164,7 +165,8 @@ _HALVMARATON_MEN_LEGACY_URLS: tuple[tuple[int, str], ...] = (
     (2002, "https://www.kondis.no/a/4627775"),
     (2001, "https://www.kondis.no/a/4627776"),
     (2000, "https://www.kondis.no/a/4627777"),
-    (1999, "https://www.kondis.no/a/4627778"),
+    # 1999 men's halvmaraton is covered by old_data (full birth dates, result dates).
+    # Keep disabled to purge any previously ingested kondis rows.
     (1998, "https://www.kondis.no/a/4627779"),
     (1997, "https://www.kondis.no/a/4627780"),
 )
@@ -184,7 +186,8 @@ _MARATON_MEN_LEGACY_URLS: tuple[tuple[int, str], ...] = (
     (2002, "https://www.kondis.no/a/4627744"),
     (2001, "https://www.kondis.no/a/4627753"),
     (2000, "https://www.kondis.no/a/4627760"),
-    (1999, "https://www.kondis.no/a/4627761"),
+    # 1999 men's maraton is covered by old_data (full birth dates, result dates).
+    # Keep disabled to purge any previously ingested kondis rows.
     (1998, "https://www.kondis.no/a/4627762"),
     (1997, "https://www.kondis.no/a/4627763"),
 )
@@ -337,6 +340,8 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2013, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2013-halvmaraton-menn/1530936"),
     KondisPage(season=2012, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2012-halvmaraton-menn/1530956"),
     KondisPage(season=2011, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-halvmaraton-menn/1530673"),
+    # 1999 men's halvmaraton covered by old_data; keep disabled to purge old kondis rows.
+    KondisPage(season=1999, gender="Men", event_no="Halvmaraton", url="https://www.kondis.no/a/4627778", enabled=False),
     *_pages_from_season_url_pairs(
         gender="Men",
         event_no="Halvmaraton",
@@ -381,6 +386,8 @@ KONDIS_PAGES: tuple[KondisPage, ...] = (
     KondisPage(season=2011, gender="Men", event_no="Maraton", url="https://www.kondis.no/statistikk/norgesstatistikk-2011-maraton-menn/1530305"),
     # Keep legacy URL disabled so sync can purge old wrongly parsed rows.
     KondisPage(season=2004, gender="Men", event_no="Maraton", url="https://www.kondis.no/a/4627742", enabled=False),
+    # 1999 men's maraton covered by old_data; keep disabled to purge old kondis rows.
+    KondisPage(season=1999, gender="Men", event_no="Maraton", url="https://www.kondis.no/a/4627761", enabled=False),
     *_pages_from_season_url_pairs(
         gender="Men",
         event_no="Maraton",
@@ -444,7 +451,7 @@ def _load_manual_maraton_men_from_csv(*, page: KondisPage, csv_path: Path) -> li
 
             birth_year = _parse_int((row.get("birth_year") or "").strip())
             athlete_id = _kondis_athlete_id(gender=page.gender, name=athlete_name, birth_year=birth_year)
-            birth_date = f"{birth_year:04d}-01-01" if birth_year is not None else None
+            birth_date = str(birth_year) if birth_year is not None else None
 
             out.append(
                 KondisResult(
@@ -459,6 +466,7 @@ def _load_manual_maraton_men_from_csv(*, page: KondisPage, csv_path: Path) -> li
                     athlete_name=athlete_name,
                     club_name=_none_if_empty((row.get("club_name") or "").strip()),
                     birth_date=birth_date,
+                    nationality=None,
                     placement_raw=None,
                     venue_city=_none_if_empty((row.get("venue_city") or "").strip()),
                     stadium=None,
@@ -654,9 +662,9 @@ _DATE_TOKEN_RE = re.compile(
 )
 _BIRTH_MARKER_RE = re.compile(r"-(?P<y>\d{2,4}|\?)\b")
 _BIRTH_AT_END_RE = re.compile(r"-(?:\d{2,4}|\?)\s*$")
-_PRE_ATHLETE_VENUE_RE = re.compile(r"^(?P<athlete>.*?\s-\s*(?:\d{2,4}|\?))\s+(?P<venue>.+)$")
+_PRE_ATHLETE_VENUE_RE = re.compile(r"^(?P<athlete>.*?\s?-\s*(?:\d{2,4}|\?))\s+(?P<venue>.+)$")
 _RANK_PREFIX_RE = re.compile(r"^(?P<rank>\d{1,4}(?:[.,]\d)?\.?)\s+(?P<rest>[A-Z\u00c6\u00d8\u00c5].+)$")
-_PRE_RANK_MARKER_RE = re.compile(r"(?<![\d.,:])(?P<rank>\d{1,4})(?:[.)])?\s+(?=[A-Z\u00c6\u00d8\u00c5])")
+_PRE_RANK_MARKER_RE = re.compile(r"(?<![-\d.,:])(?P<rank>\d{1,4})(?:[.)])?\s+(?=[A-Z\u00c6\u00d8\u00c5])")
 _PRE_DENSE_ENTRY_RE = re.compile(
     r"(?P<rank>\d{1,3})[.:)]\s*"
     r"(?P<body>.*?)"
@@ -678,6 +686,26 @@ def _parse_kondis_stats_pre(*, doc: html.HtmlElement, page: KondisPage) -> list[
         text = re.sub(r"\s+", " ", (pre.text_content() or "").replace("\u00a0", " ")).strip()
         if not text:
             continue
+
+        # Normalise en-dash / em-dash to plain hyphen so birth-year
+        # patterns like "–55" are handled the same as "-55".
+        text = text.replace("\u2013", "-").replace("\u2014", "-")
+
+        # Some legacy pages run a time directly into the next rank number
+        # (e.g. "1.22.2911 Cornelia" instead of "1.22.29 11 Cornelia").
+        # Insert a space between the time ending and the rank beginning.
+        text = re.sub(
+            r"(\d+(?:[.:,]\d{2}){2})(\d{1,4}\s+[A-Z\u00c6\u00d8\u00c5])",
+            r"\1 \2",
+            text,
+        )
+        # Similarly, PB year suffixes can merge with the next rank number
+        # (e.g. "-0111 Nina" = PB year -01 + rank 11).
+        text = re.sub(
+            r"(-\d{2})(\d{1,4}\s+[A-Z\u00c6\u00d8\u00c5])",
+            r"\1 \2",
+            text,
+        )
 
         text = _truncate_pre_text(text)
         split_candidates = (
@@ -988,7 +1016,7 @@ def _build_kondis_result(
         return None
 
     athlete_id = _kondis_athlete_id(gender=page.gender, name=athlete_name, birth_year=birth_year)
-    birth_date = f"{birth_year:04d}-01-01" if birth_year is not None else None
+    birth_date = str(birth_year) if birth_year is not None else None
 
     result_date = _parse_kondis_date(date_cell or "", season=page.season)
 
@@ -1004,6 +1032,7 @@ def _build_kondis_result(
         athlete_name=athlete_name,
         club_name=club_name,
         birth_date=birth_date,
+        nationality=None,
         placement_raw=placement_raw,
         venue_city=venue_city,
         stadium=None,

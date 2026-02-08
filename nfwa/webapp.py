@@ -61,6 +61,9 @@ class _Handler(BaseHTTPRequestHandler):
         if path in {"/", "/index.html"}:
             return self._serve_static("index.html", content_type="text/html; charset=utf-8")
 
+        if path == "/inspect":
+            return self._serve_static("inspect.html", content_type="text/html; charset=utf-8")
+
         if path.startswith("/static/"):
             rel = path.removeprefix("/static/").lstrip("/")
             return self._serve_static(rel)
@@ -195,7 +198,137 @@ class _Handler(BaseHTTPRequestHandler):
                 "rows": out_rows,
             }
 
+        if path == "/api/inspect/overview":
+            return self._inspect_overview()
+
+        if path == "/api/inspect/samples":
+            source_type = qs.get("source_type", [None])[0]
+            season = qs.get("season", [None])[0]
+            gender = qs.get("gender", [None])[0]
+            limit = int(_get_one(qs, "limit", default="20"))
+            return self._inspect_samples(source_type=source_type, season=int(season) if season else None, gender=gender, limit=limit)
+
+        if path == "/api/inspect/foreign":
+            limit = int(_get_one(qs, "limit", default="50"))
+            return self._inspect_foreign(limit=limit)
+
+        if path == "/api/inspect/sources":
+            return self._inspect_sources()
+
         raise _ApiError(404, "Ukjent API-endepunkt")
+
+    def _inspect_overview(self) -> dict[str, Any]:
+        with sqlite3.connect(self._db_path) as con:
+            con.row_factory = sqlite3.Row
+            total_results = con.execute("SELECT COUNT(*) FROM results").fetchone()[0]
+            total_athletes = con.execute("SELECT COUNT(*) FROM athletes").fetchone()[0]
+            total_events = con.execute("SELECT COUNT(*) FROM events").fetchone()[0]
+            total_clubs = con.execute("SELECT COUNT(*) FROM clubs").fetchone()[0]
+
+            source_types = [
+                dict(r) for r in con.execute(
+                    """SELECT COALESCE(source_type, '(null)') AS source_type,
+                              COUNT(*) AS results, COUNT(DISTINCT athlete_id) AS athletes,
+                              MIN(season) AS min_season, MAX(season) AS max_season
+                       FROM results GROUP BY source_type ORDER BY COUNT(*) DESC"""
+                ).fetchall()
+            ]
+            nationalities = [
+                dict(r) for r in con.execute(
+                    "SELECT nationality, COUNT(*) AS count FROM athletes GROUP BY nationality ORDER BY COUNT(*) DESC LIMIT 20"
+                ).fetchall()
+            ]
+            birth_formats = [
+                dict(r) for r in con.execute(
+                    """SELECT
+                        COALESCE(r.source_type, '(null)') AS source_type,
+                        CASE
+                            WHEN a.birth_date IS NULL THEN 'NULL'
+                            WHEN LENGTH(a.birth_date) = 10 THEN 'YYYY-MM-DD'
+                            WHEN LENGTH(a.birth_date) = 4 THEN 'YYYY'
+                            ELSE 'other'
+                        END AS format,
+                        COUNT(DISTINCT a.id) AS athletes
+                    FROM athletes a JOIN results r ON r.athlete_id = a.id
+                    GROUP BY r.source_type, format ORDER BY r.source_type, format"""
+                ).fetchall()
+            ]
+            club_with = con.execute("SELECT COUNT(*) FROM results WHERE club_id IS NOT NULL").fetchone()[0]
+            club_without = total_results - club_with
+            wind_count = con.execute("SELECT COUNT(*) FROM results WHERE wind IS NOT NULL").fetchone()[0]
+
+        return {
+            "total_results": total_results,
+            "total_athletes": total_athletes,
+            "total_events": total_events,
+            "total_clubs": total_clubs,
+            "source_types": source_types,
+            "nationalities": nationalities,
+            "birth_formats": birth_formats,
+            "club_with": club_with,
+            "club_without": club_without,
+            "wind_count": wind_count,
+        }
+
+    def _inspect_samples(
+        self, *, source_type: str | None, season: int | None, gender: str | None, limit: int,
+    ) -> list[dict[str, Any]]:
+        where_parts: list[str] = []
+        params: list[object] = []
+        if source_type:
+            where_parts.append("r.source_type = ?")
+            params.append(source_type)
+        if season:
+            where_parts.append("r.season = ?")
+            params.append(season)
+        if gender:
+            where_parts.append("r.gender = ?")
+            params.append(gender)
+        where = ("WHERE " + " AND ".join(where_parts)) if where_parts else ""
+        params.append(max(1, min(limit, 200)))
+
+        with sqlite3.connect(self._db_path) as con:
+            con.row_factory = sqlite3.Row
+            rows = con.execute(
+                f"""SELECT r.season, r.gender, e.name_no AS event, a.name AS athlete,
+                           a.nationality, a.birth_date, r.performance_raw, r.wind,
+                           r.wa_points, r.result_date, c.name AS club,
+                           r.source_type, r.source_url
+                    FROM results r
+                    JOIN events e ON e.id = r.event_id
+                    JOIN athletes a ON a.id = r.athlete_id
+                    LEFT JOIN clubs c ON c.id = r.club_id
+                    {where}
+                    ORDER BY RANDOM()
+                    LIMIT ?""",
+                params,
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def _inspect_foreign(self, *, limit: int) -> dict[str, Any]:
+        with sqlite3.connect(self._db_path) as con:
+            con.row_factory = sqlite3.Row
+            total = con.execute("SELECT COUNT(*) FROM athletes WHERE nationality != 'NOR'").fetchone()[0]
+            rows = con.execute(
+                """SELECT a.id, a.name, a.gender, a.nationality, a.birth_date,
+                          COUNT(r.id) AS results_count
+                   FROM athletes a LEFT JOIN results r ON r.athlete_id = a.id
+                   WHERE a.nationality != 'NOR'
+                   GROUP BY a.id ORDER BY a.nationality, a.name LIMIT ?""",
+                (max(1, min(limit, 200)),),
+            ).fetchall()
+        return {"total": total, "rows": [dict(r) for r in rows]}
+
+    def _inspect_sources(self) -> list[dict[str, Any]]:
+        with sqlite3.connect(self._db_path) as con:
+            con.row_factory = sqlite3.Row
+            try:
+                rows = con.execute(
+                    "SELECT * FROM sources ORDER BY source_type, season, gender"
+                ).fetchall()
+            except Exception:
+                return []
+        return [dict(r) for r in rows]
 
     def _serve_static(self, rel_path: str, *, content_type: Optional[str] = None) -> None:
         safe = (rel_path or "").replace("\\", "/").lstrip("/")

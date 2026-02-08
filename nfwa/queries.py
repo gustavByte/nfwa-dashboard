@@ -404,7 +404,9 @@ def athlete_results(
         r.season,
         r.gender,
         e.name_no AS event_no,
+        e.wa_event,
         r.performance_raw,
+        r.wind,
         r.wa_points,
         r.result_date,
         r.competition_name,
@@ -464,12 +466,14 @@ def event_results(
                     r.performance_raw,
                     r.performance_clean,
                     r.value,
+                    r.wind,
                     r.wa_points,
                     r.result_date,
                     r.competition_name,
                     r.venue_city,
                     r.stadium,
                     r.source_url,
+                    r.source_type,
                     {sort_expr} AS sort_value,
                     ROW_NUMBER() OVER (
                         PARTITION BY r.season, r.gender, r.event_id, r.athlete_id
@@ -517,12 +521,14 @@ def event_results(
             r.performance_raw,
             r.performance_clean,
             r.value,
+            r.wind,
             r.wa_points,
             r.result_date,
             r.competition_name,
             r.venue_city,
             r.stadium,
             r.source_url,
+            r.source_type,
             {sort_expr} AS sort_value
         FROM results r
         JOIN events e ON e.id = r.event_id

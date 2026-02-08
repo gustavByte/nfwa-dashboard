@@ -426,6 +426,7 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
             next_last_full,
         ) = parsed
         last_full = next_last_full
+        athlete_name, nationality = _extract_nationality(athlete_name)
         surname = _surname_token(athlete_name)
         if surname:
             known_by_surname[surname] = (athlete_name, club_name, birth_iso)
@@ -466,6 +467,7 @@ def _parse_results_table(*, table: html.HtmlElement, season: int, gender: str, e
                 athlete_name=athlete_name,
                 club_name=club_name,
                 birth_date=birth_iso,
+                nationality=nationality,
                 placement_raw=placement,
                 venue_city=venue_city,
                 stadium=None,
@@ -596,6 +598,7 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
             next_last_full,
         ) = parsed
         last_full_by_event[current_event] = next_last_full
+        athlete_name, nationality = _extract_nationality(athlete_name)
         surname = _surname_token(athlete_name)
         if surname:
             known_by_event_surname[current_event][surname] = (athlete_name, club_name, birth_iso)
@@ -636,6 +639,7 @@ def _parse_sectioned_table(*, table: html.HtmlElement, season: int, gender: str,
                 athlete_name=athlete_name,
                 club_name=club_name,
                 birth_date=birth_iso,
+                nationality=nationality,
                 placement_raw=placement,
                 venue_city=venue_city,
                 stadium=None,
@@ -999,6 +1003,20 @@ def _norm_cell(text: str) -> str:
     return re.sub(r"\s+", " ", s)
 
 
+_NATIONALITY_RE = re.compile(r"\s*\(([A-Z]{3})\)\s*$")
+
+
+def _extract_nationality(name: str) -> tuple[str, Optional[str]]:
+    """Extract ISO 3166-1 alpha-3 nationality code from athlete name.
+
+    Returns (clean_name, nationality_code).  E.g. "John Doe (ETH)" -> ("John Doe", "ETH").
+    """
+    m = _NATIONALITY_RE.search(name)
+    if m:
+        return (name[: m.start()].strip(), m.group(1))
+    return (name, None)
+
+
 def _split_name_and_club(text: str) -> tuple[str, Optional[str]]:
     s = _norm_cell(text)
     if not s:
@@ -1174,6 +1192,7 @@ def _parse_kappgang_pdf(*, pdf_bytes: bytes, season: int, gender: str, source_ur
         athlete_name = _norm_cell(m.group("name"))
         if not athlete_name or not any(ch.isalpha() for ch in athlete_name):
             continue
+        athlete_name, nationality = _extract_nationality(athlete_name)
 
         athlete_id = _friidrett_athlete_id(gender=gender, name=athlete_name, birth_date=birth_iso)
         if athlete_id in seen_by_event[current_event]:
@@ -1198,6 +1217,7 @@ def _parse_kappgang_pdf(*, pdf_bytes: bytes, season: int, gender: str, source_ur
                 athlete_name=athlete_name,
                 club_name=_none_if_empty(m.group("club")),
                 birth_date=birth_iso,
+                nationality=nationality,
                 placement_raw=_none_if_empty(m.group("placement")),
                 venue_city=_none_if_empty(m.group("city")),
                 stadium=None,

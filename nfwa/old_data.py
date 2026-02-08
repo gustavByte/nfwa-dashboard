@@ -72,7 +72,7 @@ def parse_old_data_file(
     """Parse a single old data .txt file and return ScrapedResult rows."""
     text = filepath.read_text(encoding="utf-8-sig")
     if kilde_url:
-        source_url = f"old_data:{kilde_url} | {filepath.name}"
+        source_url = kilde_url  # Use the actual external URL as source reference
     else:
         source_url = f"old_data:{season}/{filepath.parent.name}/{filepath.name}"
 
@@ -280,7 +280,7 @@ def _parse_section(
         if parsed is None:
             continue
 
-        rank_raw, athlete_name, club_name, birth_str, venue_city, result_date, perf_raw = parsed
+        rank_raw, athlete_name, club_name, birth_str, venue_city, result_date, perf_raw, nationality = parsed
 
         # Skip non-NFIF entries
         if rank_raw == "-":
@@ -314,6 +314,7 @@ def _parse_section(
             athlete_name=athlete_name,
             club_name=club_name or None,
             birth_date=birth_date,
+            nationality=nationality,
             placement_raw=None,
             venue_city=venue_city or None,
             stadium=None,
@@ -328,10 +329,10 @@ def _parse_section(
 
 def _parse_data_row(
     line: str, *, has_date_col: bool, season: int,
-) -> Optional[tuple[str, str, str, str, str, Optional[str], str]]:
+) -> Optional[tuple[str, str, str, str, str, Optional[str], str, Optional[str]]]:
     """Parse a single CSV data row.
 
-    Returns (rank, name, club, birth_str, venue, result_date_iso, performance)
+    Returns (rank, name, club, birth_str, venue, result_date_iso, performance, nationality)
     or None if unparseable.
     """
     # Replace commas inside parentheses with placeholder (handles wind like (-0,6))
@@ -352,7 +353,7 @@ def _parse_data_row(
     # Fixed positions from left: rank(0), name(1), club(2), birth(3)
     # From right: perf(-1), and optionally date(-2) if has_date_col
     rank_s = fields[0].strip()
-    name = _clean_athlete_name(fields[1].strip())
+    name, nationality = _clean_athlete_name(fields[1].strip())
     club = fields[2].strip()
     birth = fields[3].strip()
 
@@ -368,7 +369,7 @@ def _parse_data_row(
         venue = ", ".join(f.strip() for f in fields[4:-1] if f.strip())
         result_date = None
 
-    return rank_s, name, club, birth, venue, result_date, perf
+    return rank_s, name, club, birth, venue, result_date, perf, nationality
 
 
 # ---------------------------------------------------------------------------
@@ -393,9 +394,18 @@ def _shield_parens_commas(text: str) -> str:
     return "".join(result)
 
 
-def _clean_athlete_name(name: str) -> str:
-    """Strip nationality markers like (ETH), (DEN) from athlete names."""
-    return re.sub(r"\s*\([A-Z]{2,3}\)\s*$", "", name).strip()
+_NATIONALITY_RE = re.compile(r"\s*\(([A-Z]{2,3})\)\s*$")
+
+
+def _clean_athlete_name(name: str) -> tuple[str, Optional[str]]:
+    """Extract nationality and clean athlete name.
+
+    Returns (clean_name, nationality_code).  E.g. "John Doe (ETH)" -> ("John Doe", "ETH").
+    """
+    m = _NATIONALITY_RE.search(name)
+    if m:
+        return (name[: m.start()].strip(), m.group(1))
+    return (name.strip(), None)
 
 
 def _parse_birth(text: str) -> Optional[str]:
