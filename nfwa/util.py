@@ -6,7 +6,7 @@ from datetime import date
 from typing import Optional
 
 
-_WIND_RE = re.compile(r"\((?P<wind>[+-]\d+(?:,\d+)?)\)")
+_WIND_RE = re.compile(r"\((?P<wind>[+-]\d+(?:[.,]\d+)?)\)")
 _HANDTIMED_RE = re.compile(r"(?P<perf>.+?)(?:\s*[hH])$")
 _PARENS_RE = re.compile(r"\([^)]*\)")
 _TRAILING_LETTERS_RE = re.compile(r"(?P<perf>.+?)(?:\s*[A-Za-z]{1,3})$")
@@ -88,7 +88,9 @@ def clean_performance(raw_value: str) -> Optional[CleanPerformance]:
         except ValueError:
             wind = None
 
-    clean = _WIND_RE.sub("", raw).strip()
+    # Strip wind from both raw (for display) and clean (for normalisation)
+    raw_display = _WIND_RE.sub("", raw).strip()
+    clean = raw_display
 
     # Remove other annotations like "(ok)" etc.
     clean = _PARENS_RE.sub("", clean).strip()
@@ -138,7 +140,7 @@ def clean_performance(raw_value: str) -> Optional[CleanPerformance]:
 
     # Normalise whitespace
     clean = re.sub(r"\s+", " ", clean)
-    return CleanPerformance(raw=raw, clean=clean, wind=wind)
+    return CleanPerformance(raw=raw_display, clean=clean, wind=wind)
 
 
 def normalize_performance(*, performance: str, orientation: str, wa_event: str | None = None) -> str:
@@ -434,3 +436,30 @@ def format_time_no(seconds: float, *, precision: int = 2) -> str:
     if minutes > 0:
         return f"{minutes},{sec:02d}"
     return str(sec)
+
+
+# WA events where wind is relevant (sprints, hurdles, horizontal jumps)
+_WIND_EVENTS: frozenset[str] = frozenset({
+    "100m", "200m", "100mH", "110mH", "LJ", "TJ",
+})
+
+
+def is_wind_event(wa_event: str | None) -> bool:
+    """Return True if the WA event code is one where wind should be displayed."""
+    return wa_event in _WIND_EVENTS
+
+
+def format_wind(wind: float | None) -> str:
+    """Format wind as a display string, e.g. '+1.7' or '-0.3'."""
+    if wind is None:
+        return ""
+    return f"{wind:+.1f}"
+
+
+def format_performance_with_wind(
+    perf: str, wind: float | None, *, wa_event: str | None = None,
+) -> str:
+    """Append wind in parentheses for relevant events: '11.41(+1.7)'."""
+    if wind is None or not is_wind_event(wa_event):
+        return perf
+    return f"{perf}({format_wind(wind)})"
