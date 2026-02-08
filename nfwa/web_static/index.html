@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Friidrettsstatistikk: bane og gate</title>
+    <title>Norsk friidrettsstatistikk: bane og gate</title>
     <link rel="stylesheet" href="static/styles.css?v=2026-02-06" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   </head>
   <body>
     <header class="header">
       <div class="container hero">
-        <h1>Friidrettsstatistikk: bane og gate</h1>
+        <h1>Norsk friidrettsstatistikk: bane og gate</h1>
         <div class="muted">Under utvikling / demo - dette er ikke en offisiell lansering.</div>
         <p class="lead">
           Målet er å løfte fram både den solide statistikkjobben i miljøet og det utøverne faktisk har prestert over tid.
@@ -249,7 +249,7 @@
         </div>
       </section>
 
-      <section class="section">
+      <section class="section" id="athleteSearchSection">
         <h2>Utøver</h2>
         <div class="controls">
           <label>
@@ -280,11 +280,81 @@
           </table>
         </div>
       </section>
+
+      <section class="section profileSection" id="profileSection" style="display:none">
+        <a href="#" class="contentLink profileBack" id="profileBack">&#8592; Tilbake</a>
+
+        <div class="profileHeader" id="profileHeader">
+          <h2 class="profileName" id="profileName"></h2>
+          <div class="muted profileMeta" id="profileMeta"></div>
+        </div>
+
+        <div class="profileGrid">
+          <div class="card" id="profilePbCard">
+            <h3>Personlige rekorder</h3>
+            <div class="tableWrap">
+              <table id="profilePbTable">
+                <thead>
+                  <tr>
+                    <th>Øvelse</th>
+                    <th>Resultat</th>
+                    <th>WA</th>
+                    <th>Sesong</th>
+                    <th>Dato</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" id="profileClubCard">
+            <h3>Klubbhistorikk</h3>
+            <div id="profileClubList"></div>
+          </div>
+        </div>
+
+        <div class="card" id="profileDuplicatesCard" style="display:none; margin-bottom:18px">
+          <h3>Mulige duplikater</h3>
+          <div id="profileDuplicatesList"></div>
+        </div>
+
+        <div class="profileResults">
+          <h3>Alle resultater</h3>
+          <div class="controls">
+            <label>
+              Sesong
+              <select id="profileSeasonFilter"></select>
+            </label>
+            <label>
+              Øvelse
+              <select id="profileEventFilter"></select>
+            </label>
+          </div>
+          <div class="tableWrap">
+            <table id="profileResultsTable">
+              <thead>
+                <tr>
+                  <th>Sesong</th>
+                  <th>Øvelse</th>
+                  <th>Resultat</th>
+                  <th>WA</th>
+                  <th>Dato</th>
+                  <th>Stevne</th>
+                  <th>Sted</th>
+                  <th>Klubb</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
       <div class="container">
-        <p class="muted">© 2026 Friidrettsstatistikk: bane og gate.</p>
+        <p class="muted">© 2026 Norsk friidrettsstatistikk: bane og gate.</p>
         <p class="muted">
           Data, navn og varemerker tilhører respektive eiere. Dette er en uoffisiell demo for utforsking, læring og tilbakemeldinger.
         </p>
