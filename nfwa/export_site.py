@@ -225,6 +225,7 @@ def _build_athlete_index(*, con: sqlite3.Connection) -> dict[str, Any]:
         """
         SELECT
             r.athlete_id,
+            a.birth_date,
             r.season,
             r.gender,
             e.name_no AS event_no,
@@ -239,6 +240,7 @@ def _build_athlete_index(*, con: sqlite3.Connection) -> dict[str, Any]:
             c.name AS club_name
         FROM results r
         JOIN events e ON e.id = r.event_id
+        JOIN athletes a ON a.id = r.athlete_id
         LEFT JOIN clubs c ON c.id = r.club_id
         ORDER BY
             r.athlete_id ASC,
@@ -256,6 +258,7 @@ def _build_athlete_index(*, con: sqlite3.Connection) -> dict[str, Any]:
             {
                 "season": int(r["season"]),
                 "gender": r["gender"],
+                "birth_date": r["birth_date"],
                 "event_no": r["event_no"],
                 "wa_event": r["wa_event"],
                 "performance_raw": r["performance_raw"],

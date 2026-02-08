@@ -405,6 +405,7 @@ def athlete_results(
         r.gender,
         e.name_no AS event_no,
         e.wa_event,
+        a.birth_date AS birth_date,
         r.performance_raw,
         r.wind,
         r.wa_points,
@@ -415,6 +416,7 @@ def athlete_results(
         c.name AS club_name
     FROM results r
     JOIN events e ON e.id = r.event_id
+    JOIN athletes a ON a.id = r.athlete_id
     LEFT JOIN clubs c ON c.id = r.club_id
     WHERE r.athlete_id = ?
     """

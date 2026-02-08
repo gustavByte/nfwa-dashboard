@@ -144,8 +144,10 @@ class _Handler(BaseHTTPRequestHandler):
             with sqlite3.connect(self._db_path) as con:
                 con.row_factory = sqlite3.Row
                 rows = athlete_results(con=con, athlete_id=athlete_id, since_season=since_season)
+            birth_date = rows[0]["birth_date"] if rows else None
             return {
                 "athlete_id": athlete_id,
+                "birth_date": birth_date,
                 "rows": [dict(r) for r in rows],
             }
 

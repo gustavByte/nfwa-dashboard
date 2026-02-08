@@ -174,6 +174,11 @@ function fmt(v) {
   return String(v);
 }
 
+function birthYear(bd) {
+  if (!bd) return "";
+  return String(bd).substring(0, 4);
+}
+
 function toNumber(v) {
   if (v === null || v === undefined || v === "") return null;
   const n = Number(v);
@@ -677,6 +682,10 @@ function renderResultsTable(rows, { waEvent = null } = {}) {
     nameTd.textContent = fmt(r.athlete_name);
     tr.appendChild(nameTd);
 
+    const byTd = document.createElement("td");
+    byTd.textContent = birthYear(r.birth_date);
+    tr.appendChild(byTd);
+
     const clubTd = document.createElement("td");
     clubTd.textContent = fmt(r.club_name ?? "");
     tr.appendChild(clubTd);
@@ -786,6 +795,10 @@ async function searchAthlete() {
   const since = $("athleteSince").value;
   const qs = since ? `&since=${encodeURIComponent(since)}` : "";
   const data = await apiJson(`api/athlete?id=${encodeURIComponent(id)}${qs}`);
+  const bd = data.birth_date || (data.rows.length ? data.rows[0].birth_date : null);
+  const by = birthYear(bd);
+  const infoEl = $("athleteInfo");
+  if (infoEl) infoEl.textContent = by ? `Utøver #${data.athlete_id} (f. ${by})` : `Utøver #${data.athlete_id}`;
   const tbody = $("athleteTable").querySelector("tbody");
   tbody.innerHTML = "";
   for (const r of data.rows) {
