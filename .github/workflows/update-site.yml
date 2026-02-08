@@ -55,6 +55,7 @@ jobs:
             nfwa-data-${{ runner.os }}-
 
       - name: Build static site (docs/)
+        continue-on-error: true
         run: |
           # Keep historical corrections in sync even when DB cache is reused.
           python -m nfwa sync-kondis \
